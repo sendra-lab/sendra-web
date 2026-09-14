@@ -13,10 +13,35 @@ response should look like which `sendra test` then passes or fails your
 build on. An interactive terminal UI ships in the same binary for browsing
 and running requests without one shell invocation per request.
 
+## Getting started
+
+No packaged release yet, so build it from source:
+
+```sh
+git clone https://github.com/sendra-lab/Sendra.git
+cd Sendra
+cargo build --workspace --release
+./target/release/sendra run examples/get-request.yaml
+```
+
+That sends a real request to `https://httpbin.org/get` and prints the status,
+headers and body. From there, [Request and collection file shape](/docs/cli/reference/requests)
+covers what a request file can contain, and [Running and testing requests](/docs/cli/reference/running-and-testing)
+covers `sendra run`/`sendra test`.
+
+## Where to go next
+
 This site's documentation — request/collection shape, config, environments,
 assertions, capture, scripting, every CLI flag, `--json` output, exit codes,
 the interactive TUI, and the design rationale behind the harder calls — is
 synced directly from the [sendra](https://github.com/sendra-lab/sendra)
-repo's own docs. Start at [Reference](/docs/cli/reference) for the full
-schema and behavior reference, or [Design decisions](/docs/cli/decisions)
-for the "why" behind choices that could reasonably have gone another way.
+repo's own docs, split into two parts:
+
+- **[Reference](/docs/cli/reference)** — the schema and behavior: what a
+  field is called, what a flag does, what `--json` outputs. Look here when
+  you know what you want to do and need the exact shape of it.
+- **[Design decisions](/docs/cli/decisions)** — the "why" behind choices
+  that could reasonably have gone another way: why `sendra test` ignores an
+  unasserted status, how exit codes are split and ranked, the script
+  sandboxing guarantees. Look here when the reference tells you *what*
+  happens but you want to know *why*.

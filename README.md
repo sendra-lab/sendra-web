@@ -74,3 +74,13 @@ the PR. The sync reads the public sendra repo over the GitHub API
 unauthenticated by default; set the `SENDRA_DOCS_TOKEN` repo secret (a
 fine-grained PAT with read-only access to `sendra-lab/Sendra`) if syncs start
 hitting GitHub's unauthenticated rate limit.
+
+**Versioning:** this site is deliberately unversioned for v1 — a single
+"current" doc set, Docusaurus's default with no `versions` config at all.
+Docusaurus versioning snapshots docs per release, and sendra has no tagged
+releases yet (the same reason the sync pins a commit SHA instead of a tag —
+see above), so there's no release boundary to version against; versioning
+per-commit isn't what that feature is for. Revisit once sendra cuts an actual
+tag: at that point `docusaurus docs:version` becomes meaningful, and
+`SOURCE_REF` in `scripts/sync-docs.ts` should move from a commit SHA to that
+tag in step with it.

@@ -153,6 +153,45 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Local search (@easyops-cn/docusaurus-search-local, docs + blog only — see
+   the "Homepage search box" rule below for why it's hidden on "/"). Infima's
+   default search input is a full pill (border-radius: 2rem) with a thick
+   2px focus outline, which reads as oversized and loud next to this
+   navbar's flatter, more restrained controls (the 0.4rem-radius GitHub
+   button, the color-mode toggle). Softened to match, using the plugin's
+   documented --search-local-* custom properties where one exists. */
+:root {
+  --search-local-modal-shadow: 0 8px 24px rgba(16, 18, 16, 0.12);
+  --search-local-hit-shadow: none;
+  --search-local-spacing: 10px;
+  --search-local-hit-height: 48px;
+}
+
+[data-theme='dark'] {
+  --search-local-modal-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+}
+
+.navbar__search-input {
+  border-radius: 0.5rem;
+  transition: box-shadow var(--ifm-transition-fast);
+}
+
+.navbar__search-input:focus {
+  outline-width: 1px;
+  outline-offset: 2px;
+}
+
+/* Homepage search box: the plugin injects a search box into every page's
+   navbar by default, but the landing page (src/pages/index.tsx) is a
+   marketing page with its own hero/CTAs, not a place people search from —
+   dropping it there keeps that navbar focused on Docs/Blog/GitHub.
+   `.plugin-pages` is the stable, non-hashed class @docusaurus/plugin-content-pages
+   stamps on <html> for pages under src/pages/ (docs/blog pages get
+   `.plugin-docs`/`.plugin-blog` instead), so this only affects the homepage. */
+.plugin-pages .navbar__search {
+  display: none;
+}
+
 /* Color-mode switch: a circular reveal expanding from the click point,
    instead of every color instantly flipping. Driven by
    src/theme/colorModeTransition.ts, which sets the three custom properties

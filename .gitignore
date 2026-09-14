@@ -12,6 +12,10 @@ pnpm-debug.log*
 .docusaurus
 .cache-loader
 
+# docs synced from sendra-lab/Sendra by `pnpm sync-docs` (scripts/sync-docs.ts).
+# Regenerated on every install/build/CI run — never hand-edit or commit it.
+/docs/cli/
+
 # Misc
 .DS_Store
 .env.local

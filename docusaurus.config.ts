@@ -26,6 +26,16 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  // Sendra's docs (synced by `pnpm sync-docs`) use `{{variable}}` templating
+  // syntax, `<https://...>` autolinks, and other constructs that are valid
+  // CommonMark but not valid JSX — MDX's default JSX-aware parser rejects
+  // them. Force plain CommonMark for .md files site-wide rather than
+  // escaping every brace/angle-bracket in synced content; .mdx files (none
+  // currently) would still get full MDX if ever needed.
+  markdown: {
+    format: 'md',
+  },
+
   // JetBrains Mono powers headings + code blocks (see src/css/custom.css) to
   // reinforce the terminal/CLI feel; body text stays on the system font stack.
   stylesheets: [

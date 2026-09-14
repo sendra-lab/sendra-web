@@ -1,7 +1,7 @@
 # sendra-web
 
 The public website for [Sendra](https://github.com/sendra-lab/sendra), a
-terminal-native HTTP client — a "CLI Postman" written in Rust. This repo holds
+terminal-native HTTP client, a "CLI Postman" written in Rust. This repo holds
 the marketing/landing site and documentation, built with
 [Docusaurus](https://docusaurus.io/); it does not contain any of the Sendra
 CLI's source code, which lives in the main [sendra](https://github.com/sendra-lab/sendra)

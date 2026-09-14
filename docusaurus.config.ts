@@ -20,9 +20,12 @@ const config: Config = {
   url: 'https://sendra-web-placeholder.vercel.app',
   baseUrl: '/',
 
-  // Used for the "edit this page" links and GitHub pages config.
+  // Used for the "edit this page" links and GitHub pages config. This is
+  // sendra-web's own repo — the docs source repo (sendra-lab/Sendra) is
+  // pointed at directly via each doc's `editUrl`/`custom_edit_url` instead,
+  // since editing a synced copy here would be discarded on the next sync.
   organizationName: 'sendra-lab', // Usually your GitHub org/user name.
-  projectName: 'sendra', // Usually your repo name.
+  projectName: 'sendra-web', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -36,11 +39,12 @@ const config: Config = {
     format: 'md',
   },
 
-  // JetBrains Mono powers headings + code blocks (see src/css/custom.css) to
-  // reinforce the terminal/CLI feel; body text stays on the system font stack.
+  // Inter (body + headings) for clean, readable prose; JetBrains Mono stays
+  // for code blocks only (see src/css/custom.css) to keep a CLI-flavored
+  // accent without making every heading look like a terminal.
   stylesheets: [
     {
-      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap',
       type: 'text/css',
     },
   ],
@@ -59,8 +63,11 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // PLACEHOLDER — confirm this repo path once the docs source location is final.
-          editUrl: 'https://github.com/sendra-lab/sendra-web/tree/main/',
+          // Hand-written docs (docs/intro.md and friends) live in this repo,
+          // so this is the fallback edit link for those. Synced CLI docs
+          // under docs/cli/ override it per-page via `custom_edit_url`
+          // (see scripts/sync-docs.ts) to point at the real source instead.
+          editUrl: 'https://github.com/sendra-lab/sendra-web/edit/main/',
         },
         blog: {
           showReadingTime: true,
@@ -68,8 +75,7 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // PLACEHOLDER — confirm this repo path once the docs source location is final.
-          editUrl: 'https://github.com/sendra-lab/sendra-web/tree/main/',
+          editUrl: 'https://github.com/sendra-lab/sendra-web/edit/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -114,32 +120,43 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
+      logo: {
+        alt: 'Sendra',
+        src: 'img/sendra-logo.png',
+        width: 32,
+        height: 32,
+      },
       links: [
         {
           title: 'Docs',
           items: [
+            {label: 'Introduction', to: '/docs/intro'},
+            {label: 'Reference', to: '/docs/cli/reference'},
+            {label: 'Design Decisions', to: '/docs/cli/decisions'},
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
             {
-              label: 'Docs',
-              to: '/docs/intro',
+              label: 'Issues',
+              href: 'https://github.com/sendra-lab/sendra/issues',
+            },
+            {
+              label: 'Contributing',
+              href: 'https://github.com/sendra-lab/sendra/blob/main/CONTRIBUTING.md',
             },
           ],
         },
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/sendra-lab/sendra',
-            },
+            {label: 'Blog', to: '/blog'},
+            {label: 'GitHub', href: 'https://github.com/sendra-lab/sendra'},
           ],
         },
       ],
-      // PLACEHOLDER copyright line.
-      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://x.com/Eminencee_" target="_blank" rel="noreferrer">Oyibe</a>.`,
     },
     prism: {
       theme: prismThemes.github,

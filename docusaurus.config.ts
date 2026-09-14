@@ -62,10 +62,23 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           // Hand-written docs (docs/intro.md and friends) live in this repo,
-          // so this is the fallback edit link for those. Synced CLI docs
-          // under docs/cli/ override it per-page via `custom_edit_url`
-          // (see scripts/sync-docs.ts) to point at the real source instead.
+          // so this is the fallback edit link for those. Synced docs under
+          // docs/cli/ override it per-page via `custom_edit_url` (see
+          // scripts/sync-docs.ts) to point at the real source instead.
           editUrl: 'https://github.com/sendra-lab/sendra-web/edit/main/',
+          // VERSIONING DECISION (v1): intentionally unversioned — a single
+          // "current" version, which is Docusaurus's default with no
+          // `versions`/`disableVersioning` config at all (nothing to set
+          // here). sendra has zero tags/releases today (confirmed by
+          // scripts/sync-docs.ts's own pinning rationale: it tracks a raw
+          // commit SHA because there's no tag to track instead), so there is
+          // no meaningful release boundary to version docs against yet —
+          // versioning against commit SHAs would produce a new "version"
+          // on every sync, which is not what Docusaurus versioning is for.
+          // Revisit this once sendra cuts an actual tagged release: at that
+          // point, snapshotting a version per release (`docusaurus docs:version`)
+          // becomes meaningful, and scripts/sync-docs.ts's SOURCE_REF should
+          // move from a commit SHA to that tag in step with it.
         },
         blog: {
           showReadingTime: true,
@@ -159,6 +172,14 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      // Checked the actual synced content (docs/cli/**) for every fenced
+      // code-block language in use: sh, yaml, text, json, jsonc, rhai (plus
+      // unlabeled blocks). Docusaurus's default Prism bundle already covers
+      // yaml/json/text — `sh` (aliased from `bash`) is the only real gap
+      // here that a standard Prism component fixes. `jsonc` and `rhai` have
+      // no Prism component at all (checked prismjs's components.json) and
+      // are hand-registered in src/theme/prism-include-languages.js instead.
+      additionalLanguages: ['bash'],
     },
   } satisfies Preset.ThemeConfig,
 };

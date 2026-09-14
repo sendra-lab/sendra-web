@@ -21,6 +21,7 @@ import IconLightMode from '@theme/Icon/LightMode';
 import IconDarkMode from '@theme/Icon/DarkMode';
 import IconSystemColorMode from '@theme/Icon/SystemColorMode';
 import type {Props} from '@theme/ColorModeToggle';
+import {changeColorModeWithTransition} from '../colorModeTransition';
 import styles from './styles.module.css';
 
 type Choice = Props['value'];
@@ -135,8 +136,9 @@ export default function ColorModeToggle({
                   styles.menuItem,
                   value === choice && styles.menuItemActive,
                 )}
-                onClick={() => {
-                  onChange(choice);
+                onClick={(event) => {
+                  const origin = {x: event.clientX, y: event.clientY};
+                  changeColorModeWithTransition(() => onChange(choice), origin);
                   close();
                 }}>
                 <Icon className={styles.menuIcon} />

@@ -109,3 +109,34 @@
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+/* Color-mode switch: a circular reveal expanding from the click point,
+   instead of every color instantly flipping. Driven by
+   src/theme/colorModeTransition.ts, which sets the three custom properties
+   below and wraps the actual mode change in document.startViewTransition().
+   Unsupported browsers (Firefox, older Safari) and prefers-reduced-motion
+   never get this rule at all — the mode change just applies instantly,
+   the same as before this existed. */
+@media not (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    animation: color-mode-circle-reveal 0.6s ease-in-out;
+  }
+
+  @keyframes color-mode-circle-reveal {
+    from {
+      clip-path: circle(
+        0px at var(--color-mode-transition-x, 50%) var(--color-mode-transition-y, 50%)
+      );
+    }
+    to {
+      clip-path: circle(
+        var(--color-mode-transition-r, 150%) at var(--color-mode-transition-x, 50%)
+          var(--color-mode-transition-y, 50%)
+      );
+    }
+  }
+}

@@ -20,33 +20,45 @@ import styles from './index.module.css';
  * `assertions:` print format from docs/reference/assertions.md, not
  * invented.
  */
-function TerminalPreview() {
+function TerminalWindow({
+  path,
+  children,
+}: {
+  path: string;
+  children: ReactNode;
+}) {
   return (
     <div className={styles.terminal} aria-hidden="true">
       <div className={styles.terminalBar}>
         <span className={styles.terminalDot} data-color="red" />
         <span className={styles.terminalDot} data-color="yellow" />
         <span className={styles.terminalDot} data-color="green" />
-        <span className={styles.terminalPath}>get-request.yaml</span>
+        <span className={styles.terminalPath}>{path}</span>
       </div>
       <pre className={styles.terminalBody}>
-        <code>
-          <span className={styles.tKey}>method:</span> GET{'\n'}
-          <span className={styles.tKey}>url:</span> https://httpbin.org/get
-          {'\n'}
-          <span className={styles.tKey}>assertions:</span>
-          {'\n  '}
-          <span className={styles.tKey}>status:</span> 200{'\n\n'}
-          <span className={styles.tPrompt}>$</span> sendra run get-request.yaml
-          {'\n'}
-          200 OK{'  '}142 ms{'\n'}
-          assertions{'\n'}
-          {'  '}
-          <span className={styles.tPass}>✓</span> status is 200{'\n'}
-          {'  '}1 passed, 0 failed
-        </code>
+        <code>{children}</code>
       </pre>
     </div>
+  );
+}
+
+function HeroTerminal() {
+  return (
+    <TerminalWindow path="get-request.yaml">
+      <span className={styles.tKey}>method:</span> GET{'\n'}
+      <span className={styles.tKey}>url:</span> https://httpbin.org/get
+      {'\n'}
+      <span className={styles.tKey}>assertions:</span>
+      {'\n  '}
+      <span className={styles.tKey}>status:</span> 200{'\n\n'}
+      <span className={styles.tPrompt}>$</span> sendra run get-request.yaml
+      {'\n'}
+      200 OK{'  '}142 ms{'\n'}
+      assertions{'\n'}
+      {'  '}
+      <span className={styles.tPass}>✓</span> status is 200{'\n'}
+      {'  '}1 passed, 0 failed
+    </TerminalWindow>
   );
 }
 
@@ -86,7 +98,7 @@ function HomepageHeader() {
           </div>
         </div>
         <div className={styles.heroVisual}>
-          <TerminalPreview />
+          <HeroTerminal />
         </div>
       </div>
     </header>
@@ -150,12 +162,16 @@ function GetStarted() {
             <Link to="/docs/intro">docs</Link> cover everything from there.
           </p>
         </div>
-        <pre className={styles.installBlock}>
-          <code>{`git clone https://github.com/sendra-lab/Sendra.git
-cd Sendra
-cargo build --workspace --release
-./target/release/sendra run examples/get-request.yaml`}</code>
-        </pre>
+        <div className={styles.heroVisual}>
+          <TerminalWindow path="terminal">
+            <span className={styles.tPrompt}>$</span> git clone https://github.com/sendra-lab/Sendra.git
+            {'\n'}
+            <span className={styles.tPrompt}>$</span> cd Sendra{'\n'}
+            <span className={styles.tPrompt}>$</span> cargo build --workspace --release
+            {'\n'}
+            <span className={styles.tPrompt}>$</span> ./target/release/sendra run examples/get-request.yaml
+          </TerminalWindow>
+        </div>
       </div>
     </section>
   );

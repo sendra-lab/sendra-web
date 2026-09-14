@@ -277,18 +277,6 @@
   line-height: 1.65;
 }
 
-.installBlock {
-  background: #101210;
-  color: #d7dcd7;
-  border: 1px solid var(--ifm-toc-border-color);
-  border-radius: 0.75rem;
-  padding: 1.5rem 1.75rem;
-  overflow-x: auto;
-  font-size: 0.85rem;
-  line-height: 1.9;
-  align-self: stretch;
-}
-
 .getStartedFooter {
   font-size: 0.9rem;
   color: var(--ifm-color-emphasis-700);

@@ -8,6 +8,7 @@ const config: Config = {
   // PLACEHOLDER copy — not final marketing copy, revisit before launch.
   title: 'Sendra',
   tagline: 'A terminal-native HTTP client — the CLI Postman',
+  // Favicon is a cropped-down version of the product mark (static/img/sendra-logo.png).
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -24,6 +25,15 @@ const config: Config = {
   projectName: 'sendra', // Usually your repo name.
 
   onBrokenLinks: 'throw',
+
+  // JetBrains Mono powers headings + code blocks (see src/css/custom.css) to
+  // reinforce the terminal/CLI feel; body text stays on the system font stack.
+  stylesheets: [
+    {
+      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap',
+      type: 'text/css',
+    },
+  ],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -63,16 +73,19 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    // PLACEHOLDER social card — reusing the logo mark until a real og:image is designed.
+    image: 'img/sendra-logo.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
     navbar: {
       title: 'Sendra',
+      // PLACEHOLDER lockup — this is the icon mark provided so far; the navbar
+      // title text next to it ("Sendra" above) stands in for a real wordmark
+      // until a finished logo/brand identity is decided.
       logo: {
-        alt: 'Sendra Logo',
-        src: 'img/logo.svg',
+        alt: 'Sendra',
+        src: 'img/sendra-logo.png',
       },
       items: [
         {

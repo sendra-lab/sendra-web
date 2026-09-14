@@ -206,6 +206,14 @@ function buildFrontMatter(opts: {
     `id: ${opts.id}`,
     `title: "${opts.title.replace(/"/g, '\\"')}"`,
     `custom_edit_url: ${opts.editUrl}`,
+    // sendra's docs use `{{variable}}` templating and `<https://...>`
+    // autolinks — valid CommonMark, not valid JSX. `mdx.format: md` opts
+    // just this synced file out of MDX's JSX-aware parser; the site default
+    // (full MDX, for hand-written docs and blog posts) is untouched. Must be
+    // nested under `mdx:` — Docusaurus reads `frontMatter.mdx.format`, not a
+    // top-level `format` key (see @docusaurus/mdx-loader's utils.js).
+    "mdx:",
+    "  format: md",
   ];
   if (opts.sidebarPosition !== undefined) {
     lines.push(`sidebar_position: ${opts.sidebarPosition}`);

@@ -29,15 +29,13 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
-  // Sendra's docs (synced by `pnpm sync-docs`) use `{{variable}}` templating
+  // Full MDX stays the site default (Docusaurus's own default), so
+  // hand-written docs and blog posts can embed React components/JSX.
+  // Sendra's synced docs (`pnpm sync-docs`) use `{{variable}}` templating
   // syntax, `<https://...>` autolinks, and other constructs that are valid
-  // CommonMark but not valid JSX — MDX's default JSX-aware parser rejects
-  // them. Force plain CommonMark for .md files site-wide rather than
-  // escaping every brace/angle-bracket in synced content; .mdx files (none
-  // currently) would still get full MDX if ever needed.
-  markdown: {
-    format: 'md',
-  },
+  // CommonMark but not valid JSX — MDX's JSX-aware parser rejects those, so
+  // scripts/sync-docs.ts stamps `format: md` into just those files' own
+  // front matter instead of disabling MDX here for the whole site.
 
   // Inter (body + headings) for clean, readable prose; JetBrains Mono stays
   // for code blocks only (see src/css/custom.css) to keep a CLI-flavored

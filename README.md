@@ -8,7 +8,7 @@ CLI's source code, which lives in the main [sendra](https://github.com/sendra-la
 repo.
 
 This is currently a bare Docusaurus scaffold — landing page content and blog
-content are added in later issues. The CLI reference docs, however, are real:
+content are added in later issues. The reference docs, however, are real:
 they're synced in from the [sendra](https://github.com/sendra-lab/sendra)
 repo's own `docs/` directory (see [Docs sync](#docs-sync) below).
 
@@ -23,7 +23,7 @@ repo's own `docs/` directory (see [Docs sync](#docs-sync) below).
 # install dependencies
 pnpm install
 
-# pull the latest CLI reference docs from sendra (see "Docs sync" below) —
+# pull the latest reference docs from sendra (see "Docs sync" below) —
 # required once before the first `pnpm start`/`pnpm build`, since
 # docs/cli/ is generated and gitignored
 pnpm sync-docs

@@ -16,8 +16,8 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // PLACEHOLDER — set the real url/baseUrl once the Vercel domain is known (issue 7).
-  url: 'https://sendra-web-placeholder.vercel.app',
+  // Vercel  domain 
+  url: 'https://sendra-web.vercel.app',
   baseUrl: '/',
 
   // Used for the "edit this page" links and GitHub pages config. This is

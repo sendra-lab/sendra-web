@@ -59,6 +59,49 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+/* Navbar GitHub link: icon-only instead of the word "GitHub". The icon is
+   the standard Octicons "mark-github" glyph (MIT-licensed), painted via
+   mask-image so it inherits the navbar's current text color in both
+   themes rather than needing separate light/dark image assets. */
+.navbar-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 0.4rem;
+  transition: background var(--ifm-transition-fast);
+}
+
+.navbar-github-link:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* Collapse the "GitHub" label text to zero width (kept in the DOM, still
+   read by screen readers) and hide the auto-appended external-link icon
+   Docusaurus adds after a labeled external href, leaving only the glyph
+   below. */
+.navbar-github-link {
+  font-size: 0;
+}
+
+.navbar-github-link svg {
+  display: none;
+}
+
+.navbar-github-link::before {
+  content: '';
+  display: inline-block;
+  width: 1.35rem;
+  height: 1.35rem;
+  background-color: var(--ifm-navbar-link-color);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C5.37 0 0 5.506 0 12.303c0 5.445 3.435 10.043 8.205 11.674.6.107.825-.262.825-.585 0-.285-.015-1.236-.015-2.243-3.015.556-3.795-.751-4.035-1.44-.135-.345-.72-1.407-1.23-1.694-.42-.226-1.02-.782-.015-.795.945-.015 1.62.876 1.845 1.238 1.08 1.816 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.301-5.46-1.343-5.46-5.972 0-1.32.465-2.415 1.23-3.27-.12-.301-.54-1.549.12-3.222 0 0 1.005-.316 3.3 1.245.96-.27 1.98-.404 3-.404s2.04.135 3 .404c2.295-1.575 3.3-1.245 3.3-1.245.66 1.673.24 2.92.12 3.222.765.854 1.23 1.936 1.23 3.27 0 4.644-2.805 5.67-5.475 5.972.435.375.81 1.096.81 2.223 0 1.606-.015 2.902-.015 3.303 0 .323.225.706.825.585A12.02 12.02 0 0 0 24 12.304C24 5.505 18.63 0 12 0Z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C5.37 0 0 5.506 0 12.303c0 5.445 3.435 10.043 8.205 11.674.6.107.825-.262.825-.585 0-.285-.015-1.236-.015-2.243-3.015.556-3.795-.751-4.035-1.44-.135-.345-.72-1.407-1.23-1.694-.42-.226-1.02-.782-.015-.795.945-.015 1.62.876 1.845 1.238 1.08 1.816 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.301-5.46-1.343-5.46-5.972 0-1.32.465-2.415 1.23-3.27-.12-.301-.54-1.549.12-3.222 0 0 1.005-.316 3.3 1.245.96-.27 1.98-.404 3-.404s2.04.135 3 .404c2.295-1.575 3.3-1.245 3.3-1.245.66 1.673.24 2.92.12 3.222.765.854 1.23 1.936 1.23 3.27 0 4.644-2.805 5.67-5.475 5.972.435.375.81 1.096.81 2.223 0 1.606-.015 2.902-.015 3.303 0 .323.225.706.825.585A12.02 12.02 0 0 0 24 12.304C24 5.505 18.63 0 12 0Z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
 /* Footer: a brand-green accent bar on top, bolder section titles, and a
    green-on-hover pop for links — a plain two-column list otherwise reads as
    an afterthought under a dark-mode-only palette. */
@@ -108,4 +151,35 @@
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Color-mode switch: a circular reveal expanding from the click point,
+   instead of every color instantly flipping. Driven by
+   src/theme/colorModeTransition.ts, which sets the three custom properties
+   below and wraps the actual mode change in document.startViewTransition().
+   Unsupported browsers (Firefox, older Safari) and prefers-reduced-motion
+   never get this rule at all — the mode change just applies instantly,
+   the same as before this existed. */
+@media not (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root) {
+    animation: none;
+  }
+
+  ::view-transition-new(root) {
+    animation: color-mode-circle-reveal 0.6s ease-in-out;
+  }
+
+  @keyframes color-mode-circle-reveal {
+    from {
+      clip-path: circle(
+        0px at var(--color-mode-transition-x, 50%) var(--color-mode-transition-y, 50%)
+      );
+    }
+    to {
+      clip-path: circle(
+        var(--color-mode-transition-r, 150%) at var(--color-mode-transition-x, 50%)
+          var(--color-mode-transition-y, 50%)
+      );
+    }
+  }
 }

@@ -1,23 +1,290 @@
 /**
  * CSS files with the .module.css suffix will be treated as CSS modules
  * and scoped locally.
+ *
+ * The hero is deliberately dark in both light and dark site themes: the
+ * logo mark is brand green on transparent, so it needs a dark ground to pop
+ * against (the same near-black used for [data-theme='dark'] elsewhere in
+ * src/css/custom.css). Infima's stock `hero--primary` (solid brand-green
+ * fill) would put a green mark on a green background, near-zero contrast,
+ * so this hero intentionally does not use that class.
  */
 
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+  padding: 5rem 0;
+  background: radial-gradient(
+      ellipse 60% 80% at 15% 20%,
+      rgba(77, 203, 98, 0.16),
+      transparent 60%
+    ),
+    #101210;
+  color: #f4f6f4;
   position: relative;
   overflow: hidden;
 }
 
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.heroLogo {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  color: #f4f6f4;
+  font-size: 3rem;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  color: #b9c2b9;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 1.25rem 0 2rem;
+  max-width: 32rem;
+}
+
+.heroButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.heroButtons :global(.button--lg):not(.secondaryButton) {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #0a0b0a;
+  font-weight: 600;
+}
+
+.heroButtons :global(.button--lg):not(.secondaryButton):hover {
+  background: var(--ifm-color-primary-light);
+  border-color: var(--ifm-color-primary-light);
+}
+
+.secondaryButton {
+  color: #f4f6f4;
+  border-color: rgba(244, 246, 244, 0.35);
+}
+
+.secondaryButton:hover {
+  color: #f4f6f4;
+  border-color: #f4f6f4;
+  background: rgba(244, 246, 244, 0.08);
+}
+
+/* --- Terminal preview --- */
+
+.heroVisual {
+  display: flex;
+  justify-content: center;
+}
+
+.terminal {
+  width: 100%;
+  max-width: 30rem;
+  border-radius: 0.75rem;
+  background: #0a0b0a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(77, 203, 98, 0.06);
+  overflow: hidden;
+}
+
+.terminalBar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.9rem;
+  background: #141614;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.terminalDot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+}
+
+.terminalDot[data-color='red'] {
+  background: #ec6a5f;
+}
+
+.terminalDot[data-color='yellow'] {
+  background: #f4bf4f;
+}
+
+.terminalDot[data-color='green'] {
+  background: #61c554;
+}
+
+.terminalPath {
+  margin-left: 0.5rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  color: #6b756b;
+}
+
+.terminalBody {
+  /* Infima styles bare <pre> with its own (light, in light mode)
+     --ifm-pre-background by default; override explicitly so this stays a
+     dark terminal window regardless of site color mode. */
+  margin: 0;
+  padding: 1.25rem 1.4rem;
+  background: #0a0b0a;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #d7dcd7;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.terminalBody code {
+  background: transparent;
+  color: inherit;
+}
+
+.tKey {
+  color: #7fd792;
+}
+
+.tPrompt {
+  color: #4dcb62;
+  font-weight: 700;
+}
+
+.tPass {
+  color: #4dcb62;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 3rem 1.25rem;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .heroCopy {
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroSubtitle {
+    max-width: none;
+  }
+
+  .heroButtons {
+    justify-content: center;
+  }
+
+  .heroTitle {
+    font-size: 2.1rem;
+  }
+
+  .terminal {
+    max-width: none;
   }
 }
 
-.buttons {
+/* --- Why Sendra --- */
+
+.sectionTitle {
+  margin-bottom: 2rem;
+}
+
+.whySection {
+  padding: 4.5rem 0;
+}
+
+.pillarGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 2rem;
+}
+
+.pillar {
+  border-top: 3px solid var(--ifm-color-primary);
+  padding-top: 1rem;
+}
+
+.pillarTitle {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pillarBody {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* --- Get started --- */
+
+.getStartedSection {
+  padding: 2rem 0 5.5rem;
+}
+
+.getStartedGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.getStartedCopy {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.comingSoonBadge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 15%, transparent);
+  color: var(--ifm-color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.getStartedTitle {
+  margin-bottom: 1rem;
+}
+
+.placeholderNote {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.getStartedFooter {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  margin-top: 0.75rem;
+}
+
+@media screen and (max-width: 900px) {
+  .getStartedGrid {
+    grid-template-columns: 1fr;
+  }
 }

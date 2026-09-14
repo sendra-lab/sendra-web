@@ -124,7 +124,15 @@ const config: Config = {
         {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/sendra-lab/sendra',
+          // `label` can't be empty (Docusaurus's config schema rejects an
+          // empty string when `href` is set), so it stays real text for
+          // screen readers; `.navbar-github-link` in custom.css visually
+          // hides it and the auto-appended external-link icon, replacing
+          // both with a GitHub glyph. `aria-label` gives a clearer
+          // accessible name than the bare word "GitHub" would.
           label: 'GitHub',
+          'aria-label': 'GitHub repository',
+          className: 'navbar-github-link',
           position: 'right',
         },
       ],

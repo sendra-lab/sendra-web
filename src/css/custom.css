@@ -2,29 +2,59 @@
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
+ *
+ * Sendra brand theme: the accent green is sampled directly from the
+ * product mark (static/img/sendra-logo.png — a flowing arrow/"S" motif
+ * on near-black), tuned to a more saturated, higher-contrast shade than
+ * Docusaurus's default green so the two don't read as the same color.
+ * Dark mode leans into the mark's own near-black background rather than
+ * Infima's default charcoal.
  */
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
+  /* Brand green (from the logo mark), darkened to clear ~4.6:1 contrast on white. */
+  --ifm-color-primary: #1d872e;
+  --ifm-color-primary-dark: #187227;
+  --ifm-color-primary-darker: #156522;
+  --ifm-color-primary-darkest: #104c1a;
+  --ifm-color-primary-light: #22a036;
+  --ifm-color-primary-lighter: #25b13c;
+  --ifm-color-primary-lightest: #35d44f;
+
+  --ifm-code-font-size: 90%;
+  /* Body: native system font stack — fast, no web-font request, and every
+     platform's system font is already tuned for on-screen text. */
+  --ifm-font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  /* Headings + code: JetBrains Mono (loaded via Google Fonts in
+     docusaurus.config.ts), a monospace face designed for developer tools —
+     the one deliberate web-font choice, used to reinforce the CLI feel in
+     headings and code without slowing down body copy. */
+  --ifm-font-family-monospace: 'JetBrains Mono', ui-monospace, SFMono-Regular,
+    Menlo, Consolas, 'Liberation Mono', monospace;
+  --ifm-heading-font-family: var(--ifm-font-family-monospace);
+  --ifm-heading-font-weight: 600;
+
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  /* Same hue as the logo's green, at close to its native lightness so it pops on near-black. */
+  --ifm-color-primary: #4dcb62;
+  --ifm-color-primary-dark: #38c24f;
+  --ifm-color-primary-darker: #35b64a;
+  --ifm-color-primary-darkest: #2c963d;
+  --ifm-color-primary-light: #65d277;
+  --ifm-color-primary-lighter: #79d888;
+  --ifm-color-primary-lightest: #9ce2a8;
+
+  /* Near-black, matching the logo mark's own background rather than Infima's default charcoal. */
+  --ifm-background-color: #101210;
+  --ifm-background-surface-color: #17191a;
+  --ifm-navbar-background-color: #101210;
+  --ifm-footer-background-color: #0a0b0a;
+
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }

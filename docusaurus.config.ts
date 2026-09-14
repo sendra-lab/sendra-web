@@ -81,6 +81,11 @@ const config: Config = {
           // move from a commit SHA to that tag in step with it.
         },
         blog: {
+          // CHANGELOG DECISION (v1): hand-written blog posts, not a separate
+          // changelog page/system, and no GitHub Releases automation. See
+          // blog/tags.yml's `changelog` tag description for the full
+          // rationale — short version: sendra has no tagged releases yet,
+          // so there's no release boundary to automate a changelog against.
           showReadingTime: true,
           feedOptions: {
             type: ['rss', 'atom'],

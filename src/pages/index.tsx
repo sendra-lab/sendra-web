@@ -76,12 +76,12 @@ function HomepageHeader() {
             height={64}
           />
           <Heading as="h1" className={styles.heroTitle}>
-            HTTP requests as code, not clicks.
+            The terminal-native API testing tool.
           </Heading>
           <p className={styles.heroSubtitle}>
-            Sendra is a terminal-native HTTP client. Write requests as plain
-            YAML, run and test them from your shell: no GUI, no Node.js
-            runtime, nothing else to install.
+            Define HTTP requests in YAML.
+            Run, test, automate, and chain API requests
+            without leaving your terminal.
           </p>
           <div className={styles.heroButtons}>
             <Link className="button button--lg" to="/docs/intro">

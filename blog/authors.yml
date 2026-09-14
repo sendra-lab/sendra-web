@@ -1,1 +1,13 @@
-{}
+# Blog post authors.
+#
+# PLACEHOLDER (v1): a single project-level author rather than an individual
+# person, since posts aren't attributed to a specific team member yet. If
+# individual attribution is wanted later (a real name/handle, avatar, socials),
+# replace `sendra` below with per-person entries and repoint each post's
+# front matter `authors:` field at the right one.
+sendra:
+  name: The Sendra Team
+  title: Maintainers
+  url: https://github.com/sendra-lab
+  image_url: https://github.com/sendra-lab.png
+  page: false

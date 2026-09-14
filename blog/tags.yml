@@ -1,1 +1,21 @@
-{}
+# Blog tags.
+#
+# CHANGELOG DECISION (v1): there is no separate changelog page or system.
+# Sendra has no tagged releases yet (see scripts/sync-docs.ts's pinning
+# rationale — it tracks a commit SHA for the same reason), so there's no
+# release boundary to build a dedicated changelog against. Instead,
+# release-note-style updates are just blog posts tagged `changelog` — they
+# show up in the normal blog list/RSS feed, and readers who only want them
+# can filter to /blog/tags/changelog. Revisit once sendra cuts real tagged
+# releases: at that point a generated changelog (from release notes or
+# GitHub Releases) may earn its own page, but hand-writing occasional posts
+# under this tag is the right amount of ceremony for v1.
+changelog:
+  label: Changelog
+  description: Release-note-style posts about what shipped in Sendra.
+announcement:
+  label: Announcement
+  description: Project milestones and announcements.
+deep-dive:
+  label: Deep dive
+  description: Longer, more technical posts on how a specific part of Sendra works.

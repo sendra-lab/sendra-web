@@ -1,0 +1,54 @@
+name: CI
+
+# Verification only: proves the docs sync + Docusaurus build succeed. Actual
+# deployment is handled separately by Vercel's own build/deploy pipeline.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Sync docs & build site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sendra-web
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Read Node version
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> "$GITHUB_ENV"
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Pulls docs/ from sendra-lab/Sendra at the commit pinned in
+      # scripts/sync-docs.ts and rewrites it into docs/cli/. A bad pinned
+      # ref, a GitHub API/network failure, or a transform bug fails here,
+      # on the PR, instead of surfacing later as a broken Vercel deploy.
+      #
+      # SENDRA_DOCS_TOKEN is optional: sendra-lab/Sendra is public, so the
+      # sync works without it. It exists purely to avoid GitHub's stricter
+      # unauthenticated API rate limit (60 req/hour per runner IP, shared
+      # across concurrent CI jobs) — set it if syncs start failing with
+      # HTTP 403 rate-limit errors. Create a fine-grained PAT with read-only
+      # access to sendra-lab/Sendra and add it as a repo secret named
+      # SENDRA_DOCS_TOKEN under Settings > Secrets and variables > Actions.
+      - name: Sync docs from sendra
+        run: pnpm sync-docs
+        env:
+          SENDRA_DOCS_TOKEN: ${{ secrets.SENDRA_DOCS_TOKEN }}
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build site
+        run: pnpm build

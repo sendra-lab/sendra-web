@@ -55,6 +55,25 @@ const config: Config = {
     locales: ['en'],
   },
 
+  // Local, self-hosted search (v1) — indexes docs + blog at build time and
+  // serves the index as static JSON, no external service/registration
+  // required. Algolia DocSearch is a reasonable future upgrade (better
+  // relevance/UX) once the project wants to go through DocSearch's
+  // application process; out of scope for v1.
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        indexBlog: true,
+        indexDocs: true,
+        docsRouteBasePath: '/docs',
+        blogRouteBasePath: '/blog',
+        language: ['en'],
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',

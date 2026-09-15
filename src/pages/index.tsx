@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react';
+import {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -142,34 +143,126 @@ function WhySendra() {
   );
 }
 
+/**
+ * Every install path below was checked against the LIVE v0.1.0 release,
+ * not assumed from earlier release planning:
+ * - shell/powershell: the installer scripts are real release assets on
+ *   github.com/sendra-lab/Sendra/releases/tag/v0.1.0 (sendra-cli-installer.sh
+ *   / .ps1), and the /releases/latest/download/ URLs used here 200.
+ * - npm: @sendra-lab/sendra 0.1.0 is live on the npm registry right now
+ *   (the earlier unscoped "sendra" name was rejected and never published).
+ * - homebrew: sendra-lab/homebrew-tap has a real Formula/sendra-cli.rb on
+ *   its main branch, pinned to v0.1.0 release assets.
+ * - cargo: the "sendra-cli" crate (not "sendra") is live on crates.io at
+ *   0.1.0.
+ */
+type InstallMethod = {
+  id: string;
+  label: string;
+  path: string;
+  command: ReactNode;
+};
+
+const INSTALL_METHODS: InstallMethod[] = [
+  {
+    id: 'shell',
+    label: 'Shell',
+    path: 'terminal',
+    command: (
+      <>
+        curl --proto '=https' --tlsv1.2 -LsSf https://github.com/sendra-lab/Sendra/releases/latest/download/sendra-cli-installer.sh | sh
+      </>
+    ),
+  },
+  {
+    id: 'npm',
+    label: 'npm',
+    path: 'terminal',
+    command: <>npm install @sendra-lab/sendra</>,
+  },
+  {
+    id: 'pnpm',
+    label: 'pnpm',
+    path: 'terminal',
+    command: <>pnpm add @sendra-lab/sendra</>,
+  },
+  {
+    id: 'bun',
+    label: 'Bun',
+    path: 'terminal',
+    command: <>bun add @sendra-lab/sendra</>,
+  },
+  {
+    id: 'powershell',
+    label: 'PowerShell',
+    path: 'terminal',
+    command: (
+      <>
+        powershell -ExecutionPolicy Bypass -c "irm https://github.com/sendra-lab/Sendra/releases/latest/download/sendra-cli-installer.ps1 | iex"
+      </>
+    ),
+  },
+  {
+    id: 'homebrew',
+    label: 'Homebrew',
+    path: 'terminal',
+    command: <>brew install sendra-lab/tap/sendra-cli</>,
+  },
+  {
+    id: 'cargo',
+    label: 'Cargo',
+    path: 'terminal',
+    command: <>cargo install sendra-cli</>,
+  },
+];
+
 function GetStarted() {
+  const [activeId, setActiveId] = useState(INSTALL_METHODS[0].id);
+  const active =
+    INSTALL_METHODS.find((method) => method.id === activeId) ??
+    INSTALL_METHODS[0];
+
   return (
     <section className={styles.getStartedSection}>
       <div className={clsx('container', styles.getStartedGrid)}>
         <div className={styles.getStartedCopy}>
-          <span className={styles.comingSoonBadge}>Coming soon</span>
           <Heading as="h2" className={styles.getStartedTitle}>
             Get started
           </Heading>
           <p className={styles.placeholderNote}>
-            Sendra doesn't have a packaged release yet: no Homebrew formula,
-            no <code>cargo install</code> from crates.io. For now, build it
-            from source.
+            Install with the shell script or npm, or pick pnpm, Bun,
+            PowerShell, Homebrew, or Cargo below.
           </p>
+          <div className={styles.installTabs} role="tablist">
+            {INSTALL_METHODS.map((method) => (
+              <button
+                key={method.id}
+                type="button"
+                role="tab"
+                aria-selected={method.id === activeId}
+                className={clsx(styles.installTab, {
+                  [styles.installTabActive]: method.id === activeId,
+                })}
+                onClick={() => setActiveId(method.id)}>
+                {method.label}
+              </button>
+            ))}
+          </div>
           <p className={styles.getStartedFooter}>
-            This section will be replaced with real install instructions
-            once Sendra cuts its first release. In the meantime, the{' '}
-            <Link to="/docs/intro">docs</Link> cover everything from there.
+            Prebuilt binaries, checksums, and the full changelog are on the{' '}
+            <Link to="https://github.com/sendra-lab/Sendra/releases/tag/v0.1.0">
+              v0.1.0 release
+            </Link>
+            . For everything else, the <Link to="/docs/intro">docs</Link>{' '}
+            cover the rest.
           </p>
         </div>
         <div className={styles.heroVisual}>
-          <TerminalWindow path="terminal">
-            <span className={styles.tPrompt}>$</span> git clone https://github.com/sendra-lab/Sendra.git
+          <TerminalWindow path={active.path}>
+            <span className={styles.tPrompt}>$</span>{' '}
+            <span className={styles.tWrap}>{active.command}</span>
             {'\n'}
-            <span className={styles.tPrompt}>$</span> cd Sendra{'\n'}
-            <span className={styles.tPrompt}>$</span> cargo build --workspace --release
-            {'\n'}
-            <span className={styles.tPrompt}>$</span> ./target/release/sendra run examples/get-request.yaml
+            <span className={styles.tPrompt}>$</span> sendra run examples/get-request.yaml
           </TerminalWindow>
         </div>
       </div>

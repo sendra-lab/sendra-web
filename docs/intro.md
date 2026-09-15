@@ -15,13 +15,60 @@ and running requests without one shell invocation per request.
 
 ## Getting started
 
-No packaged release yet, so build it from source:
+Shell:
 
 ```sh
-git clone https://github.com/sendra-lab/Sendra.git
-cd Sendra
-cargo build --workspace --release
-./target/release/sendra run examples/get-request.yaml
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/sendra-lab/Sendra/releases/latest/download/sendra-cli-installer.sh | sh
+```
+
+PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/sendra-lab/Sendra/releases/latest/download/sendra-cli-installer.ps1 | iex"
+```
+
+npm:
+
+```sh
+npm install @sendra-lab/sendra
+```
+
+pnpm:
+
+```sh
+pnpm add @sendra-lab/sendra
+```
+
+Bun:
+
+```sh
+bun add @sendra-lab/sendra
+```
+
+Homebrew:
+
+```sh
+brew install sendra-lab/tap/sendra-cli
+```
+
+Cargo:
+
+```sh
+cargo install sendra-cli
+```
+
+Or grab a prebuilt binary directly from the
+[v0.1.0 release](https://github.com/sendra-lab/Sendra/releases/tag/v0.1.0).
+
+A request is just a YAML file. Write one and run it:
+
+```sh
+cat > get-request.yaml <<'EOF'
+method: GET
+url: https://httpbin.org/get
+EOF
+
+sendra run get-request.yaml
 ```
 
 That sends a real request to `https://httpbin.org/get` and prints the status,

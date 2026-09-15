@@ -171,6 +171,11 @@
   color: #4dcb62;
 }
 
+.tWrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 3rem 1.25rem;
@@ -255,19 +260,6 @@
   align-items: flex-start;
 }
 
-.comingSoonBadge {
-  display: inline-block;
-  padding: 0.25rem 0.7rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ifm-color-primary) 15%, transparent);
-  color: var(--ifm-color-primary);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.75rem;
-}
-
 .getStartedTitle {
   margin-bottom: 1rem;
 }
@@ -275,12 +267,44 @@
 .placeholderNote {
   font-size: 1rem;
   line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.installTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.installTab {
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease,
+    background 0.15s ease;
+}
+
+.installTab:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.installTabActive,
+.installTabActive:hover {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #0a0b0a;
 }
 
 .getStartedFooter {
   font-size: 0.9rem;
   color: var(--ifm-color-emphasis-700);
-  margin-top: 0.75rem;
+  margin-top: 1.25rem;
 }
 
 @media screen and (max-width: 900px) {

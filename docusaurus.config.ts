@@ -199,7 +199,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://x.com/Eminencee_" target="_blank" rel="noreferrer">Oyibe</a>.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://oyibe.vercel.app" target="_blank" rel="noreferrer">Oyibe</a>.`,
     },
     prism: {
       theme: prismThemes.github,

@@ -2,21 +2,22 @@
  * Pulls docs/ from the sendra-lab/Sendra repo and rewrites it into this
  * repo's Docusaurus docs structure.
  *
- * Pinning strategy
- * -----------------
- * SOURCE_REF below is a full commit SHA, not `main` and not a tag. As of
- * writing, sendra-lab/Sendra has no tags/releases at all, so "track the
- * latest release" isn't an option yet. Floating on `main` was rejected
- * because it makes this repo's build non-reproducible: an unrelated doc
- * edit landing on sendra's main could change generated output — or break
- * the build outright — on a sendra-web PR that touched nothing docs-related.
- * Pinning to a commit SHA means sync output only changes when a human
- * deliberately bumps SOURCE_REF (and reviews the diff in the PR that does
- * it), the same way a lockfile pins a dependency version.
+ * Ref resolution
+ * --------------
+ * By default this syncs against sendra-lab/Sendra's live `main` branch HEAD,
+ * resolved via the GitHub API at sync time — there's no pinned commit SHA to
+ * bump. The redeploy is triggered automatically by a docs-sync workflow on
+ * every push to sendra's main that touches docs/, so a stale pin would just
+ * mean the deploy hook fires but re-syncs old content; tracking `main` live
+ * is what makes the new content actually show up.
  *
- * Revisit once sendra ships a release process: switch SOURCE_REF to track
- * the latest tag (or a `vX.Y.Z` pin) instead of a raw commit SHA, so docs
- * updates follow the same cadence as the releases they document.
+ * This does mean an unrelated-looking sendra `main` push can change or break
+ * a sendra-web build if it touches docs/ or the sync's assumptions about
+ * doc structure — there's no reviewed pin standing between the two repos
+ * anymore. The GitHub API call itself pins to a specific commit SHA *within*
+ * a single sync run (the tree listing and every file fetch below all use the
+ * same resolved `ref`), so a run is at least internally consistent even
+ * though the ref changes from run to run.
  *
  * Override: set SENDRA_DOCS_REF to sync against a different ref (a branch,
  * tag, or commit) for local testing without editing this file.
@@ -29,7 +30,7 @@ import { fileURLToPath } from "node:url";
 
 const SOURCE_OWNER = "sendra-lab";
 const SOURCE_REPO = "Sendra";
-const SOURCE_REF = "17c88bda43c5d3d8f4a3e2fc6036567bc3c9510e";
+const SOURCE_BRANCH = "main";
 const SOURCE_DOCS_ROOT = "docs";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
@@ -41,8 +42,40 @@ const DOCS_DIR = path.join(repoRoot, "docs");
 // sync idempotent — nothing outside it is ever touched.
 const SYNC_TARGET_DIR = path.join(DOCS_DIR, "cli");
 
-const ref = process.env.SENDRA_DOCS_REF ?? SOURCE_REF;
 const token = process.env.SENDRA_DOCS_TOKEN;
+
+function githubHeaders(): Record<string, string> {
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "sendra-web-docs-sync",
+  };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
+
+/**
+ * Resolves SOURCE_BRANCH to its current commit SHA. Every file fetched in
+ * this run (tree listing, raw content, edit-URL/link generation) uses this
+ * one resolved SHA, not the floating branch name, so a single sync run is
+ * never split across two different commits even if `main` moves mid-run.
+ */
+async function resolveHeadSha(): Promise<string> {
+  const url = `https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}/commits/${SOURCE_BRANCH}`;
+  const res = await fetch(url, {
+    headers: { ...githubHeaders(), Accept: "application/vnd.github.sha" },
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to resolve ${SOURCE_OWNER}/${SOURCE_REPO}@${SOURCE_BRANCH} HEAD: ${res.status} ${res.statusText}\n` +
+        (await res.text()),
+    );
+  }
+  return (await res.text()).trim();
+}
+
+// Set at the top of main() — every function below that reads `ref` is only
+// ever called after that assignment runs.
+let ref: string;
 
 interface TreeEntry {
   path: string;
@@ -53,15 +86,6 @@ interface TreeEntry {
 interface GitTreeResponse {
   tree: TreeEntry[];
   truncated: boolean;
-}
-
-function githubHeaders(): Record<string, string> {
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "User-Agent": "sendra-web-docs-sync",
-  };
-  if (token) headers.Authorization = `Bearer ${token}`;
-  return headers;
 }
 
 async function fetchDocsFileList(): Promise<string[]> {
@@ -241,6 +265,7 @@ async function writeCategory(dir: string, meta: CategoryMeta): Promise<void> {
 }
 
 async function main() {
+  ref = process.env.SENDRA_DOCS_REF ?? (await resolveHeadSha());
   console.log(`Syncing docs/ from ${SOURCE_OWNER}/${SOURCE_REPO}@${ref}...`);
 
   const filePaths = await fetchDocsFileList();

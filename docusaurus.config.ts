@@ -88,16 +88,14 @@ const config: Config = {
           // VERSIONING DECISION (v1): intentionally unversioned — a single
           // "current" version, which is Docusaurus's default with no
           // `versions`/`disableVersioning` config at all (nothing to set
-          // here). sendra has zero tags/releases today (confirmed by
-          // scripts/sync-docs.ts's own pinning rationale: it tracks a raw
-          // commit SHA because there's no tag to track instead), so there is
-          // no meaningful release boundary to version docs against yet —
-          // versioning against commit SHAs would produce a new "version"
-          // on every sync, which is not what Docusaurus versioning is for.
+          // here). sendra has zero tags/releases today, so there is no
+          // meaningful release boundary to version docs against yet —
+          // versioning against commits would produce a new "version" on
+          // every sync, which is not what Docusaurus versioning is for.
           // Revisit this once sendra cuts an actual tagged release: at that
           // point, snapshotting a version per release (`docusaurus docs:version`)
-          // becomes meaningful, and scripts/sync-docs.ts's SOURCE_REF should
-          // move from a commit SHA to that tag in step with it.
+          // becomes meaningful, and scripts/sync-docs.ts could move from
+          // tracking live `main` to tracking that tag in step with it.
         },
         blog: {
           // CHANGELOG DECISION (v1): hand-written blog posts, not a separate

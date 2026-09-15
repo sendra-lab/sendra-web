@@ -56,31 +56,37 @@ run, so it never touches hand-written docs living elsewhere under `docs/`
 (e.g. [`docs/intro.md`](docs/intro.md)), and re-running it never leaves stale
 files behind from a previous sync.
 
-**Pinning:** the sync tracks a specific commit SHA of sendra's `main` branch
-(set in `SOURCE_REF` at the top of `scripts/sync-docs.ts`), not a floating
-`main` or a tag — sendra has no tags/releases yet. Floating on `main` would
-make this repo's build non-reproducible (an unrelated sendra doc edit could
-change or break a sendra-web build that touched nothing docs-related);
-pinning means the synced output only changes when someone deliberately bumps
-`SOURCE_REF` and reviews that diff, the same way a lockfile pins a dependency
-version. Revisit this once sendra ships a release process — track the latest
-tag instead of a raw commit SHA at that point. `SENDRA_DOCS_REF` overrides
-the ref for local testing without editing the file.
+**Live tracking:** the sync resolves sendra's `main` branch HEAD via the
+GitHub API at the start of every run — there's no pinned commit SHA to bump.
+This is deliberate: a `notify-docs-site` workflow in the sendra repo POSTs to
+this site's Vercel deploy hook on every push to sendra's `main` that touches
+`docs/`, with no review step in between, so the sync needs to pick up
+whatever just landed on `main` rather than re-syncing a stale pin. The
+tradeoff is that an unrelated-looking sendra `main` push can change or break
+a sendra-web build if it touches `docs/` or the sync's assumptions about doc
+structure — there's no reviewed pin standing between the two repos anymore.
+`SENDRA_DOCS_REF` overrides the ref (a branch, tag, or commit) for local
+testing without editing the file.
 
 CI (`.github/workflows/ci.yml`) runs `pnpm sync-docs` and `pnpm build` on
-every push/PR, so a bad pinned ref, a sendra-side docs change that breaks the
-transform, or a build error caused by newly-synced content fails visibly on
-the PR. The sync reads the public sendra repo over the GitHub API
-unauthenticated by default; set the `SENDRA_DOCS_TOKEN` repo secret (a
-fine-grained PAT with read-only access to `sendra-lab/Sendra`) if syncs start
-hitting GitHub's unauthenticated rate limit.
+every push/PR, so a sendra-side docs change that breaks the transform, or a
+build error caused by newly-synced content, fails visibly on the PR — though
+because the ref is resolved live, a CI run against this same commit can still
+diverge from what shipped at deploy time if sendra's `main` moved in between.
+The sync reads the public sendra repo over the GitHub API unauthenticated by
+default; set the `SENDRA_DOCS_TOKEN` repo secret (a fine-grained PAT with
+read-only access to `sendra-lab/Sendra`) if syncs start hitting GitHub's
+unauthenticated rate limit.
 
-**Versioning:** this site is deliberately unversioned for v1 — a single
+**Versioning:** this site is still deliberately unversioned — a single
 "current" doc set, Docusaurus's default with no `versions` config at all.
-Docusaurus versioning snapshots docs per release, and sendra has no tagged
-releases yet (the same reason the sync pins a commit SHA instead of a tag —
-see above), so there's no release boundary to version against; versioning
-per-commit isn't what that feature is for. Revisit once sendra cuts an actual
-tag: at that point `docusaurus docs:version` becomes meaningful, and
-`SOURCE_REF` in `scripts/sync-docs.ts` should move from a commit SHA to that
-tag in step with it.
+Sendra has cut its first tagged release ([v0.1.0](https://github.com/sendra-lab/Sendra/releases/tag/v0.1.0)),
+so there's now a real release boundary to version against, but
+`scripts/sync-docs.ts` still tracks sendra's live `main` HEAD rather than
+that tag (see "Live tracking" above), so `docs/cli/` reflects the latest
+unreleased docs, not the v0.1.0 snapshot. Turning on `docusaurus
+docs:version` is meaningful now, but it's a bigger change than the sync
+alone: it'd mean deciding whether the sync should move from tracking `main`
+to tracking the latest tag, and whether every future sendra release gets its
+own versioned snapshot here. Revisit deliberately rather than as a side
+effect of another change.

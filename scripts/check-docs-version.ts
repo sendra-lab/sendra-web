@@ -152,9 +152,15 @@ function writeOutput(name: string, value: string): void {
 }
 
 async function main() {
-  const ref = process.env.SENDRA_DOCS_REF ?? (await resolveHeadSha());
-  const cargoToml = await fetchCargoToml(ref);
-  const newVersion = extractWorkspaceVersion(cargoToml);
+  // SENDRA_RELEASE_VERSION short-circuits ref resolution + the Cargo.toml
+  // fetch: the docs-version workflow already knows the exact released
+  // version (from the release event's payload) and shouldn't re-derive it
+  // from main HEAD, which may have moved past that release by the time this
+  // runs.
+  const explicitVersion = process.env.SENDRA_RELEASE_VERSION;
+  const newVersion = explicitVersion
+    ? parseSemVer(explicitVersion)
+    : extractWorkspaceVersion(await fetchCargoToml(process.env.SENDRA_DOCS_REF ?? (await resolveHeadSha())));
   const lastVersion = await findLastVersionedSnapshot();
 
   let shouldVersion: boolean;

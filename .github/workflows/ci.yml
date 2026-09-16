@@ -47,6 +47,21 @@ jobs:
         env:
           SENDRA_DOCS_TOKEN: ${{ secrets.SENDRA_DOCS_TOKEN }}
 
+      # Docs content is synced into "current" on every run above regardless.
+      # This only decides whether that content also gets snapshotted as a
+      # new versioned_docs/version-X.Y.Z — worthwhile at a minor/major
+      # boundary, wasted churn on a patch-only bump. See
+      # scripts/check-docs-version.ts for the comparison logic.
+      - name: Check whether docs need a new version
+        id: docs-version
+        run: pnpm check-docs-version
+        env:
+          SENDRA_DOCS_TOKEN: ${{ secrets.SENDRA_DOCS_TOKEN }}
+
+      - name: Create versioned docs snapshot
+        if: steps.docs-version.outputs.should_version == 'true'
+        run: pnpm docusaurus docs:version ${{ steps.docs-version.outputs.version }}
+
       - name: Typecheck
         run: pnpm typecheck
 

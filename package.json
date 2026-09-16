@@ -14,7 +14,8 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "sync-docs": "tsx scripts/sync-docs.ts"
+    "sync-docs": "tsx scripts/sync-docs.ts",
+    "check-docs-version": "tsx scripts/check-docs-version.ts"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",

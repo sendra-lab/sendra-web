@@ -15,3 +15,4 @@
 
 - [ ] This PR's base branch is `dev` (not `main`)
 - [ ] My branch was created from `dev`
+- [ ] CI ("Sync docs & build site", `.github/workflows/ci.yml`) passes on this PR

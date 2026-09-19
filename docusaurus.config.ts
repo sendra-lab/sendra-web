@@ -16,9 +16,20 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // Vercel  domain 
-  url: 'https://sendra-web.vercel.app',
+  // Production domain. Canonical URLs, og:url/og:image, and every <loc> in
+  // sitemap.xml are built from this, so it must match the domain submitted
+  // to Google Search Console.
+  url: 'https://sendra.oyibe.dev',
   baseUrl: '/',
+
+  // Explicit rather than the `undefined` default. `true` emits
+  // `/docs/intro/index.html`, which Vercel serves at both `/docs/intro` and
+  // `/docs/intro/` with a 200 (no redirect, no chain), while Docusaurus
+  // canonicalizes every <link rel="canonical">, og:url, internal link, and
+  // sitemap <loc> to the trailing-slash form, so there is exactly one
+  // canonical URL per page. `false` would emit `/docs/intro.html`, which a
+  // default Vercel project (cleanUrls: false) 404s at `/docs/intro`.
+  trailingSlash: true,
 
   // Used for the "edit this page" links and GitHub pages config. This is
   // sendra-web's own repo — the docs source repo (sendra-lab/Sendra) is
@@ -55,6 +66,25 @@ const config: Config = {
     locales: ['en'],
   },
 
+  // Local, self-hosted search (v1) — indexes docs + blog at build time and
+  // serves the index as static JSON, no external service/registration
+  // required. Algolia DocSearch is a reasonable future upgrade (better
+  // relevance/UX) once the project wants to go through DocSearch's
+  // application process; out of scope for v1.
+  plugins: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        indexBlog: true,
+        indexDocs: true,
+        docsRouteBasePath: '/docs',
+        blogRouteBasePath: '/blog',
+        language: ['en'],
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -69,16 +99,14 @@ const config: Config = {
           // VERSIONING DECISION (v1): intentionally unversioned — a single
           // "current" version, which is Docusaurus's default with no
           // `versions`/`disableVersioning` config at all (nothing to set
-          // here). sendra has zero tags/releases today (confirmed by
-          // scripts/sync-docs.ts's own pinning rationale: it tracks a raw
-          // commit SHA because there's no tag to track instead), so there is
-          // no meaningful release boundary to version docs against yet —
-          // versioning against commit SHAs would produce a new "version"
-          // on every sync, which is not what Docusaurus versioning is for.
+          // here). sendra has zero tags/releases today, so there is no
+          // meaningful release boundary to version docs against yet —
+          // versioning against commits would produce a new "version" on
+          // every sync, which is not what Docusaurus versioning is for.
           // Revisit this once sendra cuts an actual tagged release: at that
           // point, snapshotting a version per release (`docusaurus docs:version`)
-          // becomes meaningful, and scripts/sync-docs.ts's SOURCE_REF should
-          // move from a commit SHA to that tag in step with it.
+          // becomes meaningful, and scripts/sync-docs.ts could move from
+          // tracking live `main` to tracking that tag in step with it.
         },
         blog: {
           // CHANGELOG DECISION (v1): hand-written blog posts, not a separate
@@ -86,6 +114,9 @@ const config: Config = {
           // blog/tags.yml's `changelog` tag description for the full
           // rationale — short version: sendra has no tagged releases yet,
           // so there's no release boundary to automate a changelog against.
+          // Meta description for /blog/ (defaults to the bare word "Blog").
+          blogDescription:
+            'Release notes, announcements, and deep dives on Sendra, the terminal-native HTTP client.',
           showReadingTime: true,
           feedOptions: {
             type: ['rss', 'atom'],
@@ -97,6 +128,16 @@ const config: Config = {
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
         },
+        // Sitemap ships with preset-classic and stays enabled with its
+        // defaults. Only exclusion here: the local-search results page
+        // (@easyops-cn/docusaurus-search-local) marks itself noindex with
+        // `<meta property="robots">`, which crawlers ignore (only
+        // `name="robots"` counts) — so Docusaurus doesn't recognize it as
+        // noindex and would list it. Internal search results shouldn't be
+        // in the sitemap.
+        sitemap: {
+          ignorePatterns: ['/search/**'],
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -105,8 +146,19 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // PLACEHOLDER social card — reusing the logo mark until a real og:image is designed.
-    image: 'img/sendra-logo.png',
+    // Default social card (1200x630), used for og:image/twitter:image site-wide.
+    // Source: design/social-card.html. A post can override via `image:` frontmatter.
+    image: 'img/social-card.png',
+    // Site-wide fallback <meta name="description"> (also og:description).
+    // Pages that set their own description (landing page, blog posts, docs
+    // frontmatter/excerpt) override this.
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'Sendra is a terminal-native HTTP client (CLI and TUI) with collections, environments, and scripting and assertions. Written in Rust, no Node.js runtime.',
+      },
+    ],
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -180,7 +232,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://x.com/Eminencee_" target="_blank" rel="noreferrer">Oyibe</a>.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://oyibe.vercel.app" target="_blank" rel="noreferrer">Oyibe</a>.`,
     },
     prism: {
       theme: prismThemes.github,

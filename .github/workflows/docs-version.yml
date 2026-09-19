@@ -1,0 +1,85 @@
+name: Docs version
+
+# Fires on an actual Sendra release, not on every push — unlike ci.yml
+# (which just verifies the "current" docs sync/build on every push/PR and
+# never commits anything), this job's whole purpose is to durably persist a
+# versioned_docs/version-X.Y.Z snapshot when the release warrants one, so it
+# needs a real release boundary to trigger from.
+#
+# sendra-lab/Sendra's own release.yml is expected to send this via (after
+# the GitHub Release is actually created):
+#   gh api repos/sendra-lab/sendra-web/dispatches \
+#     -f event_type=sendra-release \
+#     -f 'client_payload[version]=0.2.0'
+on:
+  repository_dispatch:
+    types: [sendra-release]
+
+permissions:
+  contents: write
+
+jobs:
+  version-docs:
+    name: Version docs for release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sendra-web
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Read Node version
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> "$GITHUB_ENV"
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The version to compare/version against comes straight from the
+      # release event, not from re-deriving it off sendra's live main HEAD
+      # (see SENDRA_RELEASE_VERSION in scripts/check-docs-version.ts) — by
+      # the time this runs, main may already be ahead of the release that
+      # triggered it.
+      - name: Check whether this release needs a new docs version
+        id: docs-version
+        run: pnpm check-docs-version
+        env:
+          SENDRA_RELEASE_VERSION: ${{ github.event.client_payload.version }}
+          SENDRA_DOCS_TOKEN: ${{ secrets.SENDRA_DOCS_TOKEN }}
+
+      # Snapshots the docs as they stood at the released tag, not whatever
+      # sendra's main currently has — a versioned snapshot is supposed to
+      # reflect what actually shipped in that release, and main may have
+      # moved on since. sync-docs.ts's SENDRA_DOCS_REF override exists
+      # exactly for this.
+      - name: Sync docs from sendra at the released tag
+        if: steps.docs-version.outputs.should_version == 'true'
+        run: pnpm sync-docs
+        env:
+          SENDRA_DOCS_REF: v${{ steps.docs-version.outputs.version }}
+          SENDRA_DOCS_TOKEN: ${{ secrets.SENDRA_DOCS_TOKEN }}
+
+      - name: Create versioned docs snapshot
+        if: steps.docs-version.outputs.should_version == 'true'
+        run: pnpm docusaurus docs:version ${{ steps.docs-version.outputs.version }}
+
+      - name: Commit versioned snapshot
+        if: steps.docs-version.outputs.should_version == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add versioned_docs versioned_sidebars versions.json
+          if git diff --cached --quiet; then
+            echo "Nothing to commit (docs:version produced no changes) — skipping."
+            exit 0
+          fi
+          git commit -m "docs: version ${{ steps.docs-version.outputs.version }}"
+          git push origin HEAD:main

@@ -146,9 +146,9 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // PLACEHOLDER social card (1200x630) — TO REPLACE with a designed og:image.
-    // Swap the file (or point this at the new path) once final art exists.
-    image: 'img/social-card.placeholder.png',
+    // Default social card (1200x630), used for og:image/twitter:image site-wide.
+    // Source: design/social-card.html. A post can override via `image:` frontmatter.
+    image: 'img/social-card.png',
     // Site-wide fallback <meta name="description"> (also og:description).
     // Pages that set their own description (landing page, blog posts, docs
     // frontmatter/excerpt) override this.

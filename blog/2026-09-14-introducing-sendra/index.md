@@ -1,6 +1,7 @@
 ---
 slug: introducing-sendra
 title: Introducing Sendra
+description: "Sendra is a terminal-native HTTP client where requests are YAML files in your repo. What ships today: run, test, and a full-screen TUI in a single binary."
 authors: [sendra]
 tags: [announcement, changelog]
 date: 2026-09-14

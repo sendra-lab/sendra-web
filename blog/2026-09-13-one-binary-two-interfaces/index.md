@@ -1,6 +1,7 @@
 ---
 slug: one-binary-two-interfaces
 title: "One binary, two interfaces: how sendra run and sendra tui share a core"
+description: "sendra run and sendra tui are one binary on one request pipeline. Why the CLI and TUI share a core, and the one documented gap: scripts don't run in the TUI."
 authors: [sendra]
 tags: [deep-dive]
 date: 2026-09-13

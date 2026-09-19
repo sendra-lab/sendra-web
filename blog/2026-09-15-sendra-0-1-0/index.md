@@ -1,6 +1,7 @@
 ---
 slug: sendra-0-1-0
 title: "Sendra 0.1.0: the first tagged release"
+description: "Sendra 0.1.0 is the first tagged release: prebuilt binaries, checksums, and install options via shell, npm, Homebrew, and Cargo, plus what's in the box."
 authors: [sendra]
 tags: [changelog, announcement]
 date: 2026-09-15

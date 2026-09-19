@@ -3,7 +3,6 @@ import {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
@@ -271,9 +270,10 @@ function GetStarted() {
 }
 
 export default function Home(): ReactNode {
-  const {siteConfig} = useDocusaurusContext();
   return (
-    <Layout title={siteConfig.title} description={siteConfig.tagline}>
+    <Layout
+      title="Terminal-native HTTP client"
+      description="Sendra is a terminal-native HTTP client. Define requests in YAML, then run, test, and chain them from the CLI or the TUI. One Rust binary, no Node.js runtime.">
       <HomepageHeader />
       <main>
         <WhySendra />

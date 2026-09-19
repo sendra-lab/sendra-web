@@ -16,9 +16,20 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // Vercel  domain 
-  url: 'https://sendra-web.vercel.app',
+  // Production domain. Canonical URLs, og:url/og:image, and every <loc> in
+  // sitemap.xml are built from this, so it must match the domain submitted
+  // to Google Search Console.
+  url: 'https://sendra.oyibe.dev',
   baseUrl: '/',
+
+  // Explicit rather than the `undefined` default. `true` emits
+  // `/docs/intro/index.html`, which Vercel serves at both `/docs/intro` and
+  // `/docs/intro/` with a 200 (no redirect, no chain), while Docusaurus
+  // canonicalizes every <link rel="canonical">, og:url, internal link, and
+  // sitemap <loc> to the trailing-slash form, so there is exactly one
+  // canonical URL per page. `false` would emit `/docs/intro.html`, which a
+  // default Vercel project (cleanUrls: false) 404s at `/docs/intro`.
+  trailingSlash: true,
 
   // Used for the "edit this page" links and GitHub pages config. This is
   // sendra-web's own repo — the docs source repo (sendra-lab/Sendra) is
@@ -103,6 +114,9 @@ const config: Config = {
           // blog/tags.yml's `changelog` tag description for the full
           // rationale — short version: sendra has no tagged releases yet,
           // so there's no release boundary to automate a changelog against.
+          // Meta description for /blog/ (defaults to the bare word "Blog").
+          blogDescription:
+            'Release notes, announcements, and deep dives on Sendra, the terminal-native HTTP client.',
           showReadingTime: true,
           feedOptions: {
             type: ['rss', 'atom'],
@@ -114,6 +128,16 @@ const config: Config = {
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
         },
+        // Sitemap ships with preset-classic and stays enabled with its
+        // defaults. Only exclusion here: the local-search results page
+        // (@easyops-cn/docusaurus-search-local) marks itself noindex with
+        // `<meta property="robots">`, which crawlers ignore (only
+        // `name="robots"` counts) — so Docusaurus doesn't recognize it as
+        // noindex and would list it. Internal search results shouldn't be
+        // in the sitemap.
+        sitemap: {
+          ignorePatterns: ['/search/**'],
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -122,8 +146,19 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // PLACEHOLDER social card — reusing the logo mark until a real og:image is designed.
-    image: 'img/sendra-logo.png',
+    // Default social card (1200x630), used for og:image/twitter:image site-wide.
+    // Source: design/social-card.html. A post can override via `image:` frontmatter.
+    image: 'img/social-card.png',
+    // Site-wide fallback <meta name="description"> (also og:description).
+    // Pages that set their own description (landing page, blog posts, docs
+    // frontmatter/excerpt) override this.
+    metadata: [
+      {
+        name: 'description',
+        content:
+          'Sendra is a terminal-native HTTP client (CLI and TUI) with collections, environments, and scripting and assertions. Written in Rust, no Node.js runtime.',
+      },
+    ],
     colorMode: {
       respectPrefersColorScheme: true,
     },

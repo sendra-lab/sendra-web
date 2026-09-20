@@ -1,0 +1,263 @@
+/*
+ * Uses the same tokens and control shapes as src/theme/ColorModeToggle
+ * (border, radius, surface color, hover background) so the menu reads as
+ * part of the existing site chrome.
+ */
+
+.root {
+  position: relative;
+  /* Sits beside the page title: the heading wraps around a float, and on
+     narrow screens a long title simply drops below it. */
+  float: right;
+  margin: 0 0 0.75rem 1rem;
+  z-index: 1;
+}
+
+.group {
+  display: inline-flex;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 0.4rem;
+  background: var(--ifm-background-surface-color);
+  font-size: 0.85rem;
+}
+
+.mainButton,
+.toggleButton,
+.menuItem,
+.iconButton,
+.dialogButton {
+  font: inherit;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  transition: background var(--ifm-transition-fast), color var(--ifm-transition-fast);
+}
+
+.mainButton,
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.6rem;
+  border: none;
+  background: transparent;
+}
+
+.mainButton {
+  min-width: 7.5rem;
+  justify-content: center;
+  border-radius: 0.4rem 0 0 0.4rem;
+}
+
+.toggleButton {
+  padding: 0 0.5rem;
+  border-left: 1px solid var(--ifm-toc-border-color);
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+.mainButton:hover:not(:disabled),
+.toggleButton:hover:not(:disabled),
+.toggleButton[aria-expanded='true'] {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.mainButton:disabled,
+.toggleButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.statusCopied {
+  color: var(--ifm-color-primary);
+}
+
+.statusError {
+  color: var(--ifm-color-danger);
+}
+
+.mainButton:focus-visible,
+.toggleButton:focus-visible,
+.menuItem:focus-visible,
+.iconButton:focus-visible,
+.dialogButton:focus-visible,
+.dialogText:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: -2px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  min-width: 13rem;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 0.6rem;
+  box-shadow: var(--ifm-global-shadow-md);
+  z-index: var(--ifm-z-index-dropdown, 100);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: none;
+  border-radius: 0.4rem;
+  background: transparent;
+  font-size: 0.85rem;
+  text-align: left;
+  text-decoration: none;
+}
+
+.menuItem:hover,
+.menuItem:focus-visible {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+}
+
+.menuItem svg {
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+/* The "opens in a new tab" arrow, pushed to the end of the row. */
+.menuItem .externalIcon {
+  margin-left: auto;
+  opacity: 0.45;
+}
+
+.separator {
+  height: 1px;
+  margin: 0.35rem 0.25rem;
+  background: var(--ifm-toc-border-color);
+}
+
+/* Read aloud by screen readers, invisible on screen. */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Native modal <dialog>. It has no padding of its own so that a click that
+   lands on the <dialog> element itself is known to be a click on the
+   backdrop; the visible padding lives on .dialogPanel. */
+.dialog {
+  width: min(56rem, calc(100vw - 2rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 0.6rem;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.dialogPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: min(40rem, calc(100dvh - 2rem));
+  padding: 1rem;
+}
+
+.dialogHeader,
+.dialogFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dialogHeader {
+  justify-content: space-between;
+}
+
+.dialogFooter {
+  justify-content: flex-end;
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.dialogText {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 0.4rem;
+  background: var(--ifm-code-background);
+  color: var(--ifm-font-color-base);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  resize: none;
+  overscroll-behavior: contain;
+}
+
+.iconButton,
+.dialogButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 0.4rem;
+  background: transparent;
+  font-size: 0.85rem;
+}
+
+.iconButton {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+.dialogButton {
+  height: 2rem;
+  padding: 0 0.85rem;
+}
+
+.iconButton:hover,
+.dialogButton:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* Phones: use nearly the whole screen for the Markdown. */
+@media (max-width: 996px) {
+  .dialog {
+    width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
+  }
+
+  .dialogPanel {
+    height: calc(100dvh - 1rem);
+    max-height: 40rem;
+    padding: 0.75rem;
+  }
+}
+
+@media print {
+  .root {
+    display: none;
+  }
+}

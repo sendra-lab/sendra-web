@@ -96,6 +96,12 @@ const config: Config = {
           // docs/cli/ override it per-page via `custom_edit_url` (see
           // scripts/sync-docs.ts) to point at the real source instead.
           editUrl: 'https://github.com/sendra-lab/sendra-web/edit/main/',
+          // "Last updated on <date> by <author>" under each page. The date
+          // comes from git history (or a `last_update` front matter
+          // override); the author isn't taken from git, which has more than
+          // one name for the same person — src/theme/LastUpdated renders a
+          // fixed author linking to their GitHub instead.
+          showLastUpdateTime: true,
           // VERSIONING DECISION (v1): intentionally unversioned — a single
           // "current" version, which is Docusaurus's default with no
           // `versions`/`disableVersioning` config at all (nothing to set
@@ -123,6 +129,8 @@ const config: Config = {
             xslt: true,
           },
           editUrl: 'https://github.com/sendra-lab/sendra-web/edit/main/',
+          // Same "Last updated" line as the docs (see the docs options).
+          showLastUpdateTime: true,
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -232,7 +240,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://oyibe.vercel.app" target="_blank" rel="noreferrer">Oyibe</a>.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Sendra. Built by <a href="https://oyibe.dev" target="_blank" rel="noreferrer">Oyibe</a>.`,
     },
     prism: {
       theme: prismThemes.github,

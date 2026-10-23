@@ -587,7 +587,7 @@
 }
 
 .blog-post-page .main-wrapper aside ul { margin: 0; padding: 0; list-style: none; }
-.blog-post-page .main-wrapper aside li + li { margin-top: 0.55rem; }
+.blog-post-page .main-wrapper aside li + li { margin-top: 0.2rem; }
 .blog-post-page .main-wrapper aside a { color: var(--ifm-color-emphasis-700); font-size: 0.9rem; text-decoration: none; }
 .blog-post-page .main-wrapper aside a:hover { color: var(--ifm-color-primary); }
 

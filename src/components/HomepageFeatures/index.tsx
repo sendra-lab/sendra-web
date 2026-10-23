@@ -20,7 +20,7 @@ const FEATURES = [
   {
     id: 'terminal',
     title: 'CLI and interactive TUI',
-    description: 'Run a quick command or browse and edit requests in the terminal UI.',
+    description: 'Explore collections in the terminal UI, or run requests directly from the shell.',
     preview: 'sendra tui',
   },
   {
@@ -48,7 +48,30 @@ function PreviewArt({id}: {id: string}) {
     return <div className={styles.collectionArt}><div><i /> Requests <small>12</small></div><div className={styles.selectedRow}>GET&nbsp; /users</div><div>POST&nbsp; /sessions</div><div><i /> Environments</div><div className={styles.envPill}>production</div></div>;
   }
   if (id === 'terminal') {
-    return <div className={styles.terminalArt}><div><b>$</b> sendra run requests/users.yaml</div><p>GET&nbsp; https://api.example.com/users</p><strong>200 OK <span>· 148 ms</span></strong><p>Response received successfully</p></div>;
+    return (
+      <div className={styles.terminalArt}>
+        <div className={styles.tuiTopBar}>
+          <b>sendra</b><span>HTTP CLIENT</span><kbd>Ctrl + P</kbd>
+        </div>
+        <div className={styles.tuiLayout}>
+          <aside className={styles.tuiSidebar}>
+            <strong>COLLECTIONS</strong>
+            <div className={styles.tuiSelected}><span>GET</span> users.yaml</div>
+            <div><span>POST</span> sessions.yaml</div>
+            <div><span>GET</span> health.yaml</div>
+            <strong className={styles.tuiEnvironmentLabel}>ENVIRONMENT</strong>
+            <div className={styles.tuiEnvironment}>staging <i>v</i></div>
+          </aside>
+          <section className={styles.tuiMain}>
+            <div className={styles.tuiTabs}><b>Request</b><span>Response</span></div>
+            <div className={styles.tuiRequest}><span>GET</span><code>/api/users</code><button type="button">Run</button></div>
+            <div className={styles.tuiResponseHeader}><b>Response</b><span>200 OK</span><small>148 ms</small></div>
+            <div className={styles.tuiJson}><span>{'{'}</span><p><i>"id"</i>: 42,</p><p><i>"name"</i>: "Alex Morgan",</p><p><i>"active"</i>: true</p><span>{'}'}</span></div>
+          </section>
+        </div>
+        <div className={styles.tuiStatusBar}><span>Arrows Navigate</span><span>Enter Select</span><span>r Run request</span></div>
+      </div>
+    );
   }
   if (id === 'checks') {
     return <div className={styles.checkArt}><div><span>✓</span> status equals 200 <b>PASS</b></div><div><span>✓</span> body.id is present <b>PASS</b></div><div className={styles.mutedCheck}><span>✓</span> duration under 500 ms <b>PASS</b></div><div className={styles.runSummary}>3 checks passed</div></div>;
@@ -106,7 +129,6 @@ export default function HomepageFeatures(): ReactNode {
               <div className={styles.previewToolbar}>
                 <div className={styles.windowDots}><i /><i /><i /></div>
                 <span>{active.preview}</span>
-                <span className={styles.previewStatus}><i /> Ready</span>
               </div>
               <div className={styles.previewCanvas} key={active.id}>
                 <PreviewArt id={active.id} />

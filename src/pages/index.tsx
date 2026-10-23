@@ -268,6 +268,32 @@ function GetStarted() {
   );
 }
 
+function RequestToCiExample() {
+  return (
+    <section className={styles.exampleSection}>
+      <div className="container">
+        <div className={styles.exampleHeading}>
+          <span>IN PRACTICE</span>
+          <Heading as="h2" className={styles.sectionTitle}>From request file to CI result</Heading>
+          <p>Write the expectation once. Run the same request locally or in your build.</p>
+        </div>
+        <div className={styles.examplePanels}>
+          <div className={styles.examplePanel}>
+            <div className={styles.examplePanelHeader}><span>REQUEST FILE</span><code>requests/get-request.yaml</code></div>
+            <pre className={styles.exampleCode}><code><span>method:</span> GET{'\n'}<span>url:</span> https://httpbin.org/get{'\n'}<span>assertions:</span>{'\n'}  <span>status:</span> 200{'\n'}  <span>body_contains:</span> '"url"'</code></pre>
+          </div>
+          <div className={styles.examplePanel}>
+            <div className={styles.examplePanelHeader}><span>CI RUN</span><code>pull-request.yml</code></div>
+            <pre className={styles.exampleOutput}><code><span>$ sendra test requests/get-request.yaml</span>{'\n\n'}200 OK  142 ms{'\n\n'}assertions{'\n'}  <b>✓</b> status is 200{'\n'}  <b>✓</b> body contains "url"{'\n'}  2 passed</code></pre>
+            <div className={styles.exampleResult}><i /> PASS <span>exit code 0</span></div>
+          </div>
+        </div>
+        <Link className={styles.exampleDocsLink} to="/docs/cli/reference/running-and-testing">See how request testing works <span aria-hidden="true">→</span></Link>
+      </div>
+    </section>
+  );
+}
+
 export default function Home(): ReactNode {
   return (
     <Layout
@@ -277,6 +303,7 @@ export default function Home(): ReactNode {
       <main>
         <WhySendra />
         <HomepageFeatures />
+        <RequestToCiExample />
         <GetStarted />
       </main>
     </Layout>

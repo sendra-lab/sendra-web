@@ -177,6 +177,104 @@
 .navbar__items--right { gap: 0.5rem; }
 .navbar__items--right .clean-btn { border-radius: 0.4rem; }
 
+/* Documentation: quiet navigation and a focused reading column. */
+.plugin-docs .main-wrapper { background: var(--ifm-background-color); }
+
+.plugin-docs main[class*='docMainContainer'] > .container { max-width: 1440px; }
+
+.plugin-docs .theme-doc-sidebar-container {
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-color);
+}
+
+.plugin-docs .menu {
+  padding: 1.25rem 0.85rem 2rem;
+  font-size: 0.86rem;
+}
+
+.plugin-docs .menu__link {
+  border-radius: 0.35rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.45;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+
+.plugin-docs .menu__link:hover {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+}
+
+.plugin-docs .menu__link--active {
+  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.plugin-docs .menu__list-item-collapsible:hover { background: transparent; }
+.plugin-docs .menu__caret:before {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.25rem 1.25rem no-repeat;
+  filter: var(--ifm-menu-link-sublist-icon-filter);
+}
+
+.plugin-docs .docItemCol article {
+  max-width: 82ch;
+  margin: 0 auto;
+}
+
+.plugin-docs .theme-doc-breadcrumbs { margin-bottom: 1.75rem; }
+.plugin-docs .breadcrumbs__link { color: var(--ifm-color-emphasis-600); font-size: 0.78rem; }
+.plugin-docs .markdown { font-size: 1rem; line-height: 1.8; }
+
+.plugin-docs .markdown h1 {
+  margin-bottom: 1.35rem;
+  font-size: clamp(2.2rem, 4vw, 3.1rem);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.plugin-docs .markdown h2 {
+  margin-top: 2.6em;
+  padding-bottom: 0;
+  border-bottom: 0;
+  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+
+.plugin-docs .markdown h3 {
+  margin-top: 2em;
+  font-size: 1.2rem;
+  font-weight: 620;
+  letter-spacing: -0.025em;
+}
+
+.plugin-docs .markdown p,
+.plugin-docs .markdown li { color: var(--ifm-color-emphasis-800); }
+
+.plugin-docs .markdown pre {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.6rem;
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+.plugin-docs .table-of-contents { border-left-color: var(--ifm-color-emphasis-300); font-size: 0.8rem; }
+.plugin-docs .table-of-contents__link { color: var(--ifm-color-emphasis-600); line-height: 1.5; }
+.plugin-docs .table-of-contents__link:hover,
+.plugin-docs .table-of-contents__link--active { color: var(--ifm-color-primary); }
+
+@media screen and (max-width: 996px) {
+  .plugin-docs .theme-doc-sidebar-container { border-right: 0; }
+  .plugin-docs .docItemCol article { max-width: 76ch; }
+}
+
+@media screen and (max-width: 700px) {
+  .plugin-docs .markdown { font-size: 0.96rem; line-height: 1.75; }
+  .plugin-docs .markdown h1 { font-size: clamp(2rem, 9vw, 2.65rem); }
+  .plugin-docs .markdown pre { font-size: 0.78rem; }
+}
+
 /* Blog index: give the editorial list more room and keep the tag rail quiet. */
 .blog-list-page .main-wrapper {
   padding: 0 0 clamp(2.5rem, 5vw, 4.5rem);

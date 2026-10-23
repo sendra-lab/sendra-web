@@ -128,6 +128,14 @@
 .tWrap { white-space: pre-wrap; word-break: break-word; }
 
 .workflowHeading { max-width: 50rem; margin: 0 0 2.5rem; }
+.workflowEyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+}
 
 .workflowHeading p {
   max-width: 42rem;

@@ -99,6 +99,7 @@ function WhySendra() {
     <section className={styles.whySection}>
       <div className="container">
         <div className={styles.workflowHeading}>
+          <span className={styles.workflowEyebrow}>ONE FILE · THREE INTERFACES</span>
           <Heading as="h2" className={styles.sectionTitle}>
             One request. Every part of your workflow.
           </Heading>

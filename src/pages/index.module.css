@@ -1,32 +1,14 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- *
- * The hero is deliberately dark in both light and dark site themes: the
- * logo mark is brand green on transparent, so it needs a dark ground to pop
- * against (the same near-black used for [data-theme='dark'] elsewhere in
- * src/css/custom.css). Infima's stock `hero--primary` (solid brand-green
- * fill) would put a green mark on a green background, near-zero contrast,
- * so this hero intentionally does not use that class.
- */
-
 .heroBanner {
-  padding: 5rem 0;
-  background: radial-gradient(
-      ellipse 60% 80% at 15% 20%,
-      rgba(77, 203, 98, 0.16),
-      transparent 60%
-    ),
-    #101210;
-  color: #f4f6f4;
-  position: relative;
-  overflow: hidden;
+  padding: 5.5rem 0 4.75rem;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  border-bottom: 1px solid var(--ifm-toc-border-color);
 }
 
 .heroGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: 4rem;
   align-items: center;
 }
 
@@ -38,55 +20,68 @@
 }
 
 .heroLogo {
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-bottom: 1.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--ifm-color-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .heroTitle {
-  color: #f4f6f4;
-  font-size: 3rem;
-  line-height: 1.1;
+  max-width: 40rem;
+  margin: 0;
+  font-size: clamp(2.4rem, 4.2vw, 3.65rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
 }
 
 .heroSubtitle {
-  color: #b9c2b9;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  margin: 1.25rem 0 2rem;
-  max-width: 32rem;
+  max-width: 34rem;
+  margin: 1.25rem 0 1.75rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 1.08rem;
+  line-height: 1.7;
 }
 
 .heroButtons {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .heroButtons :global(.button--lg):not(.secondaryButton) {
   background: var(--ifm-color-primary);
   border-color: var(--ifm-color-primary);
-  color: #0a0b0a;
+  color: #fff;
   font-weight: 600;
 }
 
+[data-theme='dark'] .heroButtons :global(.button--lg):not(.secondaryButton) {
+  color: #101210;
+}
+
 .heroButtons :global(.button--lg):not(.secondaryButton):hover {
-  background: var(--ifm-color-primary-light);
-  border-color: var(--ifm-color-primary-light);
+  background: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
 }
 
 .secondaryButton {
-  color: #f4f6f4;
-  border-color: rgba(244, 246, 244, 0.35);
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
 .secondaryButton:hover {
-  color: #f4f6f4;
-  border-color: #f4f6f4;
-  background: rgba(244, 246, 244, 0.08);
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-color-emphasis-600);
+  background: var(--ifm-color-emphasis-100);
 }
-
-/* --- Terminal preview --- */
 
 .heroVisual {
   display: flex;
@@ -95,12 +90,11 @@
 
 .terminal {
   width: 100%;
-  max-width: 30rem;
-  border-radius: 0.75rem;
-  background: #0a0b0a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(77, 203, 98, 0.06);
+  max-width: 35rem;
+  border-radius: 0.55rem;
+  background: #111311;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow: 0 12px 32px rgba(16, 18, 16, 0.12);
   overflow: hidden;
 }
 
@@ -108,207 +102,136 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.65rem 0.9rem;
-  background: #141614;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.7rem 1rem;
+  background: #191c19;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .terminalDot {
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 50%;
+  background: #606660;
 }
 
-.terminalDot[data-color='red'] {
-  background: #ec6a5f;
-}
-
-.terminalDot[data-color='yellow'] {
-  background: #f4bf4f;
-}
-
-.terminalDot[data-color='green'] {
-  background: #61c554;
-}
+.terminalDot[data-color='red'] { background: #777d77; }
+.terminalDot[data-color='yellow'] { background: #777d77; }
+.terminalDot[data-color='green'] { background: #777d77; }
 
 .terminalPath {
   margin-left: 0.5rem;
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.75rem;
-  color: #6b756b;
+  color: #a0a8a0;
 }
 
 .terminalBody {
-  /* Infima styles bare <pre> with its own (light, in light mode)
-     --ifm-pre-background by default; override explicitly so this stays a
-     dark terminal window regardless of site color mode. */
   margin: 0;
-  padding: 1.25rem 1.4rem;
-  background: #0a0b0a;
+  padding: 1.4rem 1.5rem;
+  background: #111311;
   font-family: var(--ifm-font-family-monospace);
-  font-size: 0.82rem;
-  line-height: 1.7;
-  color: #d7dcd7;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: #e0e5e0;
   overflow-x: auto;
   white-space: pre;
 }
 
-.terminalBody code {
-  background: transparent;
-  color: inherit;
-}
-
-.tKey {
-  color: #7fd792;
-}
-
-.tPrompt {
-  color: #4dcb62;
-  font-weight: 700;
-}
-
-.tPass {
-  color: #4dcb62;
-}
-
-.tWrap {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 3rem 1.25rem;
-  }
-
-  .heroGrid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .heroCopy {
-    align-items: center;
-    text-align: center;
-  }
-
-  .heroSubtitle {
-    max-width: none;
-  }
-
-  .heroButtons {
-    justify-content: center;
-  }
-
-  .heroTitle {
-    font-size: 2.1rem;
-  }
-
-  .terminal {
-    max-width: none;
-  }
-}
-
-/* --- Why Sendra --- */
+.terminalBody code { background: transparent; color: inherit; }
+.tKey { color: #9bd8a5; }
+.tPrompt, .tPass { color: #70ce80; font-weight: 600; }
+.tWrap { white-space: pre-wrap; word-break: break-word; }
 
 .sectionTitle {
-  margin-bottom: 2rem;
+  margin: 0 0 2rem;
+  font-size: 1.65rem;
+  letter-spacing: -0.025em;
 }
 
-.whySection {
-  padding: 4.5rem 0;
-}
+.whySection { padding: 4.5rem 0 3rem; }
 
 .pillarGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
 }
 
 .pillar {
-  border-top: 3px solid var(--ifm-color-primary);
-  padding-top: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
 }
 
-.pillarTitle {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
+.pillarTitle { margin: 0 0 0.65rem; font-size: 1.05rem; }
 .pillarBody {
   margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.65;
   color: var(--ifm-color-emphasis-700);
+  font-size: 0.94rem;
+  line-height: 1.7;
 }
 
-/* --- Get started --- */
-
 .getStartedSection {
-  padding: 2rem 0 5.5rem;
+  padding: 3.5rem 0 5rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
 }
 
 .getStartedGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: 3rem;
-  align-items: start;
+  align-items: center;
 }
 
-.getStartedCopy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.getStartedTitle {
-  margin-bottom: 1rem;
-}
-
+.getStartedCopy { display: flex; flex-direction: column; align-items: flex-start; }
+.getStartedTitle { margin: 0 0 0.75rem; font-size: 1.65rem; }
 .placeholderNote {
-  font-size: 1rem;
+  margin: 0 0 1.25rem;
+  color: var(--ifm-color-emphasis-700);
   line-height: 1.65;
-  margin-bottom: 1.25rem;
 }
 
-.installTabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
+.installTabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .installTab {
-  padding: 0.45rem 0.9rem;
-  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.35rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   background: transparent;
-  color: var(--ifm-color-emphasis-700);
-  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease,
-    background 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
-.installTab:hover {
-  border-color: var(--ifm-color-primary);
-  color: var(--ifm-color-primary);
-}
-
-.installTabActive,
-.installTabActive:hover {
+.installTab:hover { border-color: var(--ifm-color-primary); color: var(--ifm-color-primary); }
+.installTabActive, .installTabActive:hover {
   background: var(--ifm-color-primary);
   border-color: var(--ifm-color-primary);
-  color: #0a0b0a;
+  color: #fff;
 }
+[data-theme='dark'] .installTabActive, [data-theme='dark'] .installTabActive:hover { color: #101210; }
 
 .getStartedFooter {
-  font-size: 0.9rem;
+  margin: 1.25rem 0 0;
   color: var(--ifm-color-emphasis-700);
-  margin-top: 1.25rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
-@media screen and (max-width: 900px) {
-  .getStartedGrid {
-    grid-template-columns: 1fr;
-  }
+@media screen and (max-width: 996px) {
+  .heroBanner { padding: 4rem 0; }
+  .heroGrid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .heroCopy { align-items: center; text-align: center; }
+  .heroSubtitle { max-width: 40rem; }
+  .heroButtons { justify-content: center; }
+  .terminal { max-width: 42rem; }
+  .getStartedGrid { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+@media screen and (max-width: 700px) {
+  .heroBanner { padding: 3rem 0; }
+  .heroGrid { gap: 2rem; }
+  .pillarGrid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .whySection { padding: 3rem 0 2rem; }
+  .terminalBody { padding: 1.1rem; font-size: 0.72rem; }
 }

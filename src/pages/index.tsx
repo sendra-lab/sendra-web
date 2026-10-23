@@ -9,17 +9,6 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 import styles from './index.module.css';
 
-/**
- * FIRST-DRAFT MARKETING COPY. The hero headline/positioning line, the "Why
- * Sendra" pillars, and the terminal preview are a first pass, meant to be
- * reviewed as content, not shipped as final. Every factual claim (no
- * Node.js runtime, requests-as-YAML, the assertion output format, etc.) was
- * checked against the real sendra-lab/Sendra repo (README.md,
- * docs/reference/running-and-testing.md, docs/reference/assertions.md)
- * before being written. The terminal preview's output is the real
- * `assertions:` print format from docs/reference/assertions.md, not
- * invented.
- */
 function TerminalWindow({
   path,
   children,
@@ -75,13 +64,13 @@ function HomepageHeader() {
             width={64}
             height={64}
           />
+          <p className={styles.eyebrow}>API testing from your terminal</p>
           <Heading as="h1" className={styles.heroTitle}>
-            The terminal-native API testing tool.
+            Test APIs with requests that live in your repo.
           </Heading>
           <p className={styles.heroSubtitle}>
-            Define HTTP requests in YAML.
-            Run, test, automate, and chain API requests
-            without leaving your terminal.
+            Define requests in YAML, run them from the CLI, and keep your
+            checks alongside the code they protect.
           </p>
           <div className={styles.heroButtons}>
             <Link className="button button--lg" to="/docs/intro">
@@ -125,7 +114,7 @@ function WhySendra() {
     <section className={styles.whySection}>
       <div className="container">
         <Heading as="h2" className={styles.sectionTitle}>
-          Why Sendra
+          Built for the way teams work
         </Heading>
         <div className={styles.pillarGrid}>
           {PILLARS.map((pillar) => (
@@ -229,8 +218,7 @@ function GetStarted() {
             Get started
           </Heading>
           <p className={styles.placeholderNote}>
-            Install with the shell script or npm, or pick pnpm, Bun,
-            PowerShell, Homebrew, or Cargo below.
+            Install Sendra with the package manager you already use.
           </p>
           <div className={styles.installTabs} role="tablist">
             {INSTALL_METHODS.map((method) => (

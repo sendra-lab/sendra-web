@@ -89,6 +89,14 @@ export default function HomepageFeatures(): ReactNode {
   return (
     <section className={styles.features}>
       <div className="container">
+        <div className={styles.sectionHeading}>
+          <Heading as="h2" className={styles.sectionTitle}>
+            Everything you need to test APIs
+          </Heading>
+          <p className={styles.sectionIntro}>
+            Keep requests, checks, and workflows close to your code.
+          </p>
+        </div>
         <div className={styles.grid}>
           {FEATURES.map((feature) => (
             <FeatureCard key={feature.title} {...feature} />

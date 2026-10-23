@@ -47,10 +47,11 @@ function TerminalDemo({onInteract}: {onInteract: () => void}) {
   const [mode, setMode] = useState<'cli' | 'tui'>('cli');
   const [selectedRequest, setSelectedRequest] = useState(0);
   const [runState, setRunState] = useState<'ready' | 'running' | 'done'>('ready');
+  const [tuiTab, setTuiTab] = useState<'request' | 'response'>('request');
   const requests = [
-    {method: 'GET', file: 'users.yaml', path: '/api/users'},
-    {method: 'POST', file: 'sessions.yaml', path: '/api/sessions'},
-    {method: 'GET', file: 'health.yaml', path: '/api/health'},
+    {method: 'GET', file: 'users.yaml', path: '/api/users', status: '200 OK', duration: '148 ms', body: [{key: 'id', value: '42'}, {key: 'name', value: '"Alex Morgan"'}, {key: 'active', value: 'true'}]},
+    {method: 'POST', file: 'sessions.yaml', path: '/api/sessions', status: '201 Created', duration: '203 ms', body: [{key: 'session_id', value: '"s_83ab1"'}, {key: 'expires_in', value: '3600'}]},
+    {method: 'GET', file: 'health.yaml', path: '/api/health', status: '200 OK', duration: '24 ms', body: [{key: 'status', value: '"healthy"'}, {key: 'uptime', value: '86400'}]},
   ];
   const request = requests[selectedRequest];
 
@@ -64,8 +65,8 @@ function TerminalDemo({onInteract}: {onInteract: () => void}) {
     <div className={styles.terminalArt}>
       <div className={styles.demoToolbar}>
         <div className={styles.demoModes} role="tablist" aria-label="Terminal demo mode">
-          <button type="button" role="tab" aria-selected={mode === 'cli'} onClick={() => { onInteract(); setMode('cli'); setRunState('ready'); }}>CLI</button>
-          <button type="button" role="tab" aria-selected={mode === 'tui'} onClick={() => { onInteract(); setMode('tui'); setRunState('ready'); }}>TUI</button>
+          <button type="button" role="tab" aria-selected={mode === 'cli'} onClick={() => { onInteract(); setMode('cli'); setRunState('ready'); setTuiTab('request'); }}>CLI</button>
+          <button type="button" role="tab" aria-selected={mode === 'tui'} onClick={() => { onInteract(); setMode('tui'); setRunState('ready'); setTuiTab('request'); }}>TUI</button>
         </div>
         <span>{mode === 'cli' ? 'shell' : 'sendra tui'}</span>
       </div>
@@ -74,7 +75,7 @@ function TerminalDemo({onInteract}: {onInteract: () => void}) {
           <div className={styles.cliPrompt}><i>$</i> sendra run {request.file}</div>
           {runState === 'ready' && <p className={styles.cliHint}>Run a request from your terminal.</p>}
           {runState === 'running' && <div className={styles.cliOutput}><p><i className={styles.loadingMark}>◌</i> Loading request and environment…</p><p><i className={styles.loadingMark}>◌</i> Sending {request.method} {request.path}</p></div>}
-          {runState === 'done' && <div className={styles.cliOutput}><p><i>✓</i> {request.method} {request.path} <b>200 OK</b></p><p><i>✓</i> 3 assertions passed <small>148 ms</small></p></div>}
+          {runState === 'done' && <div className={styles.cliOutput}><p><i>✓</i> {request.method} {request.path} <b>{request.status}</b></p><p><i>✓</i> 3 assertions passed <small>{request.duration}</small></p></div>}
           <button className={styles.runAction} type="button" onClick={() => { onInteract(); setRunState('running'); }} disabled={runState === 'running'}>
             {runState === 'running' ? 'Running…' : runState === 'done' ? 'Run again' : 'Run request'} <kbd>↵</kbd>
           </button>
@@ -84,7 +85,7 @@ function TerminalDemo({onInteract}: {onInteract: () => void}) {
           <aside className={styles.tuiSidebar}>
             <strong>COLLECTIONS</strong>
             {requests.map((item, index) => (
-              <button key={item.file} type="button" className={index === selectedRequest ? styles.tuiSelected : ''} onClick={() => { onInteract(); setSelectedRequest(index); setRunState('ready'); }}>
+              <button key={item.file} type="button" className={index === selectedRequest ? styles.tuiSelected : ''} onClick={() => { onInteract(); setSelectedRequest(index); setRunState('ready'); setTuiTab('request'); }}>
                 <span>{item.method}</span> {item.file}
               </button>
             ))}
@@ -92,15 +93,24 @@ function TerminalDemo({onInteract}: {onInteract: () => void}) {
             <div className={styles.tuiEnvironment}>staging <i>v</i></div>
           </aside>
           <section className={styles.tuiMain}>
-            <div className={styles.tuiTabs}><b>Request</b><span>Response</span></div>
-            <div className={styles.tuiRequest}><span>{request.method}</span><code>{request.path}</code></div>
-            <button className={styles.runAction} type="button" onClick={() => { onInteract(); setRunState('running'); }} disabled={runState === 'running'}>
-              {runState === 'running' ? 'Running…' : 'r  Run request'}
-            </button>
-            <div className={styles.tuiResponseHeader}><b>Response</b><span>{runState === 'done' ? '200 OK' : runState === 'running' ? 'Waiting…' : '—'}</span><small>{runState === 'done' ? '148 ms' : ''}</small></div>
-            {runState === 'done' ? (
-              <div className={styles.tuiJson}><span>{'{'}</span><p><i>"id"</i>: 42,</p><p><i>"name"</i>: "Alex Morgan",</p><p><i>"active"</i>: true</p><span>{'}'}</span></div>
-            ) : <p className={styles.tuiEmptyResponse}>{runState === 'running' ? 'Waiting for response…' : 'Select a request, then run it.'}</p>}
+            <div className={styles.tuiTabs} role="tablist" aria-label="Request details">
+              <button type="button" role="tab" aria-selected={tuiTab === 'request'} onClick={() => setTuiTab('request')}>Request</button>
+              <button type="button" role="tab" aria-selected={tuiTab === 'response'} disabled={runState !== 'done'} onClick={() => setTuiTab('response')}>Response</button>
+            </div>
+            {tuiTab === 'request' ? (
+              <div className={styles.tuiTabPanel} role="tabpanel">
+                <div className={styles.tuiRequest}><span>{request.method}</span><code>{request.path}</code></div>
+                <button className={styles.runAction} type="button" onClick={() => { onInteract(); setRunState('running'); }} disabled={runState === 'running'}>
+                  {runState === 'running' ? 'Running…' : runState === 'done' ? 'Run again' : 'r  Run request'}
+                </button>
+                <p className={styles.tuiEmptyResponse}>{runState === 'running' ? 'Sending request…' : runState === 'done' ? 'Request complete. Open Response to inspect the result.' : 'Run this request to see its response.'}</p>
+              </div>
+            ) : (
+              <div className={styles.tuiTabPanel} role="tabpanel">
+                <div className={styles.tuiResponseHeader}><b>{request.method} {request.path}</b><span>{request.status}</span><small>{request.duration}</small></div>
+                <div className={styles.tuiJson}><span>{'{'}</span>{request.body.map((field, index) => <p key={field.key}><i>"{field.key}"</i>: {field.value}{index < request.body.length - 1 ? ',' : ''}</p>)}<span>{'}'}</span></div>
+              </div>
+            )}
           </section>
         </div>
       )}
@@ -139,7 +149,6 @@ function PreviewArt({id, onInteract}: {id: string; onInteract: () => void}) {
           <p>✓&nbsp; 14 assertions passed · 0.84s</p>
           <p className={styles.ciFinalLog}>✓&nbsp; Workflow completed successfully</p>
         </div>
-        <div className={styles.ciProgress}><span /></div>
       </div>
     );
   }

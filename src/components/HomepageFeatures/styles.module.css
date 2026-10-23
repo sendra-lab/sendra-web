@@ -284,14 +284,18 @@
 .tuiSidebar > .tuiEnvironment { padding: 0.38rem 0.35rem; }
 .tuiSidebar > .tuiEnvironment i { color: #83da90; font-style: normal; }
 .tuiMain { min-width: 0; padding: 0.75rem 0.9rem; }
-.tuiTabs { display: flex; gap: 1rem; padding: 0.1rem 0.1rem 0.65rem; border-bottom: 1px solid #303630; color: #828c82; font-size: 0.58rem; }
-.tuiTabs b { color: #dfe5df; font-weight: 500; }
+.tuiTabs { display: flex; gap: 1rem; border-bottom: 1px solid #303630; color: #828c82; font-size: 0.58rem; }
+.tuiTabs button { padding: 0.1rem 0 0.55rem; border: 0; border-bottom: 1px solid transparent; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.tuiTabs button[aria-selected='true'] { border-bottom-color: #82d58f; color: #dfe5df; }
+.tuiTabs button:disabled { color: #626b62; cursor: not-allowed; }
+.tuiTabs button:focus-visible { outline: 2px solid #7fd792; outline-offset: 2px; }
+.tuiTabPanel { min-height: 9.5rem; padding-top: 0.65rem; }
 .tuiRequest { display: flex; align-items: center; gap: 0.55rem; min-width: 0; margin: 0.7rem 0 0.95rem; padding: 0.35rem 0; border-bottom: 1px dashed #343a34; }
 .tuiRequest > span { color: #8bd997; font-size: 0.55rem; }
 .tuiRequest code { min-width: 0; overflow: hidden; background: transparent; color: #d6ded6; font-size: 0.58rem; text-overflow: ellipsis; white-space: nowrap; }
 .tuiMain > .runAction { margin: 0 0 0.8rem; }
 .tuiResponseHeader { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.45rem; font-size: 0.56rem; }
-.tuiResponseHeader b { color: #dce3dc; font-weight: 500; }
+.tuiResponseHeader b { min-width: 0; overflow: hidden; color: #dce3dc; font-size: 0.52rem; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
 .tuiResponseHeader span { color: #80d18e; }
 .tuiResponseHeader small { margin-left: auto; color: #899389; font-size: 0.52rem; }
 .tuiJson { padding: 0.2rem 0; color: #aab4aa; font-size: 0.57rem; line-height: 1.65; }
@@ -344,8 +348,6 @@
 .ciLogs p:first-child { color: #7fd792; }
 .ciLogs b { color: #7fd792; font-weight: 500; }
 .ciFinalLog { color: #7fd792; }
-.ciProgress { height: 2px; overflow: hidden; background: #293029; }
-.ciProgress span { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: #67ca78; animation: ciProgress 7.2s ease-in-out infinite; }
 
 @keyframes requestLine {
   0%, 2% { clip-path: inset(0 100% 0 0); }
@@ -391,11 +393,6 @@
   10%, 78% { opacity: 1; transform: translateY(0); }
   88%, 100% { opacity: 0; transform: translateY(-0.1rem); }
 }
-@keyframes ciProgress {
-  0%, 8% { transform: scaleX(0); }
-  78%, 88% { transform: scaleX(1); }
-  100% { transform: scaleX(0); }
-}
 
 @media screen and (max-width: 900px) {
   .features { padding: 5rem 0 2.5rem; }
@@ -436,7 +433,6 @@
   .ciRunHeader > i,
   .ciSteps > div,
   .ciLogs p,
-  .ciProgress span,
   .nodeCheck {
     animation: none;
     clip-path: none;

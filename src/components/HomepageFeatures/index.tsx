@@ -1,77 +1,124 @@
 import type {ReactNode} from 'react';
+import {useEffect, useState} from 'react';
 import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
 
-type Feature = {
-  title: string;
-  description: string;
-  icon: ReactNode;
-};
-
-const FEATURES: Feature[] = [
+const FEATURES = [
   {
-    title: 'YAML request files',
-    description: 'Readable, version controlled requests that fit naturally into your repo.',
-    icon: <><path d="M6 3.75h7l5 5v11.5H6z" /><path d="M13 3.75v5h5M9 13h6M9 16.5h6" /></>,
+    id: 'yaml',
+    title: 'Requests as YAML',
+    description: 'Readable request files that live, diff, and review alongside your code.',
+    preview: 'get-request.yaml',
   },
   {
+    id: 'collections',
     title: 'Collections & environments',
-    description: 'Organize related requests and switch targets without changing the request.',
-    icon: <><rect x="4" y="4" width="7" height="7" rx="1.3" /><rect x="13" y="4" width="7" height="7" rx="1.3" /><rect x="4" y="13" width="7" height="7" rx="1.3" /><rect x="13" y="13" width="7" height="7" rx="1.3" /></>,
+    description: 'Group related requests and switch between targets with environment files.',
+    preview: 'collections/',
   },
   {
-    title: 'CLI & interactive TUI',
-    description: 'Run a single request from the shell or work interactively in the terminal.',
-    icon: <><rect x="3.75" y="5" width="16.5" height="14" rx="2" /><path d="m7.5 10 2.5 2.25-2.5 2.25M12.5 14.5h3" /></>,
+    id: 'terminal',
+    title: 'CLI and interactive TUI',
+    description: 'Run a quick command or browse and edit requests in the terminal UI.',
+    preview: 'sendra tui',
   },
   {
+    id: 'checks',
     title: 'Assertions & scripting',
-    description: 'Check responses and handle request logic with built in scripting.',
-    icon: <><path d="m5 12 4.2 4.2L19 6.5" /><path d="M20 12a8 8 0 1 1-2.35-5.65" /></>,
+    description: 'Validate responses and handle custom request logic in one workflow.',
+    preview: 'assertions:',
   },
   {
-    title: 'OAuth authentication',
-    description: 'Use OAuth flows directly in requests and in interactive sessions.',
-    icon: <><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v2" /></>,
+    id: 'oauth',
+    title: 'OAuth built in',
+    description: 'Authorize requests with OAuth flows without extra client setup.',
+    preview: 'auth: oauth',
   },
   {
-    title: 'CI ready',
-    description: 'Run the same request checks in local development and automated builds.',
-    icon: <><path d="M4 12h3l2-6 4 12 2-6h5" /><path d="M3.5 4.5h17v15h-17z" /></>,
+    id: 'ci',
+    title: 'Ready for CI',
+    description: 'Use the same request checks from your laptop and automated builds.',
+    preview: 'sendra test',
   },
 ];
 
-function FeatureCard({title, description, icon}: Feature) {
-  return (
-    <div className={styles.card}>
-      <div className={styles.cardIcon} aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
-      </div>
-      <div>
-        <Heading as="h3" className={styles.cardTitle}>{title}</Heading>
-        <p className={styles.cardDescription}>{description}</p>
-      </div>
-    </div>
-  );
+function PreviewArt({id}: {id: string}) {
+  if (id === 'collections') {
+    return <div className={styles.collectionArt}><div><i /> Requests <small>12</small></div><div className={styles.selectedRow}>GET&nbsp; /users</div><div>POST&nbsp; /sessions</div><div><i /> Environments</div><div className={styles.envPill}>production</div></div>;
+  }
+  if (id === 'terminal') {
+    return <div className={styles.terminalArt}><div><b>$</b> sendra run requests/users.yaml</div><p>GET&nbsp; https://api.example.com/users</p><strong>200 OK <span>· 148 ms</span></strong><p>Response received successfully</p></div>;
+  }
+  if (id === 'checks') {
+    return <div className={styles.checkArt}><div><span>✓</span> status equals 200 <b>PASS</b></div><div><span>✓</span> body.id is present <b>PASS</b></div><div className={styles.mutedCheck}><span>✓</span> duration under 500 ms <b>PASS</b></div><div className={styles.runSummary}>3 checks passed</div></div>;
+  }
+  if (id === 'oauth') {
+    return <div className={styles.oauthArt}><div>Authorization <span>● Connected</span></div><section><label>Grant type</label><b>Client credentials</b></section><section><label>Token URL</label><b>https://auth.example.com/token</b></section><div className={styles.tokenBar}>Bearer token&nbsp; · &nbsp;••••••••••••</div></div>;
+  }
+  if (id === 'ci') {
+    return <div className={styles.ciArt}><div><span className={styles.ciNode}>1</span><section><b>Checkout repository</b><small>actions/checkout@v4</small></section><span className={styles.nodeCheck}>✓</span></div><div><span className={styles.ciNode}>2</span><section><b>Run API checks</b><small>sendra test</small></section><span className={styles.nodeCheck}>✓</span></div><div className={styles.ciComplete}>✓&nbsp; All checks passed</div></div>;
+  }
+  return <div className={styles.yamlArt}><div><span>1</span><code><em>method:</em> GET</code></div><div><span>2</span><code><em>url:</em> https://api.example.com/users</code></div><div><span>3</span><code><em>assertions:</em></code></div><div><span>4</span><code>&nbsp;&nbsp;<em>status:</em> 200</code></div><div><span>5</span><code>&nbsp;&nbsp;<em>body.id:</em> exists</code></div></div>;
 }
 
 export default function HomepageFeatures(): ReactNode {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
+    }
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % FEATURES.length);
+    }, 5200);
+    return () => window.clearInterval(interval);
+  }, [activeIndex]);
+
+  const active = FEATURES[activeIndex];
+
   return (
     <section className={styles.features}>
       <div className="container">
         <div className={styles.sectionHeading}>
-          <Heading as="h2" className={styles.sectionTitle}>
-            Product features
-          </Heading>
-          <p className={styles.sectionIntro}>
-            A focused toolkit for API development and testing.
-          </p>
+          <span className={styles.kicker}>Inside Sendra</span>
+          <Heading as="h2" className={styles.sectionTitle}>A workspace for the whole request</Heading>
+          <p className={styles.sectionIntro}>Move between the parts of your API workflow. The same files stay at the center.</p>
         </div>
-        <div className={styles.grid}>
-          {FEATURES.map((feature) => (
-            <FeatureCard key={feature.title} {...feature} />
-          ))}
+        <div className={styles.showcase}>
+          <div className={styles.featureList} role="tablist" aria-label="Sendra features">
+            {FEATURES.map((feature, index) => (
+              <button
+                key={feature.id}
+                id={`feature-tab-${feature.id}`}
+                type="button"
+                role="tab"
+                aria-selected={active.id === feature.id}
+                aria-controls="feature-preview"
+                className={`${styles.featureTab} ${active.id === feature.id ? styles.featureTabActive : ''}`}
+                onClick={() => setActiveIndex(index)}>
+                <span className={styles.featureTabTitle}>{feature.title}</span>
+                <span className={styles.featureTabDescription}>{feature.description}</span>
+              </button>
+            ))}
+          </div>
+          <div id="feature-preview" role="tabpanel" aria-labelledby={`feature-tab-${active.id}`} className={styles.previewPanel}>
+            <div className={styles.previewWindow}>
+              <div className={styles.previewToolbar}>
+                <div className={styles.windowDots}><i /><i /><i /></div>
+                <span>{active.preview}</span>
+                <span className={styles.previewStatus}><i /> Ready</span>
+              </div>
+              <div className={styles.previewCanvas} key={active.id}>
+                <PreviewArt id={active.id} />
+              </div>
+            </div>
+            <div className={styles.previewCaption}>
+              <span>0{activeIndex + 1} <i>/</i> 0{FEATURES.length}</span>
+              <div className={styles.progressTrack}><span key={active.id} /></div>
+              <span>FEATURE PREVIEW</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

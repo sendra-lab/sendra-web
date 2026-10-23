@@ -118,9 +118,13 @@ function WhySendra() {
   return (
     <section className={styles.whySection}>
       <div className="container">
-        <Heading as="h2" className={styles.sectionTitle}>
-          A simple path from request to regression check
-        </Heading>
+        <div className={styles.workflowHeading}>
+          <span className={styles.workflowKicker}>The workflow</span>
+          <Heading as="h2" className={styles.sectionTitle}>
+            Write it once. Run it wherever you work.
+          </Heading>
+          <p>Keep one source of truth for local development, interactive testing, and CI.</p>
+        </div>
         <div className={styles.workflowGrid}>
           {WORKFLOW.map((step) => (
             <div key={step.number} className={styles.workflowStep}>

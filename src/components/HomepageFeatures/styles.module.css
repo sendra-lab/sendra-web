@@ -51,7 +51,6 @@
   flex-direction: column;
   gap: 0.3rem;
   overflow-y: auto;
-  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--ifm-color-emphasis-300) transparent;
 }

@@ -431,14 +431,32 @@
 }
 
 @media screen and (max-width: 700px) {
+  .workflowConnector {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1.1rem;
+  }
+  .workflowConnector::before { display: none; }
+  .workflowConnector i {
+    width: 1px;
+    height: 1.1rem;
+  }
+  .workflowConnector i::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: -0.2rem;
+    border-top: 0;
+    border-bottom: 1px solid #82d58f;
+    transform: rotate(45deg);
+  }
   .heroBanner {
     min-height: calc(100svh - var(--ifm-navbar-height, 60px));
     padding: clamp(5rem, 10svh, 7rem) 0 3rem;
   }
   .heroGrid { gap: 2rem; }
   .heroCopy { align-items: flex-start; text-align: left; }
-  .heroButtons { width: auto; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0.6rem; }
-  .heroButtons :global(.button--lg) { min-width: 10rem; text-align: center; }
+  .heroButtons { width: 100%; flex-direction: row; align-items: stretch; justify-content: flex-start; gap: 0.6rem; }
+  .heroButtons :global(.button--lg) { min-width: 0; flex: 1 1 0; text-align: center; white-space: nowrap; }
   .heroVisual { justify-content: flex-start; }
   .whySection { padding: 4rem 0; }
   .exampleSection { padding: 3.5rem 0; }
@@ -460,7 +478,7 @@
     letter-spacing: -0.055em;
   }
   .heroSubtitle { margin: 1rem 0 1.35rem; font-size: 0.98rem; line-height: 1.6; }
-  .heroButtons :global(.button--lg) { padding: 0.7rem 0.85rem; font-size: 0.86rem; }
+  .heroButtons :global(.button--lg) { padding: 0.7rem 0.45rem; font-size: 0.8rem; }
   .heroVisual { width: 100%; min-width: 0; }
   .terminal { min-width: 0; border-radius: 0.5rem; }
   .terminalBar { padding: 0.65rem 0.8rem; }

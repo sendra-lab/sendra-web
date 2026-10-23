@@ -13,6 +13,8 @@
 
 /* You can override the default Infima variables here. */
 :root {
+  --ifm-navbar-height: 4.25rem;
+
   /* Brand green (from the logo mark), darkened to clear ~4.6:1 contrast on white. */
   --ifm-color-primary: #1d872e;
   --ifm-color-primary-dark: #187227;
@@ -102,57 +104,349 @@
     center / contain no-repeat;
 }
 
+/* A compact, aligned navigation bar for the product and docs. */
+.navbar {
+  height: 4.25rem;
+  padding: 0;
+  box-shadow: none;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+@media screen and (max-width: 700px) {
+  [role='region'][aria-label='Skip to main content'] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: visible;
+  }
+}
+
+.navbar__inner {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.navbar__brand {
+  gap: 0.65rem;
+  margin-right: 2.25rem;
+}
+
+.navbar__logo {
+  height: 1.8rem;
+  width: 1.8rem;
+}
+
+.navbar__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.navbar__items { gap: 0.35rem; }
+
+.navbar__link {
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.navbar__link:hover {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+}
+
+.navbar__link--active {
+  color: var(--ifm-color-primary);
+  font-weight: 650;
+}
+
+.navbar-github-link {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.4rem;
+  font-size: 0;
+}
+
+.navbar-github-link::before {
+  display: inline-block;
+  width: 1.35rem;
+  height: 1.35rem;
+  background-color: var(--ifm-navbar-link-color);
+}
+.navbar-github-link:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.navbar__items--right { gap: 0.5rem; }
+.navbar__items--right .clean-btn { border-radius: 0.4rem; }
+
+/* Documentation: quiet navigation and a focused reading column. */
+.plugin-docs .main-wrapper { background: var(--ifm-background-color); }
+
+.plugin-docs main[class*='docMainContainer'] > .container { max-width: 1440px; }
+
+.plugin-docs .theme-doc-sidebar-container {
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-color);
+}
+
+.plugin-docs .menu {
+  padding: 1.25rem 0.85rem 2rem;
+  font-size: 0.86rem;
+}
+
+.plugin-docs .menu__link {
+  border-radius: 0.35rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.45;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+
+.plugin-docs .menu__link:hover {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+}
+
+.plugin-docs .menu__link--active {
+  background: color-mix(in srgb, var(--ifm-color-primary) 9%, transparent);
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+.plugin-docs .menu__list-item-collapsible:hover { background: transparent; }
+.plugin-docs .menu__caret:before {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.25rem 1.25rem no-repeat;
+  filter: var(--ifm-menu-link-sublist-icon-filter);
+}
+
+.plugin-docs .docItemCol article {
+  max-width: 82ch;
+  margin: 0 auto;
+}
+
+.plugin-docs .theme-doc-breadcrumbs { margin-bottom: 1.75rem; }
+.plugin-docs .breadcrumbs__link { color: var(--ifm-color-emphasis-600); font-size: 0.78rem; }
+.plugin-docs .markdown { font-size: 1rem; line-height: 1.8; }
+
+.plugin-docs .markdown h1 {
+  margin-bottom: 1.35rem;
+  font-size: clamp(2.2rem, 4vw, 3.1rem);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.plugin-docs .markdown h2 {
+  margin-top: 2.6em;
+  padding-bottom: 0;
+  border-bottom: 0;
+  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+
+.plugin-docs .markdown h3 {
+  margin-top: 2em;
+  font-size: 1.2rem;
+  font-weight: 620;
+  letter-spacing: -0.025em;
+}
+
+.plugin-docs .markdown p,
+.plugin-docs .markdown li { color: var(--ifm-color-emphasis-800); }
+
+.plugin-docs .markdown pre {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.6rem;
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+.plugin-docs .table-of-contents { border-left-color: var(--ifm-color-emphasis-300); font-size: 0.8rem; }
+.plugin-docs .table-of-contents__link { color: var(--ifm-color-emphasis-600); line-height: 1.5; }
+.plugin-docs .table-of-contents__link:hover,
+.plugin-docs .table-of-contents__link--active { color: var(--ifm-color-primary); }
+
+@media screen and (min-width: 997px) {
+  .plugin-docs main > .container {
+    padding-left: clamp(2rem, 3.5vw, 3rem);
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .plugin-docs .theme-doc-sidebar-container { border-right: 0; }
+  .plugin-docs .docItemCol article { max-width: 76ch; }
+  .plugin-docs .theme-doc-toc-mobile { display: none !important; }
+}
+
+@media screen and (max-width: 700px) {
+  .plugin-docs .markdown { font-size: 0.96rem; line-height: 1.75; }
+  .plugin-docs .markdown h1 { font-size: clamp(2rem, 9vw, 2.65rem); }
+  .plugin-docs .markdown pre { font-size: 0.78rem; }
+}
+
+/* Blog index: give the editorial list more room and keep the tag rail quiet. */
+.blog-list-page .main-wrapper {
+  padding: 0 0 clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.blog-list-page .main-wrapper > .container {
+  max-width: 1180px;
+}
+
+.blog-list-page .main-wrapper .row {
+  align-items: flex-start;
+  column-gap: 2.5rem;
+}
+
+.blog-list-page .main-wrapper aside {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.5rem);
+  margin-left: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.75rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.blog-list-page .main-wrapper aside h2,
+.blog-list-page .main-wrapper aside h3 {
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blog-list-page .main-wrapper aside ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blog-list-page .main-wrapper aside li + li {
+  margin-top: 0.55rem;
+}
+
+.blog-list-page .main-wrapper aside a {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.blog-list-page .main-wrapper aside a:hover {
+  color: var(--ifm-color-primary);
+}
+
+.blog-list-page .main-wrapper article.margin-bottom--xl {
+  margin-bottom: 1rem !important;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.8rem;
+  background: var(--ifm-background-color);
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.blog-list-page .main-wrapper article.margin-bottom--xl:hover {
+  transform: translateY(-2px);
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+.blog-list-page .main-wrapper article h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+}
+
+.blog-list-page .main-wrapper article h2 a {
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+}
+
+.blog-list-page .main-wrapper article h2 a:hover {
+  color: var(--ifm-color-primary);
+}
+
+.blog-list-page .main-wrapper article header {
+  margin-bottom: 1rem;
+}
+
+.blog-list-page .main-wrapper article p {
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.75;
+}
+
+.blog-list-page .main-wrapper article a[rel='tag'] {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 550;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 996px) {
+  .blog-list-page .main-wrapper .row {
+    row-gap: 1.5rem;
+  }
+
+  .blog-list-page .main-wrapper aside {
+    flex: 0 0 calc(100% - 0.75rem);
+    max-width: calc(100% - 0.75rem);
+  }
+
+  .blog-list-page .main-wrapper main {
+    order: 1;
+  }
+
+  .blog-list-page .main-wrapper aside {
+    position: static;
+    order: 2;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .blog-list-page .main-wrapper aside {
+    flex-basis: 100%;
+    max-width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .blog-list-page .main-wrapper {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .blog-list-page .main-wrapper > .container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .blog-list-page .main-wrapper article.margin-bottom--xl:hover {
+    transform: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .navbar__inner { padding: 0 1.25rem; }
+  .navbar__brand { margin-right: 0; }
+}
+
 /* Footer: a brand-green accent bar on top, bolder section titles, and a
    green-on-hover pop for links — a plain two-column list otherwise reads as
    an afterthought under a dark-mode-only palette. */
-.footer {
-  position: relative;
-  padding-top: 3.5rem;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--ifm-color-primary) 0%,
-    var(--ifm-color-primary-lighter) 50%,
-    transparent 100%
-  );
-}
-
-.footer__title {
-  font-family: var(--ifm-font-family-monospace);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  color: var(--ifm-color-primary-lighter);
-}
-
-.footer__link-item {
-  transition: color 0.15s ease, padding-left 0.15s ease;
-}
-
-.footer__link-item:hover {
-  color: var(--ifm-color-primary-lightest);
-  padding-left: 0.15rem;
-}
-
-.footer__logo {
-  border-radius: 0.4rem;
-}
-
-.footer__bottom {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 /* Local search (@easyops-cn/docusaurus-search-local, docs + blog only — see
    the "Homepage search box" rule below for why it's hidden on "/"). Infima's
    default search input is a full pill (border-radius: 2rem) with a thick
@@ -172,13 +466,162 @@
 }
 
 .navbar__search-input {
+  width: 13rem;
+  height: 2.35rem;
+  padding: 0.4rem 0.75rem 0.4rem 2.25rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 0.5rem;
-  transition: box-shadow var(--ifm-transition-fast);
+  background: var(--ifm-background-surface-color);
+  box-shadow: none;
+  color: var(--ifm-font-color-base);
+  font-size: 0.82rem;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
 .navbar__search-input:focus {
-  outline-width: 1px;
-  outline-offset: 2px;
+  border-color: var(--ifm-color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ifm-color-primary) 16%, transparent);
+}
+
+.navbar__search-input::placeholder { color: var(--ifm-color-emphasis-600); }
+
+@media screen and (max-width: 996px) {
+  .navbar__search-input { width: min(13rem, 36vw); }
+}
+
+/* Individual blog posts: a focused reading column with clear editorial hierarchy. */
+.blog-post-page .main-wrapper {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+}
+
+.blog-post-page .main-wrapper > .container { max-width: 1180px; }
+
+.blog-post-page .main-wrapper .row {
+  align-items: flex-start;
+  row-gap: 2rem;
+}
+
+.blog-post-page .main-wrapper main {
+  min-width: 0;
+  padding-right: clamp(1rem, 2.5vw, 2.5rem);
+  padding-left: clamp(1rem, 2.5vw, 2.5rem);
+}
+
+.blog-post-page .main-wrapper .row > .col--2 {
+  padding-left: clamp(1.5rem, 3.5vw, 3rem);
+}
+
+.blog-post-page article > header {
+  margin-bottom: clamp(2rem, 4vw, 3.25rem);
+}
+
+.blog-post-page article > header h1 {
+  max-width: 17ch;
+  margin: 0 0 1rem;
+  font-size: clamp(2.25rem, 4.8vw, 3.7rem);
+  font-weight: 650;
+  letter-spacing: -0.06em;
+  line-height: 1.05;
+}
+
+.blog-post-page article > header time,
+.blog-post-page article > header > .container {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.82rem;
+}
+
+.blog-post-page article .avatar__name a {
+  color: var(--ifm-font-color-base);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.blog-post-page article .avatar__photo {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+.blog-post-page article .avatar__intro small { color: var(--ifm-color-emphasis-600); }
+
+.blog-post-page article #__blog-post-container {
+  max-width: 72ch;
+  font-size: 1.02rem;
+  line-height: 1.85;
+}
+
+.blog-post-page article #__blog-post-container > :first-child { margin-top: 0; }
+
+.blog-post-page article #__blog-post-container h2 {
+  margin-top: 2.7em;
+  margin-bottom: 0.7em;
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+}
+
+.blog-post-page article #__blog-post-container h3 {
+  margin-top: 2em;
+  font-size: 1.22rem;
+  font-weight: 620;
+  letter-spacing: -0.025em;
+}
+
+.blog-post-page article #__blog-post-container p,
+.blog-post-page article #__blog-post-container li { color: var(--ifm-color-emphasis-800); }
+
+.blog-post-page article #__blog-post-container pre {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.65rem;
+  font-size: 0.83rem;
+  line-height: 1.7;
+}
+
+.blog-post-page .main-wrapper aside {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.5rem);
+  padding: 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.75rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.blog-post-page .main-wrapper aside h2,
+.blog-post-page .main-wrapper aside h3 {
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blog-post-page .main-wrapper aside ul { margin: 0; padding: 0; list-style: none; }
+.blog-post-page .main-wrapper aside li + li { margin-top: 0.2rem; }
+.blog-post-page .main-wrapper aside a { color: var(--ifm-color-emphasis-700); font-size: 0.9rem; text-decoration: none; }
+.blog-post-page .main-wrapper aside a:hover { color: var(--ifm-color-primary); }
+
+@media screen and (max-width: 996px) {
+  .blog-post-page .main-wrapper main { order: 1; }
+  .blog-post-page .main-wrapper .row > .col--2 { order: 2; padding-left: 15px; }
+  .blog-post-page .main-wrapper aside {
+    position: static;
+    order: 3;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .navbar__search-input { width: 9rem; }
+  .blog-post-page .main-wrapper { padding: 1.5rem 0 3rem; }
+  .blog-post-page .main-wrapper > .container { padding-right: 1rem; padding-left: 1rem; }
+  .blog-post-page article > header h1 { font-size: clamp(2rem, 9vw, 2.8rem); }
+  .blog-post-page article #__blog-post-container { font-size: 0.98rem; line-height: 1.8; }
+  .blog-post-page article #__blog-post-container pre { max-width: 100%; overflow-x: auto; }
+}
+
+@media screen and (max-width: 400px) {
+  .navbar__search-input { width: 7.5rem; }
 }
 
 /* Homepage search box: the plugin injects a search box into every page's

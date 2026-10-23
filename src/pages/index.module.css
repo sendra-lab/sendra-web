@@ -1,32 +1,14 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- *
- * The hero is deliberately dark in both light and dark site themes: the
- * logo mark is brand green on transparent, so it needs a dark ground to pop
- * against (the same near-black used for [data-theme='dark'] elsewhere in
- * src/css/custom.css). Infima's stock `hero--primary` (solid brand-green
- * fill) would put a green mark on a green background, near-zero contrast,
- * so this hero intentionally does not use that class.
- */
-
 .heroBanner {
-  padding: 5rem 0;
-  background: radial-gradient(
-      ellipse 60% 80% at 15% 20%,
-      rgba(77, 203, 98, 0.16),
-      transparent 60%
-    ),
-    #101210;
-  color: #f4f6f4;
-  position: relative;
-  overflow: hidden;
+  min-height: calc(100svh - var(--ifm-navbar-height, 60px));
+  padding: clamp(7rem, 15vh, 10rem) 0 5rem;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
 }
 
 .heroGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: 4rem;
   align-items: center;
 }
 
@@ -37,56 +19,54 @@
   text-align: left;
 }
 
-.heroLogo {
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-bottom: 1.5rem;
-}
-
 .heroTitle {
-  color: #f4f6f4;
-  font-size: 3rem;
-  line-height: 1.1;
+  max-width: 40rem;
+  margin: 0;
+  font-size: clamp(2.4rem, 4.2vw, 3.65rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
 }
 
 .heroSubtitle {
-  color: #b9c2b9;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  margin: 1.25rem 0 2rem;
-  max-width: 32rem;
+  max-width: 34rem;
+  margin: 1.25rem 0 1.75rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 1.08rem;
+  line-height: 1.7;
 }
 
 .heroButtons {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .heroButtons :global(.button--lg):not(.secondaryButton) {
   background: var(--ifm-color-primary);
   border-color: var(--ifm-color-primary);
-  color: #0a0b0a;
+  color: #fff;
   font-weight: 600;
 }
 
+[data-theme='dark'] .heroButtons :global(.button--lg):not(.secondaryButton) {
+  color: #101210;
+}
+
 .heroButtons :global(.button--lg):not(.secondaryButton):hover {
-  background: var(--ifm-color-primary-light);
-  border-color: var(--ifm-color-primary-light);
+  background: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
 }
 
 .secondaryButton {
-  color: #f4f6f4;
-  border-color: rgba(244, 246, 244, 0.35);
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-color-emphasis-400);
 }
 
 .secondaryButton:hover {
-  color: #f4f6f4;
-  border-color: #f4f6f4;
-  background: rgba(244, 246, 244, 0.08);
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-color-emphasis-600);
+  background: var(--ifm-color-emphasis-100);
 }
-
-/* --- Terminal preview --- */
 
 .heroVisual {
   display: flex;
@@ -95,12 +75,11 @@
 
 .terminal {
   width: 100%;
-  max-width: 30rem;
-  border-radius: 0.75rem;
-  background: #0a0b0a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(77, 203, 98, 0.06);
+  max-width: 35rem;
+  border-radius: 0.55rem;
+  background: #111311;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow: 0 12px 32px rgba(16, 18, 16, 0.12);
   overflow: hidden;
 }
 
@@ -108,207 +87,423 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.65rem 0.9rem;
-  background: #141614;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.7rem 1rem;
+  background: #191c19;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .terminalDot {
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 50%;
+  background: #606660;
 }
 
-.terminalDot[data-color='red'] {
-  background: #ec6a5f;
-}
-
-.terminalDot[data-color='yellow'] {
-  background: #f4bf4f;
-}
-
-.terminalDot[data-color='green'] {
-  background: #61c554;
-}
+.terminalDot[data-color='red'] { background: #ec6a5f; }
+.terminalDot[data-color='yellow'] { background: #f4bf4f; }
+.terminalDot[data-color='green'] { background: #61c554; }
 
 .terminalPath {
   margin-left: 0.5rem;
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.75rem;
-  color: #6b756b;
+  color: #a0a8a0;
 }
 
 .terminalBody {
-  /* Infima styles bare <pre> with its own (light, in light mode)
-     --ifm-pre-background by default; override explicitly so this stays a
-     dark terminal window regardless of site color mode. */
   margin: 0;
-  padding: 1.25rem 1.4rem;
-  background: #0a0b0a;
+  padding: 1.4rem 1.5rem;
+  background: #111311;
   font-family: var(--ifm-font-family-monospace);
-  font-size: 0.82rem;
-  line-height: 1.7;
-  color: #d7dcd7;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: #e0e5e0;
   overflow-x: auto;
   white-space: pre;
 }
 
-.terminalBody code {
-  background: transparent;
-  color: inherit;
+.terminalBody code { background: transparent; color: inherit; }
+.tKey { color: #7fd792; }
+.tPrompt, .tPass { color: #4dcb62; font-weight: 600; }
+.tWrap { white-space: pre-wrap; word-break: break-word; }
+
+.workflowHeading { max-width: 50rem; margin: 0 0 2.5rem; }
+.workflowEyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
 }
 
-.tKey {
-  color: #7fd792;
+.workflowHeading p {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.7;
 }
-
-.tPrompt {
-  color: #4dcb62;
-  font-weight: 700;
-}
-
-.tPass {
-  color: #4dcb62;
-}
-
-.tWrap {
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 3rem 1.25rem;
-  }
-
-  .heroGrid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .heroCopy {
-    align-items: center;
-    text-align: center;
-  }
-
-  .heroSubtitle {
-    max-width: none;
-  }
-
-  .heroButtons {
-    justify-content: center;
-  }
-
-  .heroTitle {
-    font-size: 2.1rem;
-  }
-
-  .terminal {
-    max-width: none;
-  }
-}
-
-/* --- Why Sendra --- */
 
 .sectionTitle {
-  margin-bottom: 2rem;
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
 }
 
 .whySection {
-  padding: 4.5rem 0;
+  padding: 6rem 0 6.5rem;
+  background: var(--ifm-color-emphasis-100);
 }
 
-.pillarGrid {
+.workflowDiagram {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 2rem;
+  grid-template-columns: minmax(17rem, 0.9fr) 7.5rem minmax(0, 1.4fr);
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 25rem;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  border: 1px solid #2b302b;
+  border-radius: 0.75rem;
+  background: #101210;
+  color: #edf1ed;
+  box-shadow: 0 24px 60px rgba(16, 18, 16, 0.12);
 }
 
-.pillar {
-  border-top: 3px solid var(--ifm-color-primary);
-  padding-top: 1rem;
+.workflowSource {
+  overflow: hidden;
+  border: 1px solid #343a34;
+  border-radius: 0.55rem;
+  background: #171a17;
 }
 
-.pillarTitle {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+.sourceHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: 0.85rem 0.9rem;
+  border-bottom: 1px solid #303630;
 }
 
-.pillarBody {
+.sourceHeader > div { display: grid; gap: 0.16rem; min-width: 0; }
+.sourceHeader > div span {
+  color: #889188;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+}
+.sourceHeader strong {
+  overflow: hidden;
+  color: #e5eae5;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.69rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.yamlBadge {
+  margin-left: auto;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid #394139;
+  border-radius: 0.25rem;
+  color: #9bd8a5;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.57rem;
+}
+.workflowSource pre {
   margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: var(--ifm-color-emphasis-700);
+  padding: 1.45rem 1.1rem;
+  background: transparent;
+  color: #e2e8e2;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.82rem;
+  line-height: 2;
+}
+.workflowSource pre code { background: transparent; color: inherit; }
+.workflowSource pre em { color: #7fd792; font-style: normal; }
+
+.workflowIcon {
+  flex: 0 0 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #82d58f;
 }
 
-/* --- Get started --- */
+.workflowConnector {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  color: #859085;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.workflowConnector i {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #526552;
+}
+.workflowConnector i::after {
+  position: absolute;
+  top: -0.22rem;
+  right: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-top: 1px solid #82d58f;
+  border-right: 1px solid #82d58f;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.workflowTargets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.workflowTarget {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.25rem 0.9rem;
+  border: 1px solid #303630;
+  border-radius: 0.45rem;
+  background: #171a17;
+}
+.workflowTarget strong { min-height: 2.3em; color: #e5eae5; font-size: 0.9rem; line-height: 1.3; }
+.workflowTarget code {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0.28rem 0.38rem;
+  border-radius: 0.25rem;
+  background: #222922;
+  color: #a6d9ad;
+  font-size: 0.61rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workflowTarget > span { color: #879187; font-size: 0.68rem; line-height: 1.45; }
+
+.exampleSection {
+  padding: 5rem 0;
+  background: var(--ifm-background-surface-color);
+}
+
+.exampleHeading { max-width: 43rem; margin: 0 0 2rem; }
+.exampleHeading > span {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--ifm-color-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+}
+.exampleHeading .sectionTitle { margin-bottom: 0.65rem; }
+.exampleHeading p { margin: 0; color: var(--ifm-color-emphasis-700); line-height: 1.65; }
+
+.examplePanels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.examplePanel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #303630;
+  border-radius: 0.55rem;
+  background: #111411;
+  color: #dfe5df;
+}
+.examplePanelHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  min-height: 2.8rem;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid #2c332c;
+  color: #818b81;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.61rem;
+  letter-spacing: 0.04em;
+}
+.examplePanelHeader code { overflow: hidden; background: transparent; color: #aab4aa; font-size: 0.65rem; letter-spacing: 0; text-overflow: ellipsis; white-space: nowrap; }
+.exampleCode,
+.exampleOutput {
+  min-height: 12.5rem;
+  margin: 0;
+  padding: 1.2rem 1.1rem;
+  background: transparent;
+  color: #d8dfd8;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.74rem;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.exampleCode code, .exampleOutput code { background: transparent; color: inherit; }
+.exampleCode span { color: #82d58f; }
+.exampleOutput { min-height: 0; padding-bottom: 0.85rem; color: #aeb8ae; font-size: 0.67rem; line-height: 1.7; }
+.exampleOutput code > span { color: #80d18e; }
+.exampleOutput b { color: #80d18e; font-weight: 500; }
+.exampleResult {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1.1rem;
+  border-top: 1px solid #2c332c;
+  color: #89d997;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.exampleResult i { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: #70cf80; }
+.exampleResult span { margin-left: auto; color: #7d887d; font-weight: 400; letter-spacing: 0; }
+.exampleDocsLink { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.15rem; color: var(--ifm-color-emphasis-700); font-size: 0.82rem; }
+.exampleDocsLink span { color: var(--ifm-color-primary); transition: transform 0.15s ease; }
+.exampleDocsLink:hover { color: var(--ifm-color-primary); text-decoration: none; }
+.exampleDocsLink:hover span { transform: translateX(3px); }
 
 .getStartedSection {
-  padding: 2rem 0 5.5rem;
+  padding: 3.5rem 0 6.5rem;
+  background: var(--ifm-background-surface-color);
 }
 
 .getStartedGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: 3rem;
-  align-items: start;
+  align-items: center;
 }
 
-.getStartedCopy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.getStartedTitle {
-  margin-bottom: 1rem;
-}
-
+.getStartedCopy { display: flex; flex-direction: column; align-items: flex-start; }
+.getStartedTitle { margin: 0 0 0.75rem; font-size: 1.65rem; }
 .placeholderNote {
-  font-size: 1rem;
+  margin: 0 0 1.25rem;
+  color: var(--ifm-color-emphasis-700);
   line-height: 1.65;
-  margin-bottom: 1.25rem;
 }
 
-.installTabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
+.installTabs { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .installTab {
-  padding: 0.45rem 0.9rem;
-  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.35rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   background: transparent;
-  color: var(--ifm-color-emphasis-700);
-  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease,
-    background 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
-.installTab:hover {
-  border-color: var(--ifm-color-primary);
-  color: var(--ifm-color-primary);
-}
-
-.installTabActive,
-.installTabActive:hover {
+.installTab:hover { border-color: var(--ifm-color-primary); color: var(--ifm-color-primary); }
+.installTabActive, .installTabActive:hover {
   background: var(--ifm-color-primary);
   border-color: var(--ifm-color-primary);
-  color: #0a0b0a;
+  color: #fff;
 }
+[data-theme='dark'] .installTabActive, [data-theme='dark'] .installTabActive:hover { color: #101210; }
 
 .getStartedFooter {
-  font-size: 0.9rem;
+  margin: 1.25rem 0 0;
   color: var(--ifm-color-emphasis-700);
-  margin-top: 1.25rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
-@media screen and (max-width: 900px) {
-  .getStartedGrid {
+@media screen and (max-width: 996px) {
+  .heroBanner { padding: clamp(6rem, 12vh, 8rem) 0 4rem; }
+  .heroGrid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .heroCopy { align-items: center; text-align: center; }
+  .heroSubtitle { max-width: 40rem; }
+  .heroButtons { justify-content: center; }
+  .terminal { max-width: 42rem; }
+  .getStartedGrid { grid-template-columns: 1fr; gap: 2rem; }
+  .examplePanels { grid-template-columns: 1fr; }
+  .workflowDiagram { grid-template-columns: 1fr; gap: 1.15rem; min-height: auto; padding: 2rem; }
+  .workflowConnector { grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.65rem; }
+  .workflowConnector i { width: 100%; }
+  .workflowConnector::before { display: block; height: 1px; background: #526552; content: ''; }
+}
+
+@media screen and (max-width: 700px) {
+  .workflowConnector {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1.1rem;
   }
+  .workflowConnector::before { display: none; }
+  .workflowConnector i {
+    width: 1px;
+    height: 1.1rem;
+  }
+  .workflowConnector i::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: -0.2rem;
+    border-top: 0;
+    border-bottom: 1px solid #82d58f;
+    transform: rotate(45deg);
+  }
+  .heroBanner {
+    min-height: calc(100svh - var(--ifm-navbar-height, 60px));
+    padding: clamp(5rem, 10svh, 7rem) 0 3rem;
+  }
+  .heroGrid { gap: 2rem; }
+  .heroCopy { align-items: flex-start; text-align: left; }
+  .heroButtons { width: 100%; flex-direction: row; align-items: stretch; justify-content: flex-start; gap: 0.6rem; }
+  .heroButtons :global(.button--lg) { min-width: 0; flex: 1 1 0; text-align: center; white-space: nowrap; }
+  .heroVisual { justify-content: flex-start; }
+  .whySection { padding: 4rem 0; }
+  .exampleSection { padding: 3.5rem 0; }
+  .exampleHeading { margin-bottom: 1.5rem; }
+  .exampleCode { min-height: 0; }
+  .workflowHeading { margin-bottom: 1.75rem; }
+  .workflowHeading p { font-size: 0.94rem; }
+  .terminalBody { padding: 1.1rem; font-size: 0.72rem; }
+}
+
+@media screen and (max-width: 560px) {
+  .heroBanner { padding: clamp(5rem, 12svh, 6.5rem) 0 2.75rem; }
+  .heroGrid { gap: 1.75rem; }
+  .heroCopy { align-items: flex-start; text-align: left; }
+  .heroTitle {
+    max-width: 12ch;
+    font-size: clamp(2.15rem, 10vw, 3rem);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+  .heroSubtitle { margin: 1rem 0 1.35rem; font-size: 0.98rem; line-height: 1.6; }
+  .heroButtons :global(.button--lg) { padding: 0.7rem 0.45rem; font-size: 0.8rem; }
+  .heroVisual { width: 100%; min-width: 0; }
+  .terminal { min-width: 0; border-radius: 0.5rem; }
+  .terminalBar { padding: 0.65rem 0.8rem; }
+  .terminalPath { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .terminalBody {
+    padding: 0.9rem;
+    font-size: clamp(0.62rem, 2.8vw, 0.72rem);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .whySection { padding: 3.25rem 0; }
+  .workflowHeading { margin-bottom: 1.35rem; }
+  .workflowHeading .sectionTitle { font-size: clamp(1.65rem, 7.5vw, 2.15rem); }
+  .workflowHeading p { font-size: 0.9rem; line-height: 1.6; }
+  .workflowDiagram { gap: 0.9rem; padding: 0.8rem; border-radius: 0.6rem; }
+  .sourceHeader { gap: 0.5rem; padding: 0.7rem 0.65rem; }
+  .sourceHeader > div span { font-size: 0.53rem; }
+  .sourceHeader strong { font-size: 0.62rem; }
+  .yamlBadge { padding: 0.16rem 0.3rem; font-size: 0.52rem; }
+  .workflowSource pre { padding: 1rem 0.8rem; font-size: 0.74rem; line-height: 1.85; }
+  .workflowConnector { gap: 0.5rem; font-size: 0.52rem; }
+  .workflowTargets { grid-template-columns: 1fr; gap: 0.45rem; }
+  .workflowTarget { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 0.3rem 0.65rem; padding: 0.7rem 0.75rem; }
+  .workflowTarget .workflowIcon { grid-row: 1 / span 3; }
+  .workflowTarget strong { min-height: 0; font-size: 0.84rem; }
+  .workflowTarget code, .workflowTarget > span { grid-column: 2; }
 }

@@ -1,0 +1,48 @@
+.tocRail {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.5rem);
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.25rem;
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.tocRail > strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tocRail :global(.table-of-contents) {
+  position: static;
+  max-height: none;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+}
+
+.tocRail :global(.table-of-contents__left-border) { border-left: 0; }
+.tocRail :global(ul.table-of-contents) {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tocRail :global(.table-of-contents li) { margin: 0; }
+.tocRail :global(.table-of-contents__link) {
+  display: block;
+  padding: 0;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-decoration: none;
+}
+.tocRail :global(.table-of-contents__link:hover),
+.tocRail :global(.table-of-contents__link--active) {
+  color: var(--ifm-color-primary);
+}
+.tocRail :global(.table-of-contents__link--active) { font-weight: 600; }

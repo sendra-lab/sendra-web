@@ -1,0 +1,121 @@
+.footer {
+  padding: 3.25rem 0 1.25rem;
+  border-top: 1px solid #283028;
+  background: #0d100d;
+  color: #eef2ee;
+}
+
+.footerMain {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.55fr) 1fr;
+  gap: 3rem;
+  padding-bottom: 2.75rem;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: flex-end;
+  gap: clamp(3rem, 8vw, 7rem);
+}
+
+.linkGroup h3 {
+  margin: 0 0 0.9rem;
+  color: #dce3dc;
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.linkGroup ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footerLink {
+  color: #929d92;
+  font-size: 0.82rem;
+  transition: color 0.15s ease;
+}
+
+.footerLink:hover,
+.githubLink:hover { color: #9be0a6; text-decoration: none; }
+
+.brandColumn {
+  width: 100%;
+  max-width: 19rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #f4f7f4;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.brand img { width: 2.5rem; height: 2.5rem; object-fit: contain; }
+.brand:hover { color: #f4f7f4; text-decoration: none; }
+
+.brandColumn > p {
+  max-width: 18rem;
+  margin: 0.8rem 0 0.85rem;
+  color: #929d92;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.githubLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #c2cbc2;
+  font-size: 0.78rem;
+  transition: color 0.15s ease;
+}
+
+.githubLink svg { width: 0.95rem; height: 0.95rem; }
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #252c25;
+  color: #737e73;
+  font-size: 0.72rem;
+}
+
+.footerBottom a { color: #a3ada3; }
+.footerBottom a:hover { color: #9be0a6; text-decoration: none; }
+
+@media screen and (max-width: 700px) {
+  .footerMain { grid-template-columns: 1fr auto; gap: 2rem; }
+  .footerLinks { gap: 2.5rem; }
+}
+
+@media screen and (max-width: 600px) {
+  .footer { padding-top: 2.5rem; }
+  .footerMain { grid-template-columns: 1fr; gap: 2.25rem; }
+  .brandColumn { justify-self: start; }
+  .footerLinks {
+    justify-content: flex-start;
+    gap: clamp(2.5rem, 12vw, 4rem);
+  }
+  .linkGroup { text-align: left; }
+  .footerBottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    line-height: 1.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footerLink, .githubLink { transition: none; }
+}

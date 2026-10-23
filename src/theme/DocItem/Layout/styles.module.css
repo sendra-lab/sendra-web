@@ -1,0 +1,19 @@
+.docItemCol { max-width: 100%; }
+
+.docItemContainer article > *:first-child,
+.docItemContainer article header + * {
+  margin-top: 0;
+}
+
+.tocColumn { max-width: 25%; }
+@media screen and (max-width: 996px) {
+  .docItemCol { max-width: 100% !important; }
+  .tocColumn { display: none; }
+}
+
+@media screen and (min-width: 997px) {
+  .docItemCol {
+    max-width: 75% !important;
+    padding-right: clamp(2rem, 4vw, 4rem);
+  }
+}

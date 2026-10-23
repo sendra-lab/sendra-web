@@ -2,24 +2,12 @@ import type {ReactNode} from 'react';
 import {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 import styles from './index.module.css';
 
-/**
- * FIRST-DRAFT MARKETING COPY. The hero headline/positioning line, the "Why
- * Sendra" pillars, and the terminal preview are a first pass, meant to be
- * reviewed as content, not shipped as final. Every factual claim (no
- * Node.js runtime, requests-as-YAML, the assertion output format, etc.) was
- * checked against the real sendra-lab/Sendra repo (README.md,
- * docs/reference/running-and-testing.md, docs/reference/assertions.md)
- * before being written. The terminal preview's output is the real
- * `assertions:` print format from docs/reference/assertions.md, not
- * invented.
- */
 function TerminalWindow({
   path,
   children,
@@ -63,25 +51,16 @@ function HeroTerminal() {
 }
 
 function HomepageHeader() {
-  const logoSrc = useBaseUrl('/img/sendra-logo.png');
   return (
     <header className={styles.heroBanner}>
       <div className={clsx('container', styles.heroGrid)}>
         <div className={styles.heroCopy}>
-          <img
-            src={logoSrc}
-            alt=""
-            className={styles.heroLogo}
-            width={64}
-            height={64}
-          />
           <Heading as="h1" className={styles.heroTitle}>
-            The terminal-native API testing tool.
+            Test APIs with requests that live in your repo.
           </Heading>
           <p className={styles.heroSubtitle}>
-            Define HTTP requests in YAML.
-            Run, test, automate, and chain API requests
-            without leaving your terminal.
+            Define requests in YAML, run them from the CLI, and keep your
+            checks alongside the code they protect.
           </p>
           <div className={styles.heroButtons}>
             <Link className="button button--lg" to="/docs/intro">
@@ -105,37 +84,59 @@ function HomepageHeader() {
   );
 }
 
-const PILLARS = [
-  {
-    title: 'The request is the file',
-    body: 'Every request and collection lives in your repo as plain YAML: reviewable in a pull request, diffable over time, no export step.',
-  },
-  {
-    title: 'One binary, nothing else',
-    body: 'The scripting engine, the test runner, and the interactive TUI all ship inside sendra. No Node.js or other runtime to install alongside it.',
-  },
-  {
-    title: 'Terminal-native, not bolted on',
-    body: "Sendra isn't a GUI app with a CLI feature added later. The terminal is the whole interface, from a single request to the full TUI.",
-  },
-];
+function WorkflowIcon({name}: {name: string}) {
+  const paths: Record<string, ReactNode> = {
+    file: <><path d="M6 3.75h7l5 5v11.5H6z" /><path d="M13 3.75v5h5M9 13h6M9 16.5h6" /></>,
+    terminal: <><rect x="3.75" y="5" width="16.5" height="14" rx="2" /><path d="m7.5 10 2.5 2.25-2.5 2.25M12.5 14.5h3" /></>,
+    window: <><rect x="3.75" y="4.5" width="16.5" height="15" rx="2" /><path d="M4 8.5h16M7 6.5h.01M10 6.5h.01M12 13h4M8 13h1" /></>,
+    check: <><path d="M12 3.5 19 6v5.25c0 4.35-2.95 7.4-7 9.25-4.05-1.85-7-4.9-7-9.25V6z" /><path d="m8.75 12 2.1 2.1 4.4-4.5" /></>,
+  };
+  return <svg className={styles.workflowIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
+}
 
 function WhySendra() {
   return (
     <section className={styles.whySection}>
       <div className="container">
-        <Heading as="h2" className={styles.sectionTitle}>
-          Why Sendra
-        </Heading>
-        <div className={styles.pillarGrid}>
-          {PILLARS.map((pillar) => (
-            <div key={pillar.title} className={styles.pillar}>
-              <Heading as="h3" className={styles.pillarTitle}>
-                {pillar.title}
-              </Heading>
-              <p className={styles.pillarBody}>{pillar.body}</p>
+        <div className={styles.workflowHeading}>
+          <span className={styles.workflowEyebrow}>ONE FILE · THREE INTERFACES</span>
+          <Heading as="h2" className={styles.sectionTitle}>
+            One request. Every part of your workflow.
+          </Heading>
+          <p>Start with a file. Use it from your terminal, inside the TUI, or in your CI checks.</p>
+        </div>
+        <div className={styles.workflowDiagram}>
+          <div className={styles.workflowSource}>
+            <div className={styles.sourceHeader}>
+              <WorkflowIcon name="file" />
+              <div><span>REQUEST FILE</span><strong>requests/get-user.yaml</strong></div>
+              <span className={styles.yamlBadge}>YAML</span>
             </div>
-          ))}
+            <pre><code><em>method:</em> GET<br /><em>url:</em> /api/users/42<br /><em>assertions:</em><br />  <em>status:</em> 200</code></pre>
+          </div>
+          <div className={styles.workflowConnector} aria-hidden="true">
+            <span>one source</span><i />
+          </div>
+          <div className={styles.workflowTargets}>
+            <div className={styles.workflowTarget}>
+              <WorkflowIcon name="terminal" />
+              <strong>CLI</strong>
+              <code>sendra run</code>
+              <span>Run a request</span>
+            </div>
+            <div className={styles.workflowTarget}>
+              <WorkflowIcon name="window" />
+              <strong>Interactive TUI</strong>
+              <code>sendra tui</code>
+              <span>Explore and edit</span>
+            </div>
+            <div className={styles.workflowTarget}>
+              <WorkflowIcon name="check" />
+              <strong>CI</strong>
+              <code>sendra test</code>
+              <span>Verify every change</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -177,19 +178,19 @@ const INSTALL_METHODS: InstallMethod[] = [
     id: 'npm',
     label: 'npm',
     path: 'terminal',
-    command: <>npm install @sendra-lab/sendra</>,
+    command: <>npm install -g @sendra-lab/sendra</>,
   },
   {
     id: 'pnpm',
     label: 'pnpm',
     path: 'terminal',
-    command: <>pnpm add @sendra-lab/sendra</>,
+    command: <>pnpm add -g @sendra-lab/sendra</>,
   },
   {
     id: 'bun',
     label: 'Bun',
     path: 'terminal',
-    command: <>bun add @sendra-lab/sendra</>,
+    command: <>bun add -g @sendra-lab/sendra</>,
   },
   {
     id: 'powershell',
@@ -229,8 +230,7 @@ function GetStarted() {
             Get started
           </Heading>
           <p className={styles.placeholderNote}>
-            Install with the shell script or npm, or pick pnpm, Bun,
-            PowerShell, Homebrew, or Cargo below.
+            Install Sendra with the package manager you already use.
           </p>
           <div className={styles.installTabs} role="tablist">
             {INSTALL_METHODS.map((method) => (
@@ -261,9 +261,35 @@ function GetStarted() {
             <span className={styles.tPrompt}>$</span>{' '}
             <span className={styles.tWrap}>{active.command}</span>
             {'\n'}
-            <span className={styles.tPrompt}>$</span> sendra run examples/get-request.yaml
+            <span className={styles.tPrompt}>$</span> sendra run requests/get-request.yaml
           </TerminalWindow>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function RequestToCiExample() {
+  return (
+    <section className={styles.exampleSection}>
+      <div className="container">
+        <div className={styles.exampleHeading}>
+          <span>IN PRACTICE</span>
+          <Heading as="h2" className={styles.sectionTitle}>From request file to CI result</Heading>
+          <p>Write the expectation once. Run the same request locally or in your build.</p>
+        </div>
+        <div className={styles.examplePanels}>
+          <div className={styles.examplePanel}>
+            <div className={styles.examplePanelHeader}><span>REQUEST FILE</span><code>requests/get-request.yaml</code></div>
+            <pre className={styles.exampleCode}><code><span>method:</span> GET{'\n'}<span>url:</span> https://httpbin.org/get{'\n'}<span>assertions:</span>{'\n'}  <span>status:</span> 200{'\n'}  <span>body_contains:</span> '"url"'</code></pre>
+          </div>
+          <div className={styles.examplePanel}>
+            <div className={styles.examplePanelHeader}><span>CI RUN</span><code>pull-request.yml</code></div>
+            <pre className={styles.exampleOutput}><code><span>$ sendra test requests/get-request.yaml</span>{'\n\n'}200 OK  142 ms{'\n\n'}assertions{'\n'}  <b>✓</b> status is 200{'\n'}  <b>✓</b> body contains "url"{'\n'}  2 passed</code></pre>
+            <div className={styles.exampleResult}><i /> PASS <span>exit code 0</span></div>
+          </div>
+        </div>
+        <Link className={styles.exampleDocsLink} to="/docs/cli/reference/running-and-testing">See how request testing works <span aria-hidden="true">→</span></Link>
       </div>
     </section>
   );
@@ -278,6 +304,7 @@ export default function Home(): ReactNode {
       <main>
         <WhySendra />
         <HomepageFeatures />
+        <RequestToCiExample />
         <GetStarted />
       </main>
     </Layout>

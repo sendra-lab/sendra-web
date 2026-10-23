@@ -84,35 +84,52 @@ function HomepageHeader() {
   );
 }
 
-const PILLARS = [
+const WORKFLOW = [
   {
-    title: 'The request is the file',
-    body: 'Every request and collection lives in your repo as plain YAML: reviewable in a pull request, diffable over time, no export step.',
+    number: '01',
+    title: 'Write once',
+    body: 'Keep each request in a readable YAML file beside the code that uses it.',
+    icon: 'file',
   },
   {
-    title: 'One binary, nothing else',
-    body: 'The scripting engine, the test runner, and the interactive TUI all ship inside sendra. No Node.js or other runtime to install alongside it.',
+    number: '02',
+    title: 'Run anywhere',
+    body: 'Use the same request from the command line or the interactive terminal UI.',
+    icon: 'terminal',
   },
   {
-    title: 'Terminal-native, not bolted on',
-    body: "Sendra isn't a GUI app with a CLI feature added later. The terminal is the whole interface, from a single request to the full TUI.",
+    number: '03',
+    title: 'Verify every change',
+    body: 'Run assertions locally or in CI, and catch unexpected responses before they ship.',
+    icon: 'check',
   },
 ];
+
+function WorkflowIcon({name}: {name: string}) {
+  const paths: Record<string, ReactNode> = {
+    file: <><path d="M6 3.75h7l5 5v11.5H6z" /><path d="M13 3.75v5h5M9 13h6M9 16.5h6" /></>,
+    terminal: <><rect x="3.75" y="5" width="16.5" height="14" rx="2" /><path d="m7.5 10 2.5 2.25-2.5 2.25M12.5 14.5h3" /></>,
+    check: <><path d="M12 3.5 19 6v5.25c0 4.35-2.95 7.4-7 9.25-4.05-1.85-7-4.9-7-9.25V6z" /><path d="m8.75 12 2.1 2.1 4.4-4.5" /></>,
+  };
+  return <svg className={styles.workflowIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
+}
 
 function WhySendra() {
   return (
     <section className={styles.whySection}>
       <div className="container">
         <Heading as="h2" className={styles.sectionTitle}>
-          Built for the way teams work
+          A simple path from request to regression check
         </Heading>
-        <div className={styles.pillarGrid}>
-          {PILLARS.map((pillar) => (
-            <div key={pillar.title} className={styles.pillar}>
-              <Heading as="h3" className={styles.pillarTitle}>
-                {pillar.title}
-              </Heading>
-              <p className={styles.pillarBody}>{pillar.body}</p>
+        <div className={styles.workflowGrid}>
+          {WORKFLOW.map((step) => (
+            <div key={step.number} className={styles.workflowStep}>
+              <div className={styles.workflowStepTop}>
+                <span className={styles.workflowNumber}>{step.number}</span>
+                <WorkflowIcon name={step.icon} />
+              </div>
+              <Heading as="h3" className={styles.pillarTitle}>{step.title}</Heading>
+              <p className={styles.pillarBody}>{step.body}</p>
             </div>
           ))}
         </div>

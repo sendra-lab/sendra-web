@@ -3,84 +3,55 @@ import Heading from '@theme/Heading';
 
 import styles from './styles.module.css';
 
-/**
- * FIRST-DRAFT MARKETING COPY. Every claim below was checked against the
- * real sendra-lab/Sendra repo (docs/reference/*.md, README.md) before being
- * written, not assumed from a general description. Notably: OAuth's
- * `authorization_code` grant is TUI-only (an interactive browser login via
- * Ctrl+L). `client_credentials`/`password` are the only grants a plain
- * `auth: oauth:` block in a request file can use directly. See
- * docs/reference/requests.md and docs/reference/tui.md in the sendra repo.
- */
 type Feature = {
   title: string;
-  description: ReactNode;
+  description: string;
+  icon: ReactNode;
 };
 
 const FEATURES: Feature[] = [
   {
+    title: 'YAML request files',
+    description: 'Readable, version controlled requests that fit naturally into your repo.',
+    icon: <><path d="M6 3.75h7l5 5v11.5H6z" /><path d="M13 3.75v5h5M9 13h6M9 16.5h6" /></>,
+  },
+  {
     title: 'Collections & environments',
-    description: (
-      <>
-        A request is a YAML file: method, URL, headers, body, sent straight
-        from the shell. Group related requests into a named collection in
-        one file, and point the same requests at staging or production by
-        swapping which environment loads, using{' '}
-        <code>{'{{variable}}'}</code> substitution pulled from
-        <code> .sendra/environments/*.yaml</code> or your shell's own
-        environment.
-      </>
-    ),
+    description: 'Organize related requests and switch targets without changing the request.',
+    icon: <><rect x="4" y="4" width="7" height="7" rx="1.3" /><rect x="13" y="4" width="7" height="7" rx="1.3" /><rect x="4" y="13" width="7" height="7" rx="1.3" /><rect x="13" y="13" width="7" height="7" rx="1.3" /></>,
   },
   {
-    title: 'Scripting & assertions',
-    description: (
-      <>
-        Attach a <code>pre_request</code> script to shape a request before
-        it's sent, and a <code>post_request</code> script to check what
-        comes back. Both are written in Rhai, with the interpreter linked
-        straight into the binary, so a scripted request works anywhere{' '}
-        <code>sendra</code> does. Add a declarative{' '}
-        <code>assertions:</code> block and <code>sendra test</code> fails
-        your build the moment a response doesn't match.
-      </>
-    ),
+    title: 'CLI & interactive TUI',
+    description: 'Run a single request from the shell or work interactively in the terminal.',
+    icon: <><rect x="3.75" y="5" width="16.5" height="14" rx="2" /><path d="m7.5 10 2.5 2.25-2.5 2.25M12.5 14.5h3" /></>,
   },
   {
-    title: 'A full interactive TUI',
-    description: (
-      <>
-        <code>sendra tui</code>, or just <code>sendra</code> with no
-        arguments, opens a real terminal UI, not a response viewer bolted
-        onto the CLI: browse and run requests, edit every field in place,
-        switch environments, search and filter, and open multiple
-        collections at once in tabs. Every request's run history is one
-        keypress away.
-      </>
-    ),
+    title: 'Assertions & scripting',
+    description: 'Check responses and handle request logic with built in scripting.',
+    icon: <><path d="m5 12 4.2 4.2L19 6.5" /><path d="M20 12a8 8 0 1 1-2.35-5.65" /></>,
   },
   {
-    title: 'OAuth, built in',
-    description: (
-      <>
-        <code>auth: oauth:</code> acquires a token before the request goes
-        out and sets the header for you. <code>client_credentials</code>{' '}
-        and <code>password</code> grants work from any request file; the TUI
-        adds <code>authorization_code</code> support with a real
-        interactive login: it opens your browser, runs a local callback
-        listener, and caches the token for the rest of the session.
-      </>
-    ),
+    title: 'OAuth authentication',
+    description: 'Use OAuth flows directly in requests and in interactive sessions.',
+    icon: <><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v2" /></>,
+  },
+  {
+    title: 'CI ready',
+    description: 'Run the same request checks in local development and automated builds.',
+    icon: <><path d="M4 12h3l2-6 4 12 2-6h5" /><path d="M3.5 4.5h17v15h-17z" /></>,
   },
 ];
 
-function FeatureCard({title, description}: Feature) {
+function FeatureCard({title, description, icon}: Feature) {
   return (
     <div className={styles.card}>
-      <Heading as="h3" className={styles.cardTitle}>
-        {title}
-      </Heading>
-      <p className={styles.cardDescription}>{description}</p>
+      <div className={styles.cardIcon} aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
+      </div>
+      <div>
+        <Heading as="h3" className={styles.cardTitle}>{title}</Heading>
+        <p className={styles.cardDescription}>{description}</p>
+      </div>
     </div>
   );
 }
@@ -91,10 +62,10 @@ export default function HomepageFeatures(): ReactNode {
       <div className="container">
         <div className={styles.sectionHeading}>
           <Heading as="h2" className={styles.sectionTitle}>
-            Everything you need to test APIs
+            Product features
           </Heading>
           <p className={styles.sectionIntro}>
-            Keep requests, checks, and workflows close to your code.
+            A focused toolkit for API development and testing.
           </p>
         </div>
         <div className={styles.grid}>

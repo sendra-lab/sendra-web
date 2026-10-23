@@ -84,31 +84,11 @@ function HomepageHeader() {
   );
 }
 
-const WORKFLOW = [
-  {
-    number: '01',
-    title: 'Write once',
-    body: 'Keep each request in a readable YAML file beside the code that uses it.',
-    icon: 'file',
-  },
-  {
-    number: '02',
-    title: 'Run anywhere',
-    body: 'Use the same request from the command line or the interactive terminal UI.',
-    icon: 'terminal',
-  },
-  {
-    number: '03',
-    title: 'Verify every change',
-    body: 'Run assertions locally or in CI, and catch unexpected responses before they ship.',
-    icon: 'check',
-  },
-];
-
 function WorkflowIcon({name}: {name: string}) {
   const paths: Record<string, ReactNode> = {
     file: <><path d="M6 3.75h7l5 5v11.5H6z" /><path d="M13 3.75v5h5M9 13h6M9 16.5h6" /></>,
     terminal: <><rect x="3.75" y="5" width="16.5" height="14" rx="2" /><path d="m7.5 10 2.5 2.25-2.5 2.25M12.5 14.5h3" /></>,
+    window: <><rect x="3.75" y="4.5" width="16.5" height="15" rx="2" /><path d="M4 8.5h16M7 6.5h.01M10 6.5h.01M12 13h4M8 13h1" /></>,
     check: <><path d="M12 3.5 19 6v5.25c0 4.35-2.95 7.4-7 9.25-4.05-1.85-7-4.9-7-9.25V6z" /><path d="m8.75 12 2.1 2.1 4.4-4.5" /></>,
   };
   return <svg className={styles.workflowIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
@@ -120,21 +100,42 @@ function WhySendra() {
       <div className="container">
         <div className={styles.workflowHeading}>
           <Heading as="h2" className={styles.sectionTitle}>
-            Write it once. Run it wherever you work.
+            One request. Every part of your workflow.
           </Heading>
-          <p>Keep one source of truth for local development, interactive testing, and CI.</p>
+          <p>Start with a file. Use it from your terminal, inside the TUI, or in your CI checks.</p>
         </div>
-        <div className={styles.workflowGrid}>
-          {WORKFLOW.map((step) => (
-            <div key={step.number} className={styles.workflowStep}>
-              <div className={styles.workflowStepTop}>
-                <span className={styles.workflowNumber}>{step.number}</span>
-                <WorkflowIcon name={step.icon} />
-              </div>
-              <Heading as="h3" className={styles.pillarTitle}>{step.title}</Heading>
-              <p className={styles.pillarBody}>{step.body}</p>
+        <div className={styles.workflowDiagram}>
+          <div className={styles.workflowSource}>
+            <div className={styles.sourceHeader}>
+              <WorkflowIcon name="file" />
+              <div><span>REQUEST FILE</span><strong>requests/get-user.yaml</strong></div>
+              <span className={styles.yamlBadge}>YAML</span>
             </div>
-          ))}
+            <pre><code><em>method:</em> GET<br /><em>url:</em> /api/users/42<br /><em>assertions:</em><br />  <em>status:</em> 200</code></pre>
+          </div>
+          <div className={styles.workflowConnector} aria-hidden="true">
+            <span>one source</span><i />
+          </div>
+          <div className={styles.workflowTargets}>
+            <div className={styles.workflowTarget}>
+              <WorkflowIcon name="terminal" />
+              <strong>CLI</strong>
+              <code>sendra run</code>
+              <span>Run a request</span>
+            </div>
+            <div className={styles.workflowTarget}>
+              <WorkflowIcon name="window" />
+              <strong>Interactive TUI</strong>
+              <code>sendra tui</code>
+              <span>Explore and edit</span>
+            </div>
+            <div className={styles.workflowTarget}>
+              <WorkflowIcon name="check" />
+              <strong>CI</strong>
+              <code>sendra test</code>
+              <span>Verify every change</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

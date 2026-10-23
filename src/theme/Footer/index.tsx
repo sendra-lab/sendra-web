@@ -47,21 +47,6 @@ export default function Footer(): ReactNode {
     <footer className={styles.footer}>
       <div className="container">
         <div className={styles.footerMain}>
-          <div className={styles.brandColumn}>
-            <Link className={styles.brand} to="/">
-              <img src={logoUrl} alt="" width="34" height="34" />
-              <span>Sendra</span>
-            </Link>
-            <p className={styles.brandCopy}>
-              API requests, checks, and workflows that stay close to your code.
-            </p>
-            <a className={styles.githubCta} href="https://github.com/sendra-lab/sendra">
-              <GitHubMark />
-              <span>Explore Sendra on GitHub</span>
-              <span className={styles.arrow} aria-hidden="true">↗</span>
-            </a>
-          </div>
-
           {GROUPS.map((group) => (
             <nav key={group.title} className={styles.linkGroup} aria-label={group.title}>
               <h2>{group.title}</h2>
@@ -73,9 +58,19 @@ export default function Footer(): ReactNode {
             </nav>
           ))}
 
-          <div className={styles.footerNote}>
-            <span className={styles.noteMark} aria-hidden="true">↳</span>
-            <p>Small, focused, and built for the terminal.</p>
+          <div className={styles.brandColumn}>
+            <Link className={styles.brand} to="/">
+              <img src={logoUrl} alt="" width="42" height="42" />
+              <span>Sendra</span>
+            </Link>
+            <p className={styles.brandCopy}>
+              A terminal-native HTTP client for requests that live in your repo.
+            </p>
+            <a className={styles.githubCta} href="https://github.com/sendra-lab/sendra">
+              <GitHubMark />
+              <span>Explore on GitHub</span>
+              <span className={styles.arrow} aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
 

@@ -264,6 +264,12 @@
 .plugin-docs .table-of-contents__link:hover,
 .plugin-docs .table-of-contents__link--active { color: var(--ifm-color-primary); }
 
+@media screen and (min-width: 997px) {
+  .plugin-docs main > .container {
+    padding-left: clamp(2rem, 3.5vw, 3rem);
+  }
+}
+
 @media screen and (max-width: 996px) {
   .plugin-docs .theme-doc-sidebar-container { border-right: 0; }
   .plugin-docs .docItemCol article { max-width: 76ch; }

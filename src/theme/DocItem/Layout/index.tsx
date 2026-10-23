@@ -19,9 +19,7 @@ export default function DocItemLayoutWrapper({children}: Props): ReactNode {
   const {pathname} = useLocation();
   const isIntroduction = pathname.replace(/\/$/, '') === '/docs/intro';
 
-  if (!isIntroduction) {
-    return <DocItemLayout>{children}</DocItemLayout>;
-  }
+  if (!isIntroduction) return <DocItemLayout>{children}</DocItemLayout>;
 
   return (
     <div className="row">
@@ -31,18 +29,20 @@ export default function DocItemLayoutWrapper({children}: Props): ReactNode {
           <article>
             <DocBreadcrumbs />
             <DocVersionBadge />
-            <div className={styles.homeContentsMobile}>
-              <DocsHomeContents />
-            </div>
+            {isIntroduction ? (
+              <div className={styles.mobileTOC}><DocsHomeContents /></div>
+            ) : null}
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />
           </article>
           <DocItemPaginator />
         </div>
       </div>
-      <div className={clsx('col col--3', styles.homeContentsDesktop)}>
-        <DocsHomeContents />
-      </div>
+      {isIntroduction && (
+        <div className={clsx('col col--3', styles.tocColumn)}>
+          <DocsHomeContents />
+        </div>
+      )}
     </div>
   );
 }

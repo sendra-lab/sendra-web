@@ -131,8 +131,8 @@
 .yamlKey { color: #82d58f; }
 .prompt { color: #66ce78; font-weight: 600; }
 
-.quickStartSection { padding: 1.25rem 0 clamp(2.5rem, 5vw, 4rem); }
-.section { padding: clamp(2.5rem, 5vw, 4rem) 0; }
+.quickStartSection { padding: 0.5rem 0 clamp(1.5rem, 3vw, 2.5rem); }
+.section { padding: clamp(1.5rem, 3vw, 2.5rem) 0; }
 .sectionHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
 .sectionHeading h2 { margin: 0.55rem 0 0; font-size: clamp(1.55rem, 2.8vw, 2rem); font-weight: 620; letter-spacing: -0.045em; }
 .textLink { flex: 0 0 auto; margin-bottom: 0.35rem; font-size: 0.82rem; }
@@ -184,9 +184,10 @@
 .resourceLink > span:not(.arrow) { color: var(--ifm-color-emphasis-700); font-size: 0.8rem; line-height: 1.5; }
 .resourceLink > .arrow { position: absolute; top: 1.2rem; right: 1.2rem; }
 
-.installOptions { margin-top: 2.25rem; border-top: 1px solid var(--docs-line); }
-.installOptions summary { padding: 1rem 0; color: var(--ifm-color-emphasis-700); font-size: 0.84rem; cursor: pointer; }
-.installGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem 1.25rem; padding-bottom: 1.25rem; }
+.installOptions { margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.5rem, 3vw, 2.5rem); border-top: 1px solid var(--docs-line); }
+.installOptions .sectionHeading { margin-bottom: 1.25rem; }
+.installOptions .sectionHeading h2 { margin-top: 0; }
+.installGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem 1.25rem; }
 .installItem { display: grid; gap: 0.35rem; min-width: 0; }
 .installItem strong { color: var(--ifm-color-emphasis-700); font-size: 0.74rem; font-weight: 600; }
 .installItem code,
@@ -219,6 +220,10 @@
 }
 
 .pageNav a:hover { color: var(--ifm-color-primary); }
+.pageNav .pageNavActive {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+}
 
 @media screen and (max-width: 996px) {
   .home { padding-top: 0; }
@@ -238,7 +243,7 @@
     border-left: 0;
   }
   .pageNav > strong { grid-column: 1 / -1; }
-  .section { padding: 2.5rem 0; }
+  .section { padding: 1.75rem 0; }
   .sectionHeading { align-items: flex-start; flex-direction: column; }
   .startGrid,
   .bottomRow,

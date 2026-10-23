@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import {useEffect, useState, type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
@@ -114,8 +114,10 @@ export default function DocsHome(): ReactNode {
             </Link>
           </section>
 
-          <details className={styles.installOptions}>
-            <summary>More installation options</summary>
+          <section className={styles.installOptions} id="installation" aria-labelledby="installation-heading">
+            <div className={styles.sectionHeading}>
+              <h2 id="installation-heading">Installation</h2>
+            </div>
             <div className={styles.installGrid}>
               {INSTALL_OPTIONS.map(([label, command]) => (
                 <div className={styles.installItem} key={label}>
@@ -130,18 +132,44 @@ export default function DocsHome(): ReactNode {
                 </Link>
               </div>
             </div>
-          </details>
+          </section>
     </div>
   );
 }
 
 export function DocsHomeContents(): ReactNode {
+  const [activeSection, setActiveSection] = useState('quick-start');
+
+  useEffect(() => {
+    const sectionIds = ['quick-start', 'start-here', 'reference', 'installation'];
+    const updateActiveSection = () => {
+      const readingLine = window.scrollY + window.innerHeight * 0.35;
+      let current = sectionIds[0];
+
+      for (const id of sectionIds) {
+        const section = document.getElementById(id);
+        if (section && section.offsetTop <= readingLine) current = id;
+      }
+
+      setActiveSection(current);
+    };
+
+    updateActiveSection();
+    window.addEventListener('scroll', updateActiveSection, {passive: true});
+    window.addEventListener('resize', updateActiveSection);
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
+    };
+  }, []);
+
   return (
     <nav className={styles.pageNav} aria-label="Introduction page contents">
       <strong>On this page</strong>
-      <a href="#quick-start">Quick start</a>
-      <a href="#start-here">Get started</a>
-      <a href="#reference">Reference and decisions</a>
+      <a href="#quick-start" className={activeSection === 'quick-start' ? styles.pageNavActive : undefined} aria-current={activeSection === 'quick-start' ? 'location' : undefined}>Quick start</a>
+      <a href="#start-here" className={activeSection === 'start-here' ? styles.pageNavActive : undefined} aria-current={activeSection === 'start-here' ? 'location' : undefined}>Get started</a>
+      <a href="#reference" className={activeSection === 'reference' ? styles.pageNavActive : undefined} aria-current={activeSection === 'reference' ? 'location' : undefined}>Reference and decisions</a>
+      <a href="#installation" className={activeSection === 'installation' ? styles.pageNavActive : undefined} aria-current={activeSection === 'installation' ? 'location' : undefined}>Installation</a>
     </nav>
   );
 }

@@ -1,17 +1,21 @@
-.docItemCol {
-  max-width: 75% !important;
-}
+.docItemCol { max-width: 100%; }
 
 .docItemContainer article > *:first-child,
 .docItemContainer article header + * {
   margin-top: 0;
 }
 
-.homeContentsDesktop { display: block; }
-.homeContentsMobile { display: none; }
-
+.tocColumn { max-width: 25%; }
+.mobileTOC { display: none; }
 @media screen and (max-width: 996px) {
   .docItemCol { max-width: 100% !important; }
-  .homeContentsDesktop { display: none; }
-  .homeContentsMobile { display: block; margin-bottom: 1.5rem; }
+  .tocColumn { display: none; }
+  .mobileTOC { display: block; margin-bottom: 1.5rem; }
+}
+
+@media screen and (min-width: 997px) {
+  .docItemCol {
+    max-width: 75% !important;
+    padding-right: clamp(2rem, 4vw, 4rem);
+  }
 }

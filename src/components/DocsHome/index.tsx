@@ -168,9 +168,8 @@ export default function DocsHome(): ReactNode {
   );
 }
 
-export function DocsHomeContents({mobile = false}: {mobile?: boolean} = {}): ReactNode {
+export function DocsHomeContents(): ReactNode {
   const [activeSection, setActiveSection] = useState('quick-start');
-  const [mobileExpanded, setMobileExpanded] = useState(false);
 
   useEffect(() => {
     const sectionIds = ['quick-start', 'start-here', 'reference', 'installation'];
@@ -201,28 +200,6 @@ export function DocsHomeContents({mobile = false}: {mobile?: boolean} = {}): Rea
     <a href="#reference" className={activeSection === 'reference' ? styles.pageNavActive : undefined} aria-current={activeSection === 'reference' ? 'location' : undefined}>Reference and decisions</a>
     <a href="#installation" className={activeSection === 'installation' ? styles.pageNavActive : undefined} aria-current={activeSection === 'installation' ? 'location' : undefined}>Installation</a>
   </>;
-
-  if (mobile) {
-    return (
-      <nav className={styles.mobilePageNav} aria-label="Introduction page contents">
-        <button
-          type="button"
-          className={styles.mobilePageNavButton}
-          aria-expanded={mobileExpanded}
-          aria-controls="intro-mobile-page-links"
-          onClick={() => setMobileExpanded((expanded) => !expanded)}
-        >
-          <span>On this page</span>
-          <svg className={mobileExpanded ? styles.mobilePageNavChevronExpanded : undefined} viewBox="0 0 12 8" fill="none" aria-hidden="true">
-            <path d="m1 1.5 5 5 5-5" />
-          </svg>
-        </button>
-        <div id="intro-mobile-page-links" className={styles.mobilePageNavLinks} hidden={!mobileExpanded}>
-          {links}
-        </div>
-      </nav>
-    );
-  }
 
   return (
     <nav className={styles.pageNav} aria-label="Introduction page contents">

@@ -109,7 +109,7 @@ function announcePasteHint(tool: AiTool): string {
   );
 }
 
-export default function CopyPage(): ReactNode {
+export default function CopyPage({className}: {className?: string} = {}): ReactNode {
   const isBrowser = useIsBrowser();
   const {siteConfig} = useDocusaurusContext();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -242,7 +242,7 @@ export default function CopyPage(): ReactNode {
     status === 'copied' ? CheckIcon : status === 'error' ? AlertIcon : CopyIcon;
 
   return (
-    <div className={styles.root} ref={rootRef} onKeyDown={handleKeyDown}>
+    <div className={clsx(styles.root, className)} ref={rootRef} onKeyDown={handleKeyDown}>
       <div className={styles.group}>
         <button
           type="button"

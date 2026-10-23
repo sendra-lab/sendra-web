@@ -6,11 +6,9 @@
 }
 
 .tocColumn { max-width: 25%; }
-.mobileTOC { display: none; }
 @media screen and (max-width: 996px) {
   .docItemCol { max-width: 100% !important; }
   .tocColumn { display: none; }
-  .mobileTOC { display: block; margin-bottom: 1.5rem; }
 }
 
 @media screen and (min-width: 997px) {

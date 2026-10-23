@@ -273,6 +273,7 @@
 @media screen and (max-width: 996px) {
   .plugin-docs .theme-doc-sidebar-container { border-right: 0; }
   .plugin-docs .docItemCol article { max-width: 76ch; }
+  .plugin-docs .theme-doc-toc-mobile { display: none !important; }
 }
 
 @media screen and (max-width: 700px) {

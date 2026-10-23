@@ -5,7 +5,6 @@ import DocItemLayout from '@theme-original/DocItem/Layout';
 import type DocItemLayoutType from '@theme/DocItem/Layout';
 import type {WrapperProps} from '@docusaurus/types';
 import DocItemContent from '@theme/DocItem/Content';
-import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import DocVersionBanner from '@theme/DocVersionBanner';
 import DocVersionBadge from '@theme/DocVersionBadge';
 import DocItemFooter from '@theme/DocItem/Footer';
@@ -27,11 +26,7 @@ export default function DocItemLayoutWrapper({children}: Props): ReactNode {
         <DocVersionBanner />
         <div className={styles.docItemContainer}>
           <article>
-            <DocBreadcrumbs />
             <DocVersionBadge />
-            {isIntroduction ? (
-              <div className={styles.mobileTOC}><DocsHomeContents mobile /></div>
-            ) : null}
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />
           </article>

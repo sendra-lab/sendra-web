@@ -29,7 +29,7 @@ function FooterAnchor({link}: {link: FooterLink}) {
   if (link.to) {
     return <Link className={styles.footerLink} to={link.to}>{link.label}</Link>;
   }
-  return <a className={styles.footerLink} href={link.href}>{link.label}</a>;
+  return <a className={styles.footerLink} href={link.href} target="_blank" rel="noreferrer">{link.label}</a>;
 }
 
 function GitHubMark(): ReactNode {
@@ -53,7 +53,7 @@ export default function Footer(): ReactNode {
               <span>Sendra</span>
             </Link>
             <p>Test APIs with requests that live in your repo.</p>
-            <a className={styles.githubLink} href="https://github.com/sendra-lab/sendra">
+            <a className={styles.githubLink} href="https://github.com/sendra-lab/sendra" target="_blank" rel="noreferrer">
               <GitHubMark /><span>GitHub</span>
             </a>
           </div>

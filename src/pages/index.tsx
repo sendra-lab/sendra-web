@@ -260,7 +260,7 @@ function GetStarted() {
             <span className={styles.tPrompt}>$</span>{' '}
             <span className={styles.tWrap}>{active.command}</span>
             {'\n'}
-            <span className={styles.tPrompt}>$</span> sendra run examples/get-request.yaml
+            <span className={styles.tPrompt}>$</span> sendra run requests/get-request.yaml
           </TerminalWindow>
         </div>
       </div>

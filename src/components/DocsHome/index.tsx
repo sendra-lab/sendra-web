@@ -115,8 +115,11 @@ export default function DocsHome(): ReactNode {
           </section>
 
           <section className={styles.installOptions} id="installation" aria-labelledby="installation-heading">
-            <div className={styles.sectionHeading}>
-              <h2 id="installation-heading">Installation</h2>
+            <div className={styles.installHeading}>
+              <div>
+                <h2 id="installation-heading">Installation</h2>
+                <p>Choose the package manager that fits your setup.</p>
+              </div>
             </div>
             <div className={styles.installGrid}>
               {INSTALL_OPTIONS.map(([label, command]) => (

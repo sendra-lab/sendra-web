@@ -184,16 +184,33 @@
 .resourceLink > span:not(.arrow) { color: var(--ifm-color-emphasis-700); font-size: 0.8rem; line-height: 1.5; }
 .resourceLink > .arrow { position: absolute; top: 1.2rem; right: 1.2rem; }
 
-.installOptions { margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-top: clamp(1.5rem, 3vw, 2.5rem); border-top: 1px solid var(--docs-line); }
-.installOptions .sectionHeading { margin-bottom: 1.25rem; }
-.installOptions .sectionHeading h2 { margin-top: 0; }
-.installGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem 1.25rem; }
-.installItem { display: grid; gap: 0.35rem; min-width: 0; }
-.installItem strong { color: var(--ifm-color-emphasis-700); font-size: 0.74rem; font-weight: 600; }
+.installOptions {
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--docs-line);
+  border-radius: 0.75rem;
+  background: var(--ifm-background-surface-color);
+}
+.installHeading { margin-bottom: 1.5rem; }
+.installHeading h2 { margin: 0 0 0.45rem; font-size: clamp(1.8rem, 3vw, 2.35rem); font-weight: 640; letter-spacing: -0.05em; }
+.installHeading p { margin: 0; color: var(--ifm-color-emphasis-700); font-size: 0.95rem; line-height: 1.6; }
+.installGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+.installItem {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  min-width: 0;
+  min-height: 6.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--docs-line);
+  border-radius: 0.5rem;
+  background: var(--ifm-background-color);
+}
+.installItem strong { color: var(--ifm-font-color-base); font-size: 0.86rem; font-weight: 620; }
 .installItem code,
-.installItem a { min-width: 0; color: var(--ifm-color-emphasis-700); font-size: 0.7rem; line-height: 1.5; overflow-wrap: anywhere; }
-.installItem code { background: transparent; }
-.installItem a { color: var(--ifm-color-primary); }
+.installItem a { min-width: 0; font-size: 0.76rem; line-height: 1.6; overflow-wrap: anywhere; }
+.installItem code { padding: 0; background: transparent; color: var(--ifm-color-emphasis-700); }
+.installItem a { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--ifm-color-primary); }
 
 .pageNav {
   position: sticky;
@@ -248,6 +265,7 @@
   .startGrid,
   .bottomRow,
   .installGrid { grid-template-columns: 1fr; }
+  .installOptions { padding: 1.1rem; }
   .startCard { min-height: 10rem; }
   .resourceLink { min-height: 8rem; }
 }

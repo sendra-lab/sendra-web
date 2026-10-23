@@ -156,20 +156,22 @@
 }
 
 .navbar-github-link {
-  width: auto;
-  height: auto;
-  padding: 0.5rem 0.8rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
   border-radius: 0.4rem;
-  color: var(--ifm-font-color-base);
-  font-size: 0.88rem;
-  font-weight: 600;
+  font-size: 0;
 }
 
-.navbar-github-link::before { display: none; }
+.navbar-github-link::before {
+  display: inline-block;
+  width: 1.35rem;
+  height: 1.35rem;
+  background-color: var(--ifm-navbar-link-color);
+}
 .navbar-github-link:hover {
   background: var(--ifm-color-emphasis-100);
-  border-color: var(--ifm-color-emphasis-500);
 }
 
 .navbar__items--right { gap: 0.5rem; }
@@ -183,54 +185,6 @@
 /* Footer: a brand-green accent bar on top, bolder section titles, and a
    green-on-hover pop for links — a plain two-column list otherwise reads as
    an afterthought under a dark-mode-only palette. */
-.footer {
-  position: relative;
-  padding-top: 3.5rem;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--ifm-color-primary) 0%,
-    var(--ifm-color-primary-lighter) 50%,
-    transparent 100%
-  );
-}
-
-.footer__title {
-  font-family: var(--ifm-font-family-monospace);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  color: var(--ifm-color-primary-lighter);
-}
-
-.footer__link-item {
-  transition: color 0.15s ease, padding-left 0.15s ease;
-}
-
-.footer__link-item:hover {
-  color: var(--ifm-color-primary-lightest);
-  padding-left: 0.15rem;
-}
-
-.footer__logo {
-  border-radius: 0.4rem;
-}
-
-.footer__bottom {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 /* Local search (@easyops-cn/docusaurus-search-local, docs + blog only — see
    the "Homepage search box" rule below for why it's hidden on "/"). Infima's
    default search input is a full pill (border-radius: 2rem) with a thick

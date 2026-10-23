@@ -119,7 +119,6 @@ function WhySendra() {
     <section className={styles.whySection}>
       <div className="container">
         <div className={styles.workflowHeading}>
-          <span className={styles.workflowKicker}>The workflow</span>
           <Heading as="h2" className={styles.sectionTitle}>
             Write it once. Run it wherever you work.
           </Heading>

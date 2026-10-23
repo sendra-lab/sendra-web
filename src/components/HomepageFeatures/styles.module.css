@@ -8,17 +8,6 @@
   margin: 0 0 2.5rem;
 }
 
-.kicker {
-  display: inline-block;
-  margin-bottom: 0.9rem;
-  color: var(--ifm-color-primary);
-  font-family: var(--ifm-font-family-monospace);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .sectionTitle {
   margin: 0 0 0.75rem;
   font-size: clamp(1.8rem, 3vw, 2.5rem);

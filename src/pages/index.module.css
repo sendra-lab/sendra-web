@@ -133,17 +133,6 @@
   text-align: center;
 }
 
-.workflowKicker {
-  display: inline-block;
-  margin-bottom: 0.8rem;
-  color: var(--ifm-color-primary);
-  font-family: var(--ifm-font-family-monospace);
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .workflowHeading p {
   max-width: 36rem;
   margin: 0 auto;

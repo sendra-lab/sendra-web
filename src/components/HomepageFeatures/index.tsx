@@ -81,7 +81,6 @@ export default function HomepageFeatures(): ReactNode {
     <section className={styles.features}>
       <div className="container">
         <div className={styles.sectionHeading}>
-          <span className={styles.kicker}>Inside Sendra</span>
           <Heading as="h2" className={styles.sectionTitle}>A workspace for the whole request</Heading>
           <p className={styles.sectionIntro}>Move between the parts of your API workflow. The same files stay at the center.</p>
         </div>

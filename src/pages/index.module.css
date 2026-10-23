@@ -347,14 +347,26 @@
   .heroBanner { min-height: auto; padding: 4.5rem 0 3.5rem; }
   .heroGrid { gap: 2rem; }
   .whySection { padding: 4rem 0; }
+  .workflowHeading { margin-bottom: 1.75rem; }
+  .workflowHeading p { font-size: 0.94rem; }
   .terminalBody { padding: 1.1rem; font-size: 0.72rem; }
 }
 
 @media screen and (max-width: 560px) {
-  .workflowTargets { grid-template-columns: 1fr; }
-  .workflowTarget { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.35rem 0.7rem; padding: 0.8rem; }
-  .workflowTarget .workflowIcon { grid-row: span 2; }
-  .workflowTarget strong { min-height: 0; }
+  .whySection { padding: 3.25rem 0; }
+  .workflowHeading { margin-bottom: 1.35rem; }
+  .workflowHeading .sectionTitle { font-size: clamp(1.65rem, 7.5vw, 2.15rem); }
+  .workflowHeading p { font-size: 0.9rem; line-height: 1.6; }
+  .workflowDiagram { gap: 0.9rem; padding: 0.8rem; border-radius: 0.6rem; }
+  .sourceHeader { gap: 0.5rem; padding: 0.7rem 0.65rem; }
+  .sourceHeader > div span { font-size: 0.53rem; }
+  .sourceHeader strong { font-size: 0.62rem; }
+  .yamlBadge { padding: 0.16rem 0.3rem; font-size: 0.52rem; }
+  .workflowSource pre { padding: 1rem 0.8rem; font-size: 0.74rem; line-height: 1.85; }
+  .workflowConnector { gap: 0.5rem; font-size: 0.52rem; }
+  .workflowTargets { grid-template-columns: 1fr; gap: 0.45rem; }
+  .workflowTarget { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 0.3rem 0.65rem; padding: 0.7rem 0.75rem; }
+  .workflowTarget .workflowIcon { grid-row: 1 / span 3; }
+  .workflowTarget strong { min-height: 0; font-size: 0.84rem; }
   .workflowTarget code, .workflowTarget > span { grid-column: 2; }
-  .workflowDiagram { padding: 1rem; }
 }

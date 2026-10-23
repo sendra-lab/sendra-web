@@ -275,14 +275,21 @@
 @media screen and (max-width: 600px) {
   .sectionHeading { margin-bottom: 1.5rem; }
   .features { padding: 3.5rem 0 2rem; }
-  .featureList { max-height: 26rem; }
+  .sectionTitle { font-size: clamp(1.65rem, 7.5vw, 2.15rem); }
+  .sectionIntro { font-size: 0.94rem; line-height: 1.6; }
+  .showcase { gap: 1.25rem; }
+  .featureList { max-height: 23rem; }
   .featureTab { padding: 0.75rem 0.85rem; }
   .featureTabTitle { font-size: 1rem; }
   .featureTabDescription { font-size: 0.84rem; }
-  .previewWindow { min-height: 19rem; }
-  .previewCanvas { min-height: 16rem; padding: 1.25rem; }
-  .previewToolbar { padding: 0 0.7rem; }
+  .previewWindow { min-height: 0; }
+  .previewCanvas { min-height: 16rem; padding: 1rem; }
+  .previewToolbar { padding: 0 0.75rem; }
+  .previewToolbar > span { right: 0.75rem; left: auto; max-width: 58%; overflow: hidden; text-overflow: ellipsis; transform: none; white-space: nowrap; }
   .yamlArt, .collectionArt, .terminalArt, .checkArt, .oauthArt, .ciArt { font-size: 0.68rem; }
+  .tuiLayout { grid-template-columns: minmax(6.1rem, 0.72fr) minmax(0, 1.7fr); }
+  .tuiMain { padding: 0.65rem 0.55rem; }
+  .tuiSidebar { padding: 0.65rem 0.4rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

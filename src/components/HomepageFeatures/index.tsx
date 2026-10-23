@@ -100,9 +100,21 @@ export default function HomepageFeatures(): ReactNode {
 
   useEffect(() => {
     const activeTab = document.getElementById(`feature-tab-${FEATURES[activeIndex].id}`);
-    activeTab?.scrollIntoView({
+    const featureList = activeTab?.parentElement;
+    if (!activeTab || !featureList) return;
+
+    const tabBounds = activeTab.getBoundingClientRect();
+    const listBounds = featureList.getBoundingClientRect();
+    const isAbove = tabBounds.top < listBounds.top;
+    const isBelow = tabBounds.bottom > listBounds.bottom;
+    if (!isAbove && !isBelow) return;
+
+    const scrollOffset = isAbove
+      ? tabBounds.top - listBounds.top
+      : tabBounds.bottom - listBounds.bottom;
+    featureList.scrollTo({
+      top: featureList.scrollTop + scrollOffset,
       behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      block: 'nearest',
     });
   }, [activeIndex]);
 

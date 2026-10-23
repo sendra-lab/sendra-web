@@ -2,7 +2,6 @@ import type {ReactNode} from 'react';
 import {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
@@ -52,19 +51,10 @@ function HeroTerminal() {
 }
 
 function HomepageHeader() {
-  const logoSrc = useBaseUrl('/img/sendra-logo.png');
   return (
     <header className={styles.heroBanner}>
       <div className={clsx('container', styles.heroGrid)}>
         <div className={styles.heroCopy}>
-          <img
-            src={logoSrc}
-            alt=""
-            className={styles.heroLogo}
-            width={64}
-            height={64}
-          />
-          <p className={styles.eyebrow}>API testing from your terminal</p>
           <Heading as="h1" className={styles.heroTitle}>
             Test APIs with requests that live in your repo.
           </Heading>

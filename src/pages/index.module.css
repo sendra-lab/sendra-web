@@ -114,9 +114,9 @@
   background: #606660;
 }
 
-.terminalDot[data-color='red'] { background: #777d77; }
-.terminalDot[data-color='yellow'] { background: #777d77; }
-.terminalDot[data-color='green'] { background: #777d77; }
+.terminalDot[data-color='red'] { background: #ec6a5f; }
+.terminalDot[data-color='yellow'] { background: #f4bf4f; }
+.terminalDot[data-color='green'] { background: #61c554; }
 
 .terminalPath {
   margin-left: 0.5rem;
@@ -138,8 +138,8 @@
 }
 
 .terminalBody code { background: transparent; color: inherit; }
-.tKey { color: #9bd8a5; }
-.tPrompt, .tPass { color: #70ce80; font-weight: 600; }
+.tKey { color: #7fd792; }
+.tPrompt, .tPass { color: #4dcb62; font-weight: 600; }
 .tWrap { white-space: pre-wrap; word-break: break-word; }
 
 .sectionTitle {

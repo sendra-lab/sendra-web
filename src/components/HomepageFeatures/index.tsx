@@ -21,7 +21,7 @@ const FEATURES = [
     id: 'terminal',
     title: 'CLI and interactive TUI',
     description: 'Explore collections in the terminal UI, or run requests directly from the shell.',
-    preview: 'sendra tui',
+    preview: 'CLI + TUI',
   },
   {
     id: 'checks',
@@ -43,35 +43,77 @@ const FEATURES = [
   },
 ];
 
-function PreviewArt({id}: {id: string}) {
-  if (id === 'collections') {
-    return <div className={styles.collectionArt}><div><i /> Requests <small>12</small></div><div className={styles.selectedRow}>GET&nbsp; /users</div><div>POST&nbsp; /sessions</div><div><i /> Environments</div><div className={styles.envPill}>production</div></div>;
-  }
-  if (id === 'terminal') {
-    return (
-      <div className={styles.terminalArt}>
-        <div className={styles.tuiTopBar}>
-          <b>REQUESTS</b><span>collection: users.yaml</span>
+function TerminalDemo({onInteract}: {onInteract: () => void}) {
+  const [mode, setMode] = useState<'cli' | 'tui'>('cli');
+  const [selectedRequest, setSelectedRequest] = useState(0);
+  const [runState, setRunState] = useState<'ready' | 'running' | 'done'>('ready');
+  const requests = [
+    {method: 'GET', file: 'users.yaml', path: '/api/users'},
+    {method: 'POST', file: 'sessions.yaml', path: '/api/sessions'},
+    {method: 'GET', file: 'health.yaml', path: '/api/health'},
+  ];
+  const request = requests[selectedRequest];
+
+  useEffect(() => {
+    if (runState !== 'running') return undefined;
+    const timeout = window.setTimeout(() => setRunState('done'), 1200);
+    return () => window.clearTimeout(timeout);
+  }, [runState]);
+
+  return (
+    <div className={styles.terminalArt}>
+      <div className={styles.demoToolbar}>
+        <div className={styles.demoModes} role="tablist" aria-label="Terminal demo mode">
+          <button type="button" role="tab" aria-selected={mode === 'cli'} onClick={() => { onInteract(); setMode('cli'); setRunState('ready'); }}>CLI</button>
+          <button type="button" role="tab" aria-selected={mode === 'tui'} onClick={() => { onInteract(); setMode('tui'); setRunState('ready'); }}>TUI</button>
         </div>
-        <div className={styles.tuiLayout}>
+        <span>{mode === 'cli' ? 'shell' : 'sendra tui'}</span>
+      </div>
+      {mode === 'cli' ? (
+        <div className={styles.cliDemo}>
+          <div className={styles.cliPrompt}><i>$</i> sendra run {request.file}</div>
+          {runState === 'ready' && <p className={styles.cliHint}>Run a request from your terminal.</p>}
+          {runState === 'running' && <div className={styles.cliOutput}><p><i className={styles.loadingMark}>◌</i> Loading request and environment…</p><p><i className={styles.loadingMark}>◌</i> Sending {request.method} {request.path}</p></div>}
+          {runState === 'done' && <div className={styles.cliOutput}><p><i>✓</i> {request.method} {request.path} <b>200 OK</b></p><p><i>✓</i> 3 assertions passed <small>148 ms</small></p></div>}
+          <button className={styles.runAction} type="button" onClick={() => { onInteract(); setRunState('running'); }} disabled={runState === 'running'}>
+            {runState === 'running' ? 'Running…' : runState === 'done' ? 'Run again' : 'Run request'} <kbd>↵</kbd>
+          </button>
+        </div>
+      ) : (
+        <div className={styles.tuiDemo}>
           <aside className={styles.tuiSidebar}>
             <strong>COLLECTIONS</strong>
-            <div className={styles.tuiSelected}><span>GET</span> users.yaml</div>
-            <div><span>POST</span> sessions.yaml</div>
-            <div><span>GET</span> health.yaml</div>
+            {requests.map((item, index) => (
+              <button key={item.file} type="button" className={index === selectedRequest ? styles.tuiSelected : ''} onClick={() => { onInteract(); setSelectedRequest(index); setRunState('ready'); }}>
+                <span>{item.method}</span> {item.file}
+              </button>
+            ))}
             <strong className={styles.tuiEnvironmentLabel}>ENVIRONMENT</strong>
             <div className={styles.tuiEnvironment}>staging <i>v</i></div>
           </aside>
           <section className={styles.tuiMain}>
             <div className={styles.tuiTabs}><b>Request</b><span>Response</span></div>
-            <div className={styles.tuiRequest}><span>GET</span><code>/api/users</code><span className={styles.tuiRunKey}>r Run</span></div>
-            <div className={styles.tuiResponseHeader}><b>Response</b><span>200 OK</span><small>148 ms</small></div>
-            <div className={styles.tuiJson}><span>{'{'}</span><p><i>"id"</i>: 42,</p><p><i>"name"</i>: "Alex Morgan",</p><p><i>"active"</i>: true</p><span>{'}'}</span></div>
+            <div className={styles.tuiRequest}><span>{request.method}</span><code>{request.path}</code></div>
+            <button className={styles.runAction} type="button" onClick={() => { onInteract(); setRunState('running'); }} disabled={runState === 'running'}>
+              {runState === 'running' ? 'Running…' : 'r  Run request'}
+            </button>
+            <div className={styles.tuiResponseHeader}><b>Response</b><span>{runState === 'done' ? '200 OK' : runState === 'running' ? 'Waiting…' : '—'}</span><small>{runState === 'done' ? '148 ms' : ''}</small></div>
+            {runState === 'done' ? (
+              <div className={styles.tuiJson}><span>{'{'}</span><p><i>"id"</i>: 42,</p><p><i>"name"</i>: "Alex Morgan",</p><p><i>"active"</i>: true</p><span>{'}'}</span></div>
+            ) : <p className={styles.tuiEmptyResponse}>{runState === 'running' ? 'Waiting for response…' : 'Select a request, then run it.'}</p>}
           </section>
         </div>
-        <div className={styles.tuiStatusBar}><span>Arrows Navigate</span><span>Enter Select</span><span>r Run request</span></div>
-      </div>
-    );
+      )}
+    </div>
+  );
+}
+
+function PreviewArt({id, onInteract}: {id: string; onInteract: () => void}) {
+  if (id === 'collections') {
+    return <div className={styles.collectionArt}><div><i /> Requests <small>12</small></div><div className={`${styles.collectionItem} ${styles.collectionItemOne}`}>GET&nbsp; /users</div><div className={`${styles.collectionItem} ${styles.collectionItemTwo}`}>POST&nbsp; /sessions</div><div className={`${styles.collectionItem} ${styles.collectionItemThree}`}>GET&nbsp; /health</div><div><i /> Environments</div><div className={styles.envPill}>production</div></div>;
+  }
+  if (id === 'terminal') {
+    return <TerminalDemo onInteract={onInteract} />;
   }
   if (id === 'checks') {
     return <div className={styles.checkArt}><div><span>✓</span> status equals 200 <b>PASS</b></div><div><span>✓</span> body.id is present <b>PASS</b></div><div className={styles.mutedCheck}><span>✓</span> duration under 500 ms <b>PASS</b></div><div className={styles.runSummary}>3 checks passed</div></div>;
@@ -80,23 +122,49 @@ function PreviewArt({id}: {id: string}) {
     return <div className={styles.oauthArt}><div>Authorization <span>● Connected</span></div><section><label>Grant type</label><b>Client credentials</b></section><section><label>Token URL</label><b>https://auth.example.com/token</b></section><div className={styles.tokenBar}>Bearer token&nbsp; · &nbsp;••••••••••••</div></div>;
   }
   if (id === 'ci') {
-    return <div className={styles.ciArt}><div><span className={styles.ciNode}>1</span><section><b>Checkout repository</b><small>actions/checkout@v4</small></section><span className={styles.nodeCheck}>✓</span></div><div><span className={styles.ciNode}>2</span><section><b>Run API checks</b><small>sendra test</small></section><span className={styles.nodeCheck}>✓</span></div><div className={styles.ciComplete}>✓&nbsp; All checks passed</div></div>;
+    return (
+      <div className={styles.ciArt}>
+        <div className={styles.ciRunHeader}><i /> sendra test <span>workflow run #184</span></div>
+        <div className={styles.ciSteps}>
+          <div><span className={styles.ciNode}>1</span><section><b>Checkout repository</b><small>actions/checkout@v4</small></section><span className={styles.nodeCheck}>✓</span></div>
+          <div><span className={styles.ciNode}>2</span><section><b>Run API checks</b><small>sendra test</small></section><span className={styles.nodeCheck}>✓</span></div>
+        </div>
+        <div className={styles.ciLogs}>
+          <p>$ sendra test</p>
+          <p>Loading request collection…</p>
+          <p>Loaded 6 request files</p>
+          <p>GET&nbsp; /api/users&nbsp; <b>200 OK</b></p>
+          <p>✓&nbsp; status assertion passed</p>
+          <p>POST&nbsp; /api/sessions&nbsp; <b>201 Created</b></p>
+          <p>✓&nbsp; 14 assertions passed · 0.84s</p>
+          <p className={styles.ciFinalLog}>✓&nbsp; Workflow completed successfully</p>
+        </div>
+        <div className={styles.ciProgress}><span /></div>
+      </div>
+    );
   }
   return <div className={styles.yamlArt}><div><span>1</span><code><em>method:</em> GET</code></div><div><span>2</span><code><em>url:</em> https://api.example.com/users</code></div><div><span>3</span><code><em>assertions:</em></code></div><div><span>4</span><code>&nbsp;&nbsp;<em>status:</em> 200</code></div><div><span>5</span><code>&nbsp;&nbsp;<em>body.id:</em> exists</code></div></div>;
 }
 
 export default function HomepageFeatures(): ReactNode {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [pauseUntil, setPauseUntil] = useState(0);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || Date.now() < pauseUntil) {
       return undefined;
     }
     const interval = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % FEATURES.length);
-    }, 5200);
+    }, 8000);
     return () => window.clearInterval(interval);
-  }, [activeIndex]);
+  }, [pauseUntil]);
+
+  useEffect(() => {
+    if (!pauseUntil) return undefined;
+    const timeout = window.setTimeout(() => setPauseUntil(0), Math.max(0, pauseUntil - Date.now()));
+    return () => window.clearTimeout(timeout);
+  }, [pauseUntil]);
 
   useEffect(() => {
     const activeTab = document.getElementById(`feature-tab-${FEATURES[activeIndex].id}`);
@@ -119,6 +187,7 @@ export default function HomepageFeatures(): ReactNode {
   }, [activeIndex]);
 
   const active = FEATURES[activeIndex];
+  const pauseAutoAdvance = () => setPauseUntil(Date.now() + 18000);
 
   return (
     <section className={styles.features}>
@@ -139,7 +208,7 @@ export default function HomepageFeatures(): ReactNode {
                   aria-selected={active.id === feature.id}
                   aria-controls="feature-preview"
                   className={`${styles.featureTab} ${active.id === feature.id ? styles.featureTabActive : ''}`}
-                  onClick={() => setActiveIndex(index)}>
+                  onClick={() => { setActiveIndex(index); pauseAutoAdvance(); }}>
                   <span className={styles.featureTabTitle}>{feature.title}</span>
                   <span className={styles.featureTabDescription}>{feature.description}</span>
                 </button>
@@ -153,7 +222,7 @@ export default function HomepageFeatures(): ReactNode {
                 <span>{active.preview}</span>
               </div>
               <div className={styles.previewCanvas} key={active.id}>
-                <PreviewArt id={active.id} />
+                <PreviewArt id={active.id} onInteract={pauseAutoAdvance} />
               </div>
             </div>
           </div>

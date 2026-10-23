@@ -177,19 +177,19 @@ const INSTALL_METHODS: InstallMethod[] = [
     id: 'npm',
     label: 'npm',
     path: 'terminal',
-    command: <>npm install @sendra-lab/sendra</>,
+    command: <>npm install -g @sendra-lab/sendra</>,
   },
   {
     id: 'pnpm',
     label: 'pnpm',
     path: 'terminal',
-    command: <>pnpm add @sendra-lab/sendra</>,
+    command: <>pnpm add -g @sendra-lab/sendra</>,
   },
   {
     id: 'bun',
     label: 'Bun',
     path: 'terminal',
-    command: <>bun add @sendra-lab/sendra</>,
+    command: <>bun add -g @sendra-lab/sendra</>,
   },
   {
     id: 'powershell',

@@ -216,7 +216,6 @@ const config: Config = {
           items: [
             {label: 'Introduction', to: '/docs/intro'},
             {label: 'Reference', to: '/docs/cli/reference'},
-            {label: 'Design Decisions', to: '/docs/cli/decisions'},
           ],
         },
         {

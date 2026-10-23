@@ -19,3 +19,6 @@ announcement:
 deep-dive:
   label: Deep dive
   description: Longer, more technical posts on how a specific part of Sendra works.
+design-notes:
+  label: Design notes
+  description: The reasoning behind Sendra's technical choices.

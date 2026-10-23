@@ -12,7 +12,6 @@ const GROUPS: {title: string; links: FooterLink[]}[] = [
     links: [
       {label: 'Introduction', to: '/docs/intro'},
       {label: 'CLI reference', to: '/docs/cli/reference'},
-      {label: 'Design decisions', to: '/docs/cli/decisions'},
     ],
   },
   {

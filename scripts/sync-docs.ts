@@ -187,7 +187,7 @@ function extractTitle(body: string): string | undefined {
   return match?.[1]?.trim();
 }
 
-/** Order derived from reference.md / decisions/README.md's own bullet lists. */
+/** Order derived from reference.md's own bullet list. */
 function extractOrder(indexBody: string, indexDir: string): Map<string, number> {
   const order = new Map<string, number>();
   const linkPattern = /\]\(([^)#]+\.md)(#[^)]*)?\)/g;
@@ -248,6 +248,35 @@ function rewriteLinks(
   );
 }
 
+function rewriteDecisionLinks(body: string): string {
+  const decisionBlogs: Record<string, string> = {
+    "why-test-ignores-unasserted-status": "why-test-ignores-unasserted-status",
+    "exit-codes": "why-sendra-exit-codes",
+    "sandboxing": "sandboxing-sendra-scripts",
+    "precedence-chain": "how-sendra-resolves-request-values",
+  };
+  let rewritten = body;
+
+  for (const [decision, slug] of Object.entries(decisionBlogs)) {
+    rewritten = rewritten.replaceAll(
+      `/docs/cli/decisions/${decision}`,
+      `/blog/${slug}`,
+    );
+  }
+  rewritten = rewritten
+    .replaceAll("/docs/cli/decisions", "/blog/tags/design-notes")
+    .replaceAll("/docs/decisions/", "/blog/tags/design-notes");
+
+  return rewritten.replace(
+    /https:\/\/github\.com\/sendra-lab\/Sendra\/blob\/[^/\s)]+\/docs\/decisions\/(README\.md|[a-z0-9-]+\.md)(#[^\s)]*)?/gi,
+    (_match, file: string, fragment: string | undefined) => {
+      const key = file === "README.md" ? undefined : file.replace(/\.md$/i, "");
+      const slug = key ? decisionBlogs[key] : undefined;
+      return `${slug ? `/blog/${slug}` : "/blog/tags/design-notes"}${fragment ?? ""}`;
+    },
+  );
+}
+
 function buildFrontMatter(opts: {
   id: string;
   title: string;
@@ -283,24 +312,6 @@ function buildFrontMatter(opts: {
   return lines.join("\n");
 }
 
-interface CategoryMeta {
-  label: string;
-  position: number;
-  collapsed: boolean;
-  link:
-    | { type: "doc"; id: string }
-    | { type: "generated-index"; description?: string };
-}
-
-async function writeCategory(dir: string, meta: CategoryMeta): Promise<void> {
-  await mkdir(dir, { recursive: true });
-  await writeFile(
-    path.join(dir, "_category_.json"),
-    `${JSON.stringify(meta, null, 2)}\n`,
-    "utf8",
-  );
-}
-
 async function main() {
   ref = process.env.SENDRA_DOCS_REF ?? (await resolveHeadSha());
   console.log(`Syncing docs/ from ${SOURCE_OWNER}/${SOURCE_REPO}@${ref}...`);
@@ -310,7 +321,11 @@ async function main() {
     throw new Error("No markdown files found under docs/ at the pinned ref — refusing to sync.");
   }
 
-  const sourceRelPaths = filePaths.map(toDocsRelPath);
+  // Design rationale now lives in the journal; only product reference pages
+  // are synced into the docs sidebar.
+  const sourceRelPaths = filePaths
+    .map(toDocsRelPath)
+    .filter((rel) => !rel.startsWith("decisions/"));
   const knownDocs = new Set(sourceRelPaths);
 
   const contents = new Map<DocsRelPath, string>();
@@ -321,7 +336,6 @@ async function main() {
   const lastUpdated = await fetchDocsLastUpdated();
 
   const topOrder = extractOrder(contents.get("reference.md") ?? "", ".");
-  const decisionsOrder = extractOrder(contents.get("decisions/README.md") ?? "", "decisions");
 
   // Clean previous run's output. Scoped to SYNC_TARGET_DIR only, so any
   // hand-written docs living elsewhere under docs/ are never touched.
@@ -331,7 +345,7 @@ async function main() {
   for (const rel of sourceRelPaths) {
     const raw = contents.get(rel)!;
     const title = extractTitle(raw) ?? path.basename(rel, ".md");
-    const rewritten = rewriteLinks(raw, rel, knownDocs);
+    const rewritten = rewriteDecisionLinks(rewriteLinks(raw, rel, knownDocs));
 
     const outRel = toOutputRelPath(rel);
     // Docusaurus ids may not contain a slash — location within docs/cli/
@@ -339,14 +353,9 @@ async function main() {
     // (e.g. reference/exit-codes.md vs decisions/exit-codes.md), so the
     // bare basename is all `id` needs to be.
     const id = path.posix.basename(outRel, ".md");
-    // The two folder-index docs (reference/index.md, decisions/index.md) get
-    // their place in the sidebar from their _category_.json's own
-    // `position` below, not from a per-doc sidebar_position.
     const sidebarPosition = rel.startsWith("reference/")
       ? topOrder.get(rel)
-      : rel.startsWith("decisions/")
-        ? decisionsOrder.get(rel)
-        : undefined;
+      : undefined;
 
     // "Edit this page" should send contributors to the actual source (the
     // sendra repo's main branch), not to sendra-web — editing the synced
@@ -377,29 +386,6 @@ async function main() {
   // (CLI) and `sendra tui` (interactive TUI), and reference/tui.md lives
   // right alongside the CLI-flag docs, so a CLI-scoped label would misdescribe
   // half the category's own contents.
-  await writeCategory(SYNC_TARGET_DIR, {
-    label: "Documentation",
-    position: 2, // after hand-written docs/intro.md (sidebar_position: 1)
-    collapsed: false,
-    link: {
-      type: "generated-index",
-      description:
-        "Reference and design-decision docs for Sendra, synced from the sendra-lab/Sendra repo.",
-    },
-  });
-  await writeCategory(path.join(SYNC_TARGET_DIR, "reference"), {
-    label: "Reference",
-    position: 1,
-    collapsed: false,
-    link: { type: "doc", id: "index" },
-  });
-  await writeCategory(path.join(SYNC_TARGET_DIR, "decisions"), {
-    label: "Design Decisions",
-    position: 2,
-    collapsed: false,
-    link: { type: "doc", id: "index" },
-  });
-
   console.log(`Synced ${sourceRelPaths.length} file(s) into ${path.relative(repoRoot, SYNC_TARGET_DIR)}/`);
 }
 

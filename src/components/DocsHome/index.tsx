@@ -138,9 +138,9 @@ export default function DocsHome(): ReactNode {
               <span>Options, configuration, environments, assertions, and more.</span>
               <Arrow />
             </Link>
-            <Link className={styles.resourceLink} to="/docs/cli/decisions">
-              <strong>Design decisions</strong>
-              <span>The tradeoffs behind how Sendra behaves.</span>
+            <Link className={styles.resourceLink} to="/blog/tags/design-notes">
+              <strong>Design notes</strong>
+              <span>The thinking behind how Sendra works.</span>
               <Arrow />
             </Link>
           </section>
@@ -197,7 +197,7 @@ export function DocsHomeContents(): ReactNode {
   const links = <>
     <a href="#quick-start" className={activeSection === 'quick-start' ? styles.pageNavActive : undefined} aria-current={activeSection === 'quick-start' ? 'location' : undefined}>Quick start</a>
     <a href="#start-here" className={activeSection === 'start-here' ? styles.pageNavActive : undefined} aria-current={activeSection === 'start-here' ? 'location' : undefined}>Get started</a>
-    <a href="#reference" className={activeSection === 'reference' ? styles.pageNavActive : undefined} aria-current={activeSection === 'reference' ? 'location' : undefined}>Reference and decisions</a>
+    <a href="#reference" className={activeSection === 'reference' ? styles.pageNavActive : undefined} aria-current={activeSection === 'reference' ? 'location' : undefined}>Reference and notes</a>
     <a href="#installation" className={activeSection === 'installation' ? styles.pageNavActive : undefined} aria-current={activeSection === 'installation' ? 'location' : undefined}>Installation</a>
   </>;
 

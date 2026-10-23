@@ -29,13 +29,35 @@
   align-items: center;
 }
 
+.featureListFrame {
+  position: relative;
+  min-width: 0;
+}
+
+.featureListFrame::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2.25rem;
+  background: linear-gradient(to bottom, transparent, var(--ifm-background-surface-color));
+  content: '';
+  pointer-events: none;
+}
+
 .featureList {
   display: flex;
+  max-height: 25rem;
   flex-direction: column;
   gap: 0.3rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ifm-color-emphasis-300) transparent;
 }
 
 .featureTab {
+  position: relative;
   display: block;
   width: 100%;
   padding: 0.9rem 1rem;
@@ -57,8 +79,24 @@
 .featureTabActive,
 .featureTabActive:hover {
   color: var(--ifm-font-color-base);
-  border-left-color: var(--ifm-color-primary);
   background: var(--ifm-background-color);
+}
+
+.featureTabActive::before {
+  position: absolute;
+  top: 0.85rem;
+  bottom: 0.85rem;
+  left: 0;
+  width: 2px;
+  transform: scaleY(0);
+  transform-origin: top;
+  background: #65c879;
+  content: '';
+  animation: featureProgress 5.2s linear forwards;
+}
+
+@keyframes featureProgress {
+  to { transform: scaleY(1); }
 }
 
 .featureTabTitle {
@@ -225,33 +263,15 @@
 .nodeCheck { margin-left: auto; color: #7fd792; }
 .ciComplete { padding: 0.8rem; color: #7fd792; text-align: center; }
 
-.previewCaption {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: 1rem;
-  color: var(--ifm-color-emphasis-600);
-  font-family: var(--ifm-font-family-monospace);
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-}
-.previewCaption > span:first-child { white-space: nowrap; }
-.previewCaption > span:first-child i { color: var(--ifm-color-emphasis-500); font-style: normal; }
-.previewCaption > span:last-child { white-space: nowrap; }
-.progressTrack { height: 2px; flex: 1; overflow: hidden; background: var(--ifm-color-emphasis-300); }
-.progressTrack span { display: block; width: 100%; height: 100%; transform-origin: left; background: var(--ifm-color-primary); animation: progress 5.2s linear both; }
-@keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
 @media screen and (max-width: 900px) {
   .features { padding: 5rem 0 2.5rem; }
   .showcase { grid-template-columns: 1fr; gap: 2rem; }
-  .featureList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
 }
 
 @media screen and (max-width: 600px) {
   .sectionHeading { margin-bottom: 1.5rem; }
   .features { padding: 3.5rem 0 2rem; }
-  .featureList { grid-template-columns: 1fr; }
+  .featureList { max-height: 26rem; }
   .featureTab { padding: 0.75rem 0.85rem; }
   .featureTabTitle { font-size: 1rem; }
   .featureTabDescription { font-size: 0.84rem; }
@@ -262,5 +282,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .previewCanvas, .progressTrack span { animation: none; }
+  .previewCanvas, .featureTabActive::before { animation: none; transform: scaleY(1); }
 }

@@ -98,6 +98,14 @@ export default function HomepageFeatures(): ReactNode {
     return () => window.clearInterval(interval);
   }, [activeIndex]);
 
+  useEffect(() => {
+    const activeTab = document.getElementById(`feature-tab-${FEATURES[activeIndex].id}`);
+    activeTab?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'nearest',
+    });
+  }, [activeIndex]);
+
   const active = FEATURES[activeIndex];
 
   return (
@@ -108,21 +116,23 @@ export default function HomepageFeatures(): ReactNode {
           <p className={styles.sectionIntro}>Move between the parts of your API workflow. The same files stay at the center.</p>
         </div>
         <div className={styles.showcase}>
-          <div className={styles.featureList} role="tablist" aria-label="Sendra features">
-            {FEATURES.map((feature, index) => (
-              <button
-                key={feature.id}
-                id={`feature-tab-${feature.id}`}
-                type="button"
-                role="tab"
-                aria-selected={active.id === feature.id}
-                aria-controls="feature-preview"
-                className={`${styles.featureTab} ${active.id === feature.id ? styles.featureTabActive : ''}`}
-                onClick={() => setActiveIndex(index)}>
-                <span className={styles.featureTabTitle}>{feature.title}</span>
-                <span className={styles.featureTabDescription}>{feature.description}</span>
-              </button>
-            ))}
+          <div className={styles.featureListFrame}>
+            <div className={styles.featureList} role="tablist" aria-label="Sendra features">
+              {FEATURES.map((feature, index) => (
+                <button
+                  key={feature.id}
+                  id={`feature-tab-${feature.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={active.id === feature.id}
+                  aria-controls="feature-preview"
+                  className={`${styles.featureTab} ${active.id === feature.id ? styles.featureTabActive : ''}`}
+                  onClick={() => setActiveIndex(index)}>
+                  <span className={styles.featureTabTitle}>{feature.title}</span>
+                  <span className={styles.featureTabDescription}>{feature.description}</span>
+                </button>
+              ))}
+            </div>
           </div>
           <div id="feature-preview" role="tabpanel" aria-labelledby={`feature-tab-${active.id}`} className={styles.previewPanel}>
             <div className={styles.previewWindow}>
@@ -133,11 +143,6 @@ export default function HomepageFeatures(): ReactNode {
               <div className={styles.previewCanvas} key={active.id}>
                 <PreviewArt id={active.id} />
               </div>
-            </div>
-            <div className={styles.previewCaption}>
-              <span>0{activeIndex + 1} <i>/</i> 0{FEATURES.length}</span>
-              <div className={styles.progressTrack}><span key={active.id} /></div>
-              <span>FEATURE PREVIEW</span>
             </div>
           </div>
         </div>

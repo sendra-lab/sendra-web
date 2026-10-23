@@ -319,8 +319,7 @@
 .oauthArt section { display: grid; gap: 0.4rem; padding: 1rem 0 0.5rem; }
 .oauthArt label { color: #8e988e; font-size: 0.67rem; }
 .oauthArt section b { color: #d7ded7; font-weight: 400; }
-.oauthArt .tokenBar { position: relative; overflow: hidden; margin-top: 0.8rem; padding: 0.7rem; border-radius: 0.3rem; background: #1a211b; color: #9bd8a5; font-size: 0.68rem; }
-.oauthArt .tokenBar::after { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: #7fd792; content: ''; animation: tokenRefresh 8s ease-in-out infinite; }
+.oauthArt .tokenBar { margin-top: 0.8rem; padding: 0.7rem; border-radius: 0.3rem; background: #1a211b; color: #9bd8a5; font-size: 0.68rem; }
 
 .ciArt { display: grid; gap: 0.55rem; width: 100%; max-width: 35rem; }
 .ciRunHeader { display: flex; align-items: center; gap: 0.45rem; color: #dce3dc; font-size: 0.65rem; }
@@ -377,12 +376,6 @@
   58%, 90% { transform: scale(1); opacity: 1; }
   100% { transform: scale(0.4); opacity: 0.25; }
 }
-@keyframes tokenRefresh {
-  0%, 15% { left: 0; opacity: 0; }
-  24% { opacity: 1; }
-  78%, 88% { left: calc(100% - 2px); opacity: 1; }
-  100% { left: calc(100% - 2px); opacity: 0; }
-}
 @keyframes demoLineIn {
   from { opacity: 0; transform: translateY(0.25rem); }
   to { opacity: 1; transform: translateY(0); }
@@ -429,7 +422,6 @@
   .cliOutput p,
   .loadingMark,
   .checkArt > div:not(.runSummary),
-  .oauthArt .tokenBar::after,
   .ciRunHeader > i,
   .ciSteps > div,
   .ciLogs p,

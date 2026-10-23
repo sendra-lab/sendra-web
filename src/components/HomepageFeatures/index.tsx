@@ -157,23 +157,18 @@ function PreviewArt({id, onInteract}: {id: string; onInteract: () => void}) {
 
 export default function HomepageFeatures(): ReactNode {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [pauseUntil, setPauseUntil] = useState(0);
+  const [rotationPaused, setRotationPaused] = useState(false);
+  const [rotationKey, setRotationKey] = useState(0);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || Date.now() < pauseUntil) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || rotationPaused) {
       return undefined;
     }
     const interval = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % FEATURES.length);
     }, 8000);
     return () => window.clearInterval(interval);
-  }, [pauseUntil]);
-
-  useEffect(() => {
-    if (!pauseUntil) return undefined;
-    const timeout = window.setTimeout(() => setPauseUntil(0), Math.max(0, pauseUntil - Date.now()));
-    return () => window.clearTimeout(timeout);
-  }, [pauseUntil]);
+  }, [activeIndex, rotationPaused, rotationKey]);
 
   useEffect(() => {
     const activeTab = document.getElementById(`feature-tab-${FEATURES[activeIndex].id}`);
@@ -196,7 +191,7 @@ export default function HomepageFeatures(): ReactNode {
   }, [activeIndex]);
 
   const active = FEATURES[activeIndex];
-  const pauseAutoAdvance = () => setPauseUntil(Date.now() + 18000);
+  const pauseAutoAdvance = () => setRotationPaused(true);
 
   return (
     <section className={styles.features}>
@@ -217,7 +212,7 @@ export default function HomepageFeatures(): ReactNode {
                   aria-selected={active.id === feature.id}
                   aria-controls="feature-preview"
                   className={`${styles.featureTab} ${active.id === feature.id ? styles.featureTabActive : ''}`}
-                  onClick={() => { setActiveIndex(index); pauseAutoAdvance(); }}>
+                  onClick={() => { setActiveIndex(index); setRotationPaused(false); setRotationKey((key) => key + 1); }}>
                   <span className={styles.featureTabTitle}>{feature.title}</span>
                   <span className={styles.featureTabDescription}>{feature.description}</span>
                 </button>

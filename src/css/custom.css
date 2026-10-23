@@ -179,7 +179,7 @@
 
 /* Blog index: give the editorial list more room and keep the tag rail quiet. */
 .blog-list-page .main-wrapper {
-  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  padding: 0 0 clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .blog-list-page .main-wrapper > .container {
@@ -194,6 +194,7 @@
 .blog-list-page .main-wrapper aside {
   position: sticky;
   top: calc(var(--ifm-navbar-height) + 1.5rem);
+  margin-left: 0.75rem;
   padding: 1.25rem;
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 0.75rem;
@@ -284,6 +285,11 @@
     row-gap: 1.5rem;
   }
 
+  .blog-list-page .main-wrapper aside {
+    flex: 0 0 calc(100% - 0.75rem);
+    max-width: calc(100% - 0.75rem);
+  }
+
   .blog-list-page .main-wrapper main {
     order: 1;
   }
@@ -291,6 +297,14 @@
   .blog-list-page .main-wrapper aside {
     position: static;
     order: 2;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .blog-list-page .main-wrapper aside {
+    flex-basis: 100%;
+    max-width: 100%;
+    margin-left: 0;
   }
 }
 

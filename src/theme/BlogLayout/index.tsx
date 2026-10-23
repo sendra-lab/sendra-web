@@ -29,9 +29,6 @@ export default function BlogLayoutWrapper(props: Props): ReactNode {
                   to work with APIs.
                 </p>
               </div>
-              <a className={styles.feedLink} href="/blog/rss.xml" aria-label="Subscribe to the Sendra blog RSS feed">
-                <span aria-hidden="true">↗</span> RSS feed
-              </a>
             </div>
           </div>
         </header>

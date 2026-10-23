@@ -15,7 +15,6 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'intro',
-    'cli/reference/index',
     'cli/reference/requests',
     'cli/reference/running-and-testing',
     'cli/reference/json-output',
@@ -27,7 +26,6 @@ const sidebars: SidebarsConfig = {
     'cli/reference/scripting',
     'cli/reference/exit-codes',
     'cli/reference/json-schema',
-    'cli/reference/development',
     'cli/reference/tui',
   ],
 };

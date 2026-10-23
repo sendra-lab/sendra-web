@@ -112,6 +112,17 @@
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
+@media screen and (max-width: 700px) {
+  [role='region'][aria-label='Skip to main content'] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: visible;
+  }
+}
+
 .navbar__inner {
   width: 100%;
   max-width: 1360px;

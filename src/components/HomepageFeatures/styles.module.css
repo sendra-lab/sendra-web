@@ -56,6 +56,10 @@
   scrollbar-color: var(--ifm-color-emphasis-300) transparent;
 }
 
+.featureList::-webkit-scrollbar { width: 3px; }
+.featureList::-webkit-scrollbar-track { background: transparent; }
+.featureList::-webkit-scrollbar-thumb { border-radius: 3px; background: var(--ifm-color-emphasis-300); }
+
 .featureTab {
   position: relative;
   display: block;

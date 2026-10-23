@@ -40,38 +40,23 @@ function GitHubMark(): ReactNode {
   );
 }
 
-function ArrowMark(): ReactNode {
-  return <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M4 16 16 4M6 4h10v10" /></svg>;
-}
-
 export default function Footer(): ReactNode {
   const logoUrl = useBaseUrl('/img/sendra-logo.png');
 
   return (
     <footer className={styles.footer}>
       <div className="container">
-        <div className={styles.footerHero}>
-          <div className={styles.footerStatement}>
-            <p className={styles.eyebrow}>Sendra / terminal-native API testing</p>
-            <h2>Make every request<br />part of your workflow.</h2>
-            <Link className={styles.docsCta} to="/docs/intro">
-              <span>Explore the docs</span><ArrowMark />
-            </Link>
-          </div>
-
+        <div className={styles.footerMain}>
           <div className={styles.brandColumn}>
             <Link className={styles.brand} to="/" aria-label="Sendra home">
               <img src={logoUrl} alt="" width="54" height="54" />
               <span>Sendra</span>
             </Link>
-            <p>HTTP testing built around request files you can keep in git.</p>
+            <p>Test APIs with requests that live in your repo.</p>
             <a className={styles.githubLink} href="https://github.com/sendra-lab/sendra">
-              <GitHubMark /><span>Open source on GitHub</span><ArrowMark />
+              <GitHubMark /><span>GitHub</span>
             </a>
           </div>
-        </div>
-
-        <div className={styles.footerDirectory}>
           <div className={styles.footerLinks}>
             {GROUPS.map((group) => (
               <nav key={group.title} className={styles.linkGroup} aria-label={group.title}>
@@ -84,12 +69,7 @@ export default function Footer(): ReactNode {
               </nav>
             ))}
           </div>
-          <div className={styles.terminalSignoff}>
-            <span className={styles.signoffLabel}>READY WHEN YOU ARE</span>
-            <code><i>&gt;</i> sendra tui</code>
-          </div>
         </div>
-
         <div className={styles.footerBottom}>
           <span>Copyright {new Date().getFullYear()} Sendra</span>
           <span>Built by <a href="https://oyibe.dev" target="_blank" rel="noreferrer">Oyibe</a></span>

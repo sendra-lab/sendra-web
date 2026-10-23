@@ -148,69 +148,58 @@
 
 .terminalArt {
   width: 100%;
-  overflow: hidden;
-  border: 1px solid #343a34;
-  border-radius: 0.5rem;
-  background: #0d0f0d;
   color: #d9dfd9;
   font-family: var(--ifm-font-family-monospace);
 }
 .tuiTopBar {
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 0.8rem;
-  border-bottom: 1px solid #303630;
-  background: #171a17;
-  font-size: 0.65rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid #343a34;
+  background: #101310;
+  color: #9aa49a;
+  font-size: 0.62rem;
 }
-.tuiTopBar b { color: #91d99d; font-size: 0.78rem; }
-.tuiTopBar > span { color: #879187; font-size: 0.55rem; letter-spacing: 0.08em; }
-.tuiTopBar kbd {
-  margin-left: auto;
-  padding: 0.15rem 0.35rem;
-  border: 1px solid #384038;
-  border-radius: 0.2rem;
-  color: #9ca69c;
-  font: inherit;
-  font-size: 0.55rem;
-}
-.tuiLayout { display: grid; grid-template-columns: minmax(7.25rem, 0.72fr) minmax(0, 1.7fr); min-height: 13rem; }
+.tuiTopBar b { color: #c7d0c7; font-size: inherit; font-weight: 500; }
+.tuiTopBar > span { color: #879187; font-size: inherit; letter-spacing: normal; }
+.tuiLayout { display: grid; grid-template-columns: minmax(7.25rem, 0.72fr) minmax(0, 1.7fr); min-height: 14rem; }
 .tuiSidebar {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 0.2rem;
-  padding: 0.65rem 0.5rem;
-  border-right: 1px solid #303630;
-  background: #141714;
-  color: #9da69d;
+  gap: 0.12rem;
+  padding: 0.7rem 0.55rem;
+  border-right: 1px dashed #384138;
+  background: #0d100d;
+  color: #a9b2a9;
   font-size: 0.57rem;
 }
 .tuiSidebar > strong { margin: 0.15rem 0.35rem 0.45rem; color: #788278; font-size: 0.52rem; letter-spacing: 0.06em; }
-.tuiSidebar > div { overflow: hidden; padding: 0.38rem 0.35rem; border-radius: 0.2rem; text-overflow: ellipsis; white-space: nowrap; }
+.tuiSidebar > div { overflow: hidden; padding: 0.38rem 0.35rem; border-radius: 0; text-overflow: ellipsis; white-space: nowrap; }
 .tuiSidebar > div > span { margin-right: 0.3rem; color: #80d18e; font-size: 0.5rem; }
-.tuiSidebar > .tuiSelected { background: #242b24; color: #edf1ed; }
-.tuiSidebar > .tuiSelected > span { color: #83da90; }
+.tuiSidebar > .tuiSelected { background: #275a30; color: #f3fff4; }
+.tuiSidebar > .tuiSelected > span { color: #f3fff4; }
 .tuiSidebar > .tuiEnvironmentLabel { margin-top: auto; }
 .tuiSidebar > .tuiEnvironment { display: flex; justify-content: space-between; color: #b5bdb5; }
 .tuiSidebar > .tuiEnvironment i { color: #83da90; font-style: normal; }
-.tuiMain { min-width: 0; padding: 0.75rem; }
+.tuiMain { min-width: 0; padding: 0.75rem 0.9rem; }
 .tuiTabs { display: flex; gap: 1rem; padding: 0.1rem 0.1rem 0.65rem; border-bottom: 1px solid #303630; color: #828c82; font-size: 0.58rem; }
 .tuiTabs b { color: #dfe5df; font-weight: 500; }
-.tuiRequest { display: flex; align-items: center; gap: 0.45rem; min-width: 0; margin: 0.7rem 0 0.95rem; padding: 0.4rem; border: 1px solid #343a34; border-radius: 0.25rem; }
+.tuiRequest { display: flex; align-items: center; gap: 0.55rem; min-width: 0; margin: 0.7rem 0 0.95rem; padding: 0.35rem 0; border-bottom: 1px dashed #343a34; }
 .tuiRequest > span { color: #8bd997; font-size: 0.55rem; }
 .tuiRequest code { min-width: 0; overflow: hidden; background: transparent; color: #d6ded6; font-size: 0.58rem; text-overflow: ellipsis; white-space: nowrap; }
-.tuiRequest button { margin-left: auto; padding: 0.25rem 0.38rem; border: 0; border-radius: 0.2rem; background: #267d36; color: #f2fff3; font: inherit; font-size: 0.52rem; }
+.tuiRunKey { margin-left: auto; color: #8bd997; font-size: 0.52rem; white-space: nowrap; }
 .tuiResponseHeader { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.45rem; font-size: 0.56rem; }
 .tuiResponseHeader b { color: #dce3dc; font-weight: 500; }
 .tuiResponseHeader span { color: #80d18e; }
 .tuiResponseHeader small { margin-left: auto; color: #899389; font-size: 0.52rem; }
-.tuiJson { padding: 0.45rem 0.6rem; border-radius: 0.25rem; background: #141714; color: #aab4aa; font-size: 0.57rem; line-height: 1.55; }
+.tuiJson { padding: 0.2rem 0; color: #aab4aa; font-size: 0.57rem; line-height: 1.65; }
 .tuiJson > span { color: #7e887e; }
 .tuiJson p { margin: 0 0 0 0.6rem; }
 .tuiJson i { color: #a5dbaa; font-style: normal; }
-.tuiStatusBar { display: flex; flex-wrap: wrap; gap: 0.8rem; padding: 0.45rem 0.7rem; border-top: 1px solid #303630; background: #171a17; color: #8a948a; font-size: 0.52rem; }
+.tuiStatusBar { display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0.45rem 0.7rem; border-top: 1px solid #343a34; background: #101310; color: #8a948a; font-size: 0.52rem; }
 
 .checkArt { display: grid; gap: 0.65rem; padding: 1rem; border: 1px solid #303630; border-radius: 0.5rem; }
 .checkArt > div:not(.runSummary) { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem; border-radius: 0.3rem; background: #191c19; }

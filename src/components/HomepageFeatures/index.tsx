@@ -51,7 +51,7 @@ function PreviewArt({id}: {id: string}) {
     return (
       <div className={styles.terminalArt}>
         <div className={styles.tuiTopBar}>
-          <b>sendra</b><span>HTTP CLIENT</span><kbd>Ctrl + P</kbd>
+          <b>REQUESTS</b><span>collection: users.yaml</span>
         </div>
         <div className={styles.tuiLayout}>
           <aside className={styles.tuiSidebar}>
@@ -64,7 +64,7 @@ function PreviewArt({id}: {id: string}) {
           </aside>
           <section className={styles.tuiMain}>
             <div className={styles.tuiTabs}><b>Request</b><span>Response</span></div>
-            <div className={styles.tuiRequest}><span>GET</span><code>/api/users</code><button type="button">Run</button></div>
+            <div className={styles.tuiRequest}><span>GET</span><code>/api/users</code><span className={styles.tuiRunKey}>r Run</span></div>
             <div className={styles.tuiResponseHeader}><b>Response</b><span>200 OK</span><small>148 ms</small></div>
             <div className={styles.tuiJson}><span>{'{'}</span><p><i>"id"</i>: 42,</p><p><i>"name"</i>: "Alex Morgan",</p><p><i>"active"</i>: true</p><span>{'}'}</span></div>
           </section>

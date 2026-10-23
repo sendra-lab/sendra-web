@@ -8,7 +8,7 @@ type FooterLink = {label: string; to?: string; href?: string};
 
 const GROUPS: {title: string; links: FooterLink[]}[] = [
   {
-    title: 'Documentation',
+    title: 'Explore',
     links: [
       {label: 'Introduction', to: '/docs/intro'},
       {label: 'CLI reference', to: '/docs/cli/reference'},
@@ -26,11 +26,10 @@ const GROUPS: {title: string; links: FooterLink[]}[] = [
 ];
 
 function FooterAnchor({link}: {link: FooterLink}) {
-  const className = styles.footerLink;
   if (link.to) {
-    return <Link className={className} to={link.to}>{link.label}</Link>;
+    return <Link className={styles.footerLink} to={link.to}>{link.label}</Link>;
   }
-  return <a className={className} href={link.href}>{link.label}</a>;
+  return <a className={styles.footerLink} href={link.href}>{link.label}</a>;
 }
 
 function GitHubMark(): ReactNode {
@@ -41,42 +40,59 @@ function GitHubMark(): ReactNode {
   );
 }
 
+function ArrowMark(): ReactNode {
+  return <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M4 16 16 4M6 4h10v10" /></svg>;
+}
+
 export default function Footer(): ReactNode {
   const logoUrl = useBaseUrl('/img/sendra-logo.png');
+
   return (
     <footer className={styles.footer}>
       <div className="container">
-        <div className={styles.footerMain}>
-          {GROUPS.map((group) => (
-            <nav key={group.title} className={styles.linkGroup} aria-label={group.title}>
-              <h2>{group.title}</h2>
-              <ul>
-                {group.links.map((link) => (
-                  <li key={link.label}><FooterAnchor link={link} /></li>
-                ))}
-              </ul>
-            </nav>
-          ))}
+        <div className={styles.footerHero}>
+          <div className={styles.footerStatement}>
+            <p className={styles.eyebrow}>Sendra / terminal-native API testing</p>
+            <h2>Make every request<br />part of your workflow.</h2>
+            <Link className={styles.docsCta} to="/docs/intro">
+              <span>Explore the docs</span><ArrowMark />
+            </Link>
+          </div>
 
           <div className={styles.brandColumn}>
-            <Link className={styles.brand} to="/">
-              <img src={logoUrl} alt="" width="42" height="42" />
+            <Link className={styles.brand} to="/" aria-label="Sendra home">
+              <img src={logoUrl} alt="" width="54" height="54" />
               <span>Sendra</span>
             </Link>
-            <p className={styles.brandCopy}>
-              A terminal-native HTTP client for requests that live in your repo.
-            </p>
-            <a className={styles.githubCta} href="https://github.com/sendra-lab/sendra">
-              <GitHubMark />
-              <span>Explore on GitHub</span>
-              <span className={styles.arrow} aria-hidden="true">↗</span>
+            <p>HTTP testing built around request files you can keep in git.</p>
+            <a className={styles.githubLink} href="https://github.com/sendra-lab/sendra">
+              <GitHubMark /><span>Open source on GitHub</span><ArrowMark />
             </a>
           </div>
         </div>
 
+        <div className={styles.footerDirectory}>
+          <div className={styles.footerLinks}>
+            {GROUPS.map((group) => (
+              <nav key={group.title} className={styles.linkGroup} aria-label={group.title}>
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.links.map((link) => (
+                    <li key={link.label}><FooterAnchor link={link} /></li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
+          <div className={styles.terminalSignoff}>
+            <span className={styles.signoffLabel}>READY WHEN YOU ARE</span>
+            <code><i>&gt;</i> sendra tui</code>
+          </div>
+        </div>
+
         <div className={styles.footerBottom}>
-          <span>© {new Date().getFullYear()} Sendra</span>
-          <span className={styles.bottomCredit}>Built by <a href="https://oyibe.dev" target="_blank" rel="noreferrer">Oyibe</a></span>
+          <span>Copyright {new Date().getFullYear()} Sendra</span>
+          <span>Built by <a href="https://oyibe.dev" target="_blank" rel="noreferrer">Oyibe</a></span>
         </div>
       </div>
     </footer>

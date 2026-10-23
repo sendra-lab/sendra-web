@@ -433,6 +433,10 @@
 @media screen and (max-width: 700px) {
   .heroBanner { min-height: auto; padding: 4.5rem 0 3.5rem; }
   .heroGrid { gap: 2rem; }
+  .heroCopy { align-items: flex-start; text-align: left; }
+  .heroButtons { width: auto; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0.6rem; }
+  .heroButtons :global(.button--lg) { min-width: 10rem; text-align: center; }
+  .heroVisual { justify-content: flex-start; }
   .whySection { padding: 4rem 0; }
   .exampleSection { padding: 3.5rem 0; }
   .exampleHeading { margin-bottom: 1.5rem; }
@@ -443,6 +447,28 @@
 }
 
 @media screen and (max-width: 560px) {
+  .heroBanner { padding: 3.25rem 0 2.75rem; }
+  .heroGrid { gap: 1.75rem; }
+  .heroCopy { align-items: flex-start; text-align: left; }
+  .heroTitle {
+    max-width: 12ch;
+    font-size: clamp(2.15rem, 10vw, 3rem);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+  .heroSubtitle { margin: 1rem 0 1.35rem; font-size: 0.98rem; line-height: 1.6; }
+  .heroButtons :global(.button--lg) { padding: 0.7rem 0.85rem; font-size: 0.86rem; }
+  .heroVisual { width: 100%; min-width: 0; }
+  .terminal { min-width: 0; border-radius: 0.5rem; }
+  .terminalBar { padding: 0.65rem 0.8rem; }
+  .terminalPath { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .terminalBody {
+    padding: 0.9rem;
+    font-size: clamp(0.62rem, 2.8vw, 0.72rem);
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
   .whySection { padding: 3.25rem 0; }
   .workflowHeading { margin-bottom: 1.35rem; }
   .workflowHeading .sectionTitle { font-size: clamp(1.65rem, 7.5vw, 2.15rem); }

@@ -30,7 +30,7 @@ export default function DocItemLayoutWrapper({children}: Props): ReactNode {
             <DocBreadcrumbs />
             <DocVersionBadge />
             {isIntroduction ? (
-              <div className={styles.mobileTOC}><DocsHomeContents /></div>
+              <div className={styles.mobileTOC}><DocsHomeContents mobile /></div>
             ) : null}
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />

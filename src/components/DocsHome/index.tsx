@@ -1,5 +1,6 @@
 import {useEffect, useState, type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
+import {copyToClipboard} from '@site/src/components/CopyPage/clipboard';
 import styles from './styles.module.css';
 
 type DocLink = {title: string; description: string; to: string};
@@ -36,6 +37,36 @@ function Arrow(): ReactNode {
     <svg className={styles.arrow} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M5 12h14m-6-6 6 6-6 6" />
     </svg>
+  );
+}
+
+function InstallCommand({label, command}: {label: string; command: string}): ReactNode {
+  const [copied, setCopied] = useState(false);
+
+  const copyCommand = async () => {
+    const succeeded = await copyToClipboard(command);
+    setCopied(succeeded);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+
+  return (
+    <div className={styles.installItem}>
+      <div className={styles.installItemHeader}>
+        <strong>{label}</strong>
+        <button
+          className={styles.copyCommand}
+          type="button"
+          onClick={() => void copyCommand()}
+          aria-label={copied ? `${label} command copied` : `Copy ${label} install command`}
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            {copied ? <path d="m5 12 4 4L19 6" /> : <><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" /></>}
+          </svg>
+          <span>{copied ? 'Copied' : 'Copy'}</span>
+        </button>
+      </div>
+      <code>{command}</code>
+    </div>
   );
 }
 
@@ -80,7 +111,7 @@ export default function DocsHome(): ReactNode {
             </div>
           </section>
 
-          <section className={styles.section} id="start-here" aria-labelledby="start-heading">
+          <section className={`${styles.section} ${styles.startHereSection}`} id="start-here" aria-labelledby="start-heading">
             <div className={styles.sectionHeading}>
               <div>
                 <h2 id="start-heading">Choose your next step.</h2>
@@ -123,10 +154,7 @@ export default function DocsHome(): ReactNode {
             </div>
             <div className={styles.installGrid}>
               {INSTALL_OPTIONS.map(([label, command]) => (
-                <div className={styles.installItem} key={label}>
-                  <strong>{label}</strong>
-                  <code>{command}</code>
-                </div>
+                <InstallCommand key={label} label={label} command={command} />
               ))}
               <div className={styles.installItem}>
                 <strong>Prebuilt binaries</strong>
@@ -140,8 +168,9 @@ export default function DocsHome(): ReactNode {
   );
 }
 
-export function DocsHomeContents(): ReactNode {
+export function DocsHomeContents({mobile = false}: {mobile?: boolean} = {}): ReactNode {
   const [activeSection, setActiveSection] = useState('quick-start');
+  const [mobileExpanded, setMobileExpanded] = useState(false);
 
   useEffect(() => {
     const sectionIds = ['quick-start', 'start-here', 'reference', 'installation'];
@@ -166,13 +195,39 @@ export function DocsHomeContents(): ReactNode {
     };
   }, []);
 
+  const links = <>
+    <a href="#quick-start" className={activeSection === 'quick-start' ? styles.pageNavActive : undefined} aria-current={activeSection === 'quick-start' ? 'location' : undefined}>Quick start</a>
+    <a href="#start-here" className={activeSection === 'start-here' ? styles.pageNavActive : undefined} aria-current={activeSection === 'start-here' ? 'location' : undefined}>Get started</a>
+    <a href="#reference" className={activeSection === 'reference' ? styles.pageNavActive : undefined} aria-current={activeSection === 'reference' ? 'location' : undefined}>Reference and decisions</a>
+    <a href="#installation" className={activeSection === 'installation' ? styles.pageNavActive : undefined} aria-current={activeSection === 'installation' ? 'location' : undefined}>Installation</a>
+  </>;
+
+  if (mobile) {
+    return (
+      <nav className={styles.mobilePageNav} aria-label="Introduction page contents">
+        <button
+          type="button"
+          className={styles.mobilePageNavButton}
+          aria-expanded={mobileExpanded}
+          aria-controls="intro-mobile-page-links"
+          onClick={() => setMobileExpanded((expanded) => !expanded)}
+        >
+          <span>On this page</span>
+          <svg className={mobileExpanded ? styles.mobilePageNavChevronExpanded : undefined} viewBox="0 0 12 8" fill="none" aria-hidden="true">
+            <path d="m1 1.5 5 5 5-5" />
+          </svg>
+        </button>
+        <div id="intro-mobile-page-links" className={styles.mobilePageNavLinks} hidden={!mobileExpanded}>
+          {links}
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className={styles.pageNav} aria-label="Introduction page contents">
       <strong>On this page</strong>
-      <a href="#quick-start" className={activeSection === 'quick-start' ? styles.pageNavActive : undefined} aria-current={activeSection === 'quick-start' ? 'location' : undefined}>Quick start</a>
-      <a href="#start-here" className={activeSection === 'start-here' ? styles.pageNavActive : undefined} aria-current={activeSection === 'start-here' ? 'location' : undefined}>Get started</a>
-      <a href="#reference" className={activeSection === 'reference' ? styles.pageNavActive : undefined} aria-current={activeSection === 'reference' ? 'location' : undefined}>Reference and decisions</a>
-      <a href="#installation" className={activeSection === 'installation' ? styles.pageNavActive : undefined} aria-current={activeSection === 'installation' ? 'location' : undefined}>Installation</a>
+      {links}
     </nav>
   );
 }

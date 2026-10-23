@@ -8,7 +8,7 @@
 
 .hero {
   max-width: 60rem;
-  padding: clamp(1rem, 2vw, 1.75rem) 0 1rem;
+  padding: clamp(1rem, 2vw, 1.75rem) 0 0;
 }
 
 .hero h1 {
@@ -131,8 +131,10 @@
 .yamlKey { color: #82d58f; }
 .prompt { color: #66ce78; font-weight: 600; }
 
-.quickStartSection { padding: 0.5rem 0 clamp(1.5rem, 3vw, 2.5rem); }
+.quickStartSection { padding: 0 0 clamp(1.5rem, 3vw, 2.5rem); }
 .section { padding: clamp(1.5rem, 3vw, 2.5rem) 0; }
+.startHereSection { padding-top: 0.5rem; }
+.startHereSection .sectionHeading h2 { margin-top: 0; }
 .sectionHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
 .sectionHeading h2 { margin: 0.55rem 0 0; font-size: clamp(1.55rem, 2.8vw, 2rem); font-weight: 620; letter-spacing: -0.045em; }
 .textLink { flex: 0 0 auto; margin-bottom: 0.35rem; font-size: 0.82rem; }
@@ -192,7 +194,7 @@
   background: var(--ifm-background-surface-color);
 }
 .installHeading { margin-bottom: 1.5rem; }
-.installHeading h2 { margin: 0 0 0.45rem; font-size: clamp(1.8rem, 3vw, 2.35rem); font-weight: 640; letter-spacing: -0.05em; }
+.home .installOptions .installHeading h2 { margin: 0 0 0.45rem; font-size: clamp(1.8rem, 3vw, 2.35rem); font-weight: 640; letter-spacing: -0.05em; }
 .installHeading p { margin: 0; color: var(--ifm-color-emphasis-700); font-size: 0.95rem; line-height: 1.6; }
 .installGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
 .installItem {
@@ -207,6 +209,23 @@
   background: var(--ifm-background-color);
 }
 .installItem strong { color: var(--ifm-font-color-base); font-size: 0.86rem; font-weight: 620; }
+.installItemHeader { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.copyCommand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--docs-line);
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  font: inherit;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.copyCommand:hover { border-color: var(--ifm-color-primary); color: var(--ifm-color-primary); }
+.copyCommand svg { width: 0.85rem; height: 0.85rem; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .installItem code,
 .installItem a { min-width: 0; font-size: 0.76rem; line-height: 1.6; overflow-wrap: anywhere; }
 .installItem code { padding: 0; background: transparent; color: var(--ifm-color-emphasis-700); }
@@ -242,12 +261,43 @@
   font-weight: 600;
 }
 
+.mobilePageNav {
+  overflow: hidden;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--docs-line);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-menu-color-background-active);
+}
+.mobilePageNavButton {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--ifm-color-emphasis-800);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.mobilePageNavButton svg { width: 0.8rem; height: 0.55rem; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 150ms ease; }
+.mobilePageNavChevronExpanded { transform: rotate(180deg); }
+.mobilePageNavLinks { display: grid; gap: 0.15rem; padding: 0.45rem 1rem 0.8rem; border-top: 1px solid var(--docs-line); }
+.mobilePageNavLinks[hidden] { display: none; }
+.mobilePageNavLinks a { color: var(--ifm-color-emphasis-700); font-size: 0.85rem; line-height: 1.45; text-decoration: none; }
+.mobilePageNavLinks a:hover,
+.mobilePageNavLinks .pageNavActive { color: var(--ifm-color-primary); }
+.mobilePageNavLinks .pageNavActive { font-weight: 600; }
+
 @media screen and (max-width: 996px) {
   .home { padding-top: 0; }
 }
 
 @media screen and (max-width: 700px) {
-  .hero { padding: 0.5rem 0 1rem; }
+  .hero { padding: 0.5rem 0 0; }
   .hero h1 { max-width: 20ch; font-size: clamp(2.25rem, 9vw, 3.25rem); }
   .hero p { font-size: 0.98rem; }
   .quickStart { width: 100%; }
@@ -259,8 +309,10 @@
     padding-left: 0;
     border-left: 0;
   }
+  .mobilePageNav { display: block; }
   .pageNav > strong { grid-column: 1 / -1; }
   .section { padding: 1.75rem 0; }
+  .startHereSection { padding-top: 0.5rem; }
   .sectionHeading { align-items: flex-start; flex-direction: column; }
   .startGrid,
   .bottomRow,

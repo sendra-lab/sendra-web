@@ -31,19 +31,19 @@ powershell -ExecutionPolicy Bypass -c "irm https://github.com/sendra-lab/Sendra/
 npm:
 
 ```sh
-npm install @sendra-lab/sendra
+npm install -g @sendra-lab/sendra
 ```
 
 pnpm:
 
 ```sh
-pnpm add @sendra-lab/sendra
+pnpm add -g @sendra-lab/sendra
 ```
 
 Bun:
 
 ```sh
-bun add @sendra-lab/sendra
+bun add -g @sendra-lab/sendra
 ```
 
 Homebrew:
@@ -91,5 +91,5 @@ repo's own docs, split into two parts:
 - **[Design decisions](/docs/cli/decisions)** — the "why" behind choices
   that could reasonably have gone another way: why `sendra test` ignores an
   unasserted status, how exit codes are split and ranked, the script
-  sandboxing guarantees. Look here when the reference tells you *what*
-  happens but you want to know *why*.
+  sandboxing guarantees. Look here when the reference tells you _what_
+  happens but you want to know _why_.

@@ -15,6 +15,11 @@
 :root {
   --ifm-navbar-height: 4.25rem;
 
+  --ifm-background-color: #f6f7f4;
+  --ifm-background-surface-color: #eef0ec;
+  --ifm-navbar-background-color: #f6f7f4;
+  --ifm-footer-background-color: #eceeea;
+
   /* Brand green (from the logo mark), darkened to clear ~4.6:1 contrast on white. */
   --ifm-color-primary: #1d872e;
   --ifm-color-primary-dark: #187227;

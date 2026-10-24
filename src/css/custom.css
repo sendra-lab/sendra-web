@@ -15,10 +15,10 @@
 :root {
   --ifm-navbar-height: 4.25rem;
 
-  --ifm-background-color: #f6f7f4;
-  --ifm-background-surface-color: #eef0ec;
-  --ifm-navbar-background-color: #f6f7f4;
-  --ifm-footer-background-color: #eceeea;
+  --ifm-background-color: #f2f3f0;
+  --ifm-background-surface-color: #e9ebe7;
+  --ifm-navbar-background-color: #f2f3f0;
+  --ifm-footer-background-color: #e6e8e4;
 
   /* Brand green (from the logo mark), darkened to clear ~4.6:1 contrast on white. */
   --ifm-color-primary: #1d872e;

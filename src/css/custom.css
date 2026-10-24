@@ -245,7 +245,7 @@
 }
 
 .plugin-docs .markdown h2 {
-  margin-top: 2.6em;
+  margin-top: 1.5em;
   padding-bottom: 0;
   border-bottom: 0;
   font-size: clamp(1.5rem, 2.5vw, 1.9rem);
@@ -260,7 +260,9 @@
   letter-spacing: -0.025em;
 }
 
-.plugin-docs .markdown h2 + h3 { margin-top: 0.8em; }
+.plugin-docs .markdown :is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.8em;
+}
 
 .plugin-docs .markdown p,
 .plugin-docs .markdown li { color: var(--ifm-color-emphasis-800); }

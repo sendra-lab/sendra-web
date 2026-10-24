@@ -15,6 +15,11 @@
 :root {
   --ifm-navbar-height: 4.25rem;
 
+  --ifm-background-color: #f2f3f0;
+  --ifm-background-surface-color: #e9ebe7;
+  --ifm-navbar-background-color: #f2f3f0;
+  --ifm-footer-background-color: #e6e8e4;
+
   /* Brand green (from the logo mark), darkened to clear ~4.6:1 contrast on white. */
   --ifm-color-primary: #1d872e;
   --ifm-color-primary-dark: #187227;
@@ -131,7 +136,7 @@
 }
 
 .navbar__brand {
-  gap: 0.65rem;
+  gap: 0.2rem;
   margin-right: 2.25rem;
 }
 
@@ -245,7 +250,7 @@
 }
 
 .plugin-docs .markdown h2 {
-  margin-top: 2.6em;
+  margin-top: 1.5em;
   padding-bottom: 0;
   border-bottom: 0;
   font-size: clamp(1.5rem, 2.5vw, 1.9rem);
@@ -258,6 +263,10 @@
   font-size: 1.2rem;
   font-weight: 620;
   letter-spacing: -0.025em;
+}
+
+.plugin-docs .markdown :is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.8em;
 }
 
 .plugin-docs .markdown p,

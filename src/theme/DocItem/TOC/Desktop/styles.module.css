@@ -32,6 +32,11 @@
   padding: 0;
   list-style: none;
 }
+.tocRail :global(.table-of-contents ul) {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
 .tocRail :global(.table-of-contents li) { margin: 0; }
 .tocRail :global(.table-of-contents__link) {
   display: block;

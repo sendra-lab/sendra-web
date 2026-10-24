@@ -260,6 +260,8 @@
   letter-spacing: -0.025em;
 }
 
+.plugin-docs .markdown h2 + h3 { margin-top: 0.8em; }
+
 .plugin-docs .markdown p,
 .plugin-docs .markdown li { color: var(--ifm-color-emphasis-800); }
 
